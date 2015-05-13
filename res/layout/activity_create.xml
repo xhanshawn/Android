@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <EditText
+        android:id="@+id/message_input"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:hint="Please input an a message">  
+    </EditText>
+
+    <Button
+        android:id="@+id/post_message_button"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/message_input"
+        android:gravity="bottom"
+        android:text="send" 
+        android:background="@color/milk"/>
+
+    <RadioButton
+        android:id="@+id/puzzle_type_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/post_message_button"
+        android:text="puzzle" />
+
+    <RadioButton
+        android:id="@+id/time_capsule_type_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/puzzle_type_radio"
+        android:text="time_capsule" />
+
+</RelativeLayout>
