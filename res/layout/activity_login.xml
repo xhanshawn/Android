@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+	
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
+        <LinearLayout 
+            android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+            android:orientation="vertical">
+	    <TextView
+	        android:id="@+id/login_message_textview"
+	        android:layout_width="match_parent"
+	        android:layout_height="100dp"
+	        android:text="@string/login_message" >
+	    </TextView>
+	    
+	    <LinearLayout 
+	        android:id="@+id/linearlayout_login"
+	        android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+            android:orientation="vertical">
+	    <EditText 
+	        android:id="@+id/user_name_edittext"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/username_hint"
+	        />
+	    <EditText 
+	        android:id="@+id/passward_edittext"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/password_hint"
+	        android:inputType="textPassword"
+	        />
+	    </LinearLayout>
+	    <LinearLayout
+	        android:id="@+id/linearlayout_signup_buttons"
+	        android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+            android:orientation="horizontal">
+	    	<Button
+	      		android:id="@+id/login_button"
+	       		android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:text="@string/login" >
+	    	</Button>
+	    	<Button
+	       		android:id="@+id/signup_button"
+	       		android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:text="@string/signup" >
+	    	</Button>
+	    </LinearLayout>
+	    </LinearLayout>
+    </FrameLayout>
+    
+
+
+</RelativeLayout>

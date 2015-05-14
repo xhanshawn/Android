@@ -1,5 +1,8 @@
 package com.xhanshawn.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LatalkMessage {
 	
 	private String message_type;
@@ -61,5 +64,26 @@ public class LatalkMessage {
 		this.user_name = user_name;
 	}
 	
-	
+	public static LatalkMessage parseJSON(JSONObject obj){
+		
+		if(obj == null) return null;
+		LatalkMessage message = new LatalkMessage();
+		
+		try {
+			
+			message.setMessage_type(obj.getString("message_type"));
+			message.setContent(obj.getString("content"));
+			message.setLatitude(Float.valueOf(obj.getString("latitude")));
+			message.setLongitude(Float.valueOf(obj.getString("longitude")));
+			message.setHold_time(obj.getLong("hold_time"));
+			message.setUser_name(obj.getString("user_name"));
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return message;
+	}
+
 }

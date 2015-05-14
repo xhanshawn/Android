@@ -23,12 +23,14 @@ import com.xhanshawn.data.LatalkMessage;
 
 public class MessagePostFactory {
 	
+	private static String URIBase = "http://10.0.2.2:3000";
+	
 	public static boolean postLatalkMessage(LatalkMessage message){
 		
 		
 		
 		HttpClient client = new DefaultHttpClient(); 
-		HttpPost post = new HttpPost("http://10.0.2.2:3000/messages.json");
+		HttpPost post = new HttpPost(URIBase + "/messages.json");
 		post.addHeader("Content-Type", "application/json");
 		
 		JSONObject json = new JSONObject();

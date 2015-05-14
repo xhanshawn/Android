@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" 
+    android:layout_gravity="fill_horizontal"
+    android:paddingLeft="3dp">
+    
+    <ImageButton 
+        android:id="@+id/options_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/grey"
+        />
+    <ImageButton
+        android:id="@+id/user_account_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/grey"
+       />
+</RelativeLayout>
+
