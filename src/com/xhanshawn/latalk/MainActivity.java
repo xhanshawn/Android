@@ -1,5 +1,6 @@
 package com.xhanshawn.latalk;
 
+import com.xhanshawn.data.UserAccount;
 import com.xhanshawn.util.UserSessionManager;
 
 import android.app.ActionBar;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
 			Intent login_activity = new Intent("com.xhanshawn.latalk.LOGINACTIVITY");
 			startActivity(login_activity);
 		}
+		UserAccount.updateCurrentUser(manager.getCurrentUserName());
 		
 		showActionBar();
 		

@@ -63,6 +63,11 @@ public class UserSessionManager {
 		editor.commit();
 	}
 	
+	public String getCurrentUserName(){
+		
+		return pref.getString(KEY_NAME,null);
+	}
+	
 	public class UserLogoutAsync extends AsyncTask<UserAccount, Void, String> {
 		
 		private UserAccount user;

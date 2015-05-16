@@ -4,6 +4,7 @@ public class UserAccount {
 	private String user_name;
 	private String password;
 	private String confirm_password;
+	private static String current_user_name;
 	
 	public UserAccount(){
 		
@@ -33,4 +34,12 @@ public class UserAccount {
 		this.confirm_password = confirm_password;
 	}
 	
+	public static void updateCurrentUser(String _current_user_name){
+		
+		current_user_name = _current_user_name;
+	}
+	
+	public static String getCurrentUser(){
+		return current_user_name;
+	}
 }
