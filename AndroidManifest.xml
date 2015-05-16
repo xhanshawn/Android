@@ -57,13 +57,31 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" 
+            android:label="@string/title_activity_login"
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.LOGINACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".UserMessagesActivity"
+            android:label="@string/title_activity_user_messages"
+            android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.USERMESSAGESACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GridTabActivity"
+            android:label="@string/title_activity_grid_tab" >
+        </activity>
+        <activity
+            android:name=".ListTabActivity"
+            android:label="@string/title_activity_list_tab" >
         </activity>
     </application>
 

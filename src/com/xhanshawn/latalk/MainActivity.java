@@ -49,8 +49,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent login_activity = new Intent("com.xhanshawn.latalk.LOGINACTIVITY");
-				startActivity(login_activity);
+				
+				Intent user_messages_activity = new Intent("com.xhanshawn.latalk.USERMESSAGESACTIVITY");
+				startActivity(user_messages_activity);
 			}
 		});
 	    

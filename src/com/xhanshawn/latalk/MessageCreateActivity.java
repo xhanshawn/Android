@@ -26,7 +26,7 @@ public class MessageCreateActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create);
+		setContentView(R.layout.activity_createmessages);
 		message_input = (EditText) findViewById(R.id.message_input);
 		
 		
@@ -46,7 +46,6 @@ public class MessageCreateActivity extends Activity {
 				// TODO Auto-generated method stub
 				if(puzzle_type_button.isChecked()) message_type = "Puzzle";
 				else if(timecapsule_type_button.isChecked()) message_type = "Time_Capsule";
-				
 				
 				
 				message_content = message_input.getText().toString();

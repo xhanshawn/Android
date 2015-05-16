@@ -14,5 +14,8 @@
     <string name="username_hint">username</string>
     <string name="password_hint">password</string>
     <string name="login_message">Please login with your user name and password.\n You can sign up if you do not have an account</string>
-    
+    <string name="title_activity_user_messages">UserMessagesActivity</string>
+    <string name="title_activity_grid_tab">GridTabActivity</string>
+    <string name="title_activity_list_tab">ListTabActivity</string>
+
 </resources>
