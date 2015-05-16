@@ -1,5 +1,7 @@
 package com.xhanshawn.latalk;
 
+import com.xhanshawn.util.UserSessionManager;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +20,12 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		UserSessionManager manager = new UserSessionManager(getApplicationContext());
+		if(!manager.isUserLoggedIn()){
+			Intent login_activity = new Intent("com.xhanshawn.latalk.LOGINACTIVITY");
+			startActivity(login_activity);
+		}
 		
 		showActionBar();
 		
@@ -87,6 +95,9 @@ public class MainActivity extends Activity {
 	}
 	
 	
+	private void verifyLoginSession(){
+		
+	}
 	
 	
 }

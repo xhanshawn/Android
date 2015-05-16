@@ -37,14 +37,18 @@ public class MessagePostFactory {
 		
 		
 		try {
-			json.put("message_type",message.getMessage_type());
-			json.put("content",message.getContent());
-			json.put("longitude",String.format("%.03f", message.getLongitude()));
-			json.put("latitude",String.format("%.03f", message.getLatitude()));
-			json.put("hold_time",message.getHold_time());
-			json.put("user_name", message.getUser_name());
-
-			StringEntity entity = new StringEntity(json.toString());
+			JSONObject message_json = new JSONObject();
+			message_json.put("message_type",message.getMessage_type());
+			message_json.put("content",message.getContent());
+			message_json.put("longitude",String.format("%.03f", message.getLongitude()));
+			message_json.put("latitude",String.format("%.03f", message.getLatitude()));
+			message_json.put("hold_time",message.getHold_time());
+			message_json.put("user_name", message.getUser_name());
+			
+			json.put("message", message_json);
+			json.put("commit", "Create Message");
+			
+			StringEntity entity = new StringEntity(json.toString(), "UTF-8");
 			post.setEntity(entity);
 			HttpResponse response = client.execute(post);
 			System.out.println(response.getStatusLine().toString());
