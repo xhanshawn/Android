@@ -7,18 +7,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class GridTabActivity extends Activity {
+public class TimeCapsuleTabActivity extends Activity {
 
 	@Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        
-        TextView  tv = new TextView(this);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		TextView  tv = new TextView(this);
         tv.setTextSize(25);
         tv.setGravity(Gravity.CENTER_VERTICAL);
         tv.setText("This Is Tab1 Activity");
-        tv.append("DDDDDDDDDDDDDDDDDDDDDDDDDDDD\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nn\n\n\nn\n\n\nn\n\n\n\nn\nnnnnnnnnnnnnnnnnnnnn");
+        
         setContentView(tv);
-    }
+	}
 }

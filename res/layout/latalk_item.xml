@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout 
+        android:id="@+id/message_header"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+        
+        <ImageButton 
+            android:id="@+id/user_photo_ib"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            />
+
+        <ImageButton
+            android:id="@+id/message_more_ops_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" />
+
+        <TextView
+            android:id="@+id/user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/user_photo_ib" />
+        <TextView 
+            android:id="@+id/hold_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/message_more_ops_ib"
+            />
+       
+    </RelativeLayout>
+    	
+    <ImageView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    
+	<TextView
+	    android:id="@+id/latalk_content_tv"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"	    
+	    />
+	
+	<RelativeLayout 
+	    android:id="@+id/latalk_options"
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:orientation="horizontal"
+	    >
+	    
+	    <ImageButton 
+	        android:id="@+id/like_button"
+	        android:layout_height="match_parent"
+	        android:layout_width="wrap_content"
+	        />
+	    <ImageButton 
+	        android:id="@+id/comment_button"
+	        android:layout_height="match_parent"
+	        android:layout_width="wrap_content"
+	        android:layout_toRightOf="@+id/like_button"
+	        />
+	</RelativeLayout>
+	
+</LinearLayout>

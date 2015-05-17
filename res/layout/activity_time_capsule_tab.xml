@@ -3,19 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
-	
-	
-	
-	
-	
-	
-	<com.xhanshawn.view.MyListView 
- 	    android:id="@+id/list_tab_mlv"
-        android:layout_width="fill_parent"
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
- 	    >   
- 	</com.xhanshawn.view.MyListView >
-    
+        android:text="@string/hello_world" />
 
 </RelativeLayout>
