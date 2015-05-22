@@ -37,14 +37,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int comment_button=0x7f090021;
+        public static final int comment_button=0x7f090023;
         public static final int create_message_button=0x7f090011;
         public static final int get_puzzle_button=0x7f090013;
         public static final int get_timecapsule_button=0x7f090014;
-        public static final int hold_time_tv=0x7f09001d;
-        public static final int latalk_content_tv=0x7f09001e;
-        public static final int latalk_options=0x7f09001f;
-        public static final int like_button=0x7f090020;
+        public static final int hold_time_tv=0x7f09001f;
+        public static final int latalk_content_tv=0x7f090020;
+        public static final int latalk_options=0x7f090021;
+        public static final int like_button=0x7f090022;
         public static final int linearlayout_login=0x7f090009;
         public static final int linearlayout_signup_buttons=0x7f09000c;
         public static final int list1=0x7f090015;
@@ -53,15 +53,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int list_tab_mlv=0x7f090007;
         public static final int login_button=0x7f09000d;
         public static final int login_message_textview=0x7f090008;
-        public static final int menu_icon=0x7f090023;
-        public static final int menu_text=0x7f090024;
+        public static final int menu_icon=0x7f090025;
+        public static final int menu_text=0x7f090026;
         public static final int menu_to_main=0x7f090002;
         public static final int message_browser_button=0x7f090010;
-        public static final int message_header=0x7f090019;
+        public static final int message_header=0x7f09001b;
         public static final int message_input=0x7f090003;
-        public static final int message_more_ops_ib=0x7f09001b;
+        public static final int message_more_ops_ib=0x7f09001d;
         public static final int message_textiew=0x7f090012;
-        public static final int my_menu_list=0x7f090022;
+        public static final int my_menu_list=0x7f090024;
         public static final int options_button=0x7f090000;
         public static final int passward_edittext=0x7f09000b;
         public static final int post_message_button=0x7f090004;
@@ -70,10 +70,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int textView1=0x7f09000f;
         public static final int time_capsule_type_radio=0x7f090006;
         public static final int user_account_button=0x7f090001;
+        public static final int user_message_header=0x7f090018;
+        public static final int user_message_sv=0x7f09001a;
         public static final int user_name_edittext=0x7f09000a;
-        public static final int user_name_tv=0x7f09001c;
-        public static final int user_photo=0x7f090018;
-        public static final int user_photo_ib=0x7f09001a;
+        public static final int user_name_tv=0x7f09001e;
+        public static final int user_photo=0x7f090019;
+        public static final int user_photo_ib=0x7f09001c;
     }
     public static final class layout {
         public static final int actionbar_main=0x7f030000;

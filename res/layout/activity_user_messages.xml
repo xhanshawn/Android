@@ -2,11 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    
     tools:context="${relativePackage}.${activityClass}" >
-	<ScrollView 
-	    android:fitsSystemWindows="true"
-	    android:layout_width="match_parent"
-    	android:layout_height="match_parent">
+	
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
@@ -14,24 +13,27 @@
         >
         
     <LinearLayout
+        android:id="@+id/user_message_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:orientation="horizontal"        
+        android:orientation="horizontal"  
+        android:focusable="true"      
         >
         <ImageButton 
             android:id="@+id/user_photo"
-            android:layout_height="80dp"
-            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_width="60dp"
             />
         
         
         
     </LinearLayout>
-        
+       
     <TabHost 
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="false"
         >
 		<LinearLayout
 		    android:layout_width="match_parent"
@@ -39,11 +41,14 @@
         	android:orientation="vertical">
         <TabWidget
             android:id="@android:id/tabs"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
         </TabWidget>
         
-        
+        <ScrollView 
+	    android:id="@+id/user_message_sv"
+	    android:layout_width="match_parent"
+    	android:layout_height="match_parent"> 
         <FrameLayout 
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
@@ -52,10 +57,12 @@
             
             
         </FrameLayout>
+        </ScrollView>
         </LinearLayout>
     </TabHost>
+
     </LinearLayout>
     
-</ScrollView>
+
 </RelativeLayout>
 

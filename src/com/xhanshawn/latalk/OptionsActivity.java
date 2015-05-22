@@ -119,7 +119,7 @@ public class OptionsActivity extends Activity {
 	
 	private void showActionBar(){
 		
-		actionBar=getActionBar();
+		actionBar = getActionBar();
 		actionBar.show();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.actionbar_options,null);

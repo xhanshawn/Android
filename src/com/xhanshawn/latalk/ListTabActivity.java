@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class ListTabActivity extends Activity {
@@ -27,6 +28,8 @@ public class ListTabActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_tab);
+		
+		
 		
 		latalk_tv = (MyListView) findViewById(R.id.list_tab_mlv);
 		

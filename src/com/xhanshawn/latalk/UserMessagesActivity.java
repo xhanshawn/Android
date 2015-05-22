@@ -9,18 +9,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
 public class UserMessagesActivity extends TabActivity {
 	ImageView list_view;
+	ScrollView m_scroll_view;
+	LinearLayout header;
+	TabHost messages_tab;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_messages);
-	
-		TabHost messages_tab = (TabHost) findViewById(android.R.id.tabhost);
+		
+		m_scroll_view = (ScrollView) findViewById(R.id.user_message_sv);
+		
+		
+		header = (LinearLayout) findViewById(R.id.user_message_header);
+		
+		messages_tab = (TabHost) findViewById(android.R.id.tabhost);
 		
 		TabSpec list_tab = messages_tab.newTabSpec("First Tab");
         TabSpec grid_tab = messages_tab.newTabSpec("Second Tab");
@@ -34,7 +45,7 @@ public class UserMessagesActivity extends TabActivity {
        
         
         list_tab.setIndicator(list_view);
-        
+       
         grid_tab.setIndicator("Tab2");
         grid_tab.setContent(new Intent(this,GridTabActivity.class));
         
@@ -48,6 +59,21 @@ public class UserMessagesActivity extends TabActivity {
         messages_tab.addTab(grid_tab);
         messages_tab.addTab(puzzle_tab);
         messages_tab.addTab(time_capsule_tab);
+        
+        messages_tab.setOnTabChangedListener(new OnTabChangeListener(){
+
+			@Override
+			public void onTabChanged(String tabId) {
+				// TODO Auto-generated method stub
+				messages_tab.clearFocus();
+				header.requestFocus();
+
+				m_scroll_view.fullScroll(View.FOCUS_UP);
+
+			}
+        	
+        });
 	}
+	
 	
 }
