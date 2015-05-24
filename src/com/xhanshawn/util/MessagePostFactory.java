@@ -40,8 +40,15 @@ public class MessagePostFactory {
 			JSONObject message_json = new JSONObject();
 			message_json.put("message_type",message.getMessage_type());
 			message_json.put("content",message.getContent());
-			message_json.put("longitude",String.format("%.03f", message.getLongitude()));
-			message_json.put("latitude",String.format("%.03f", message.getLatitude()));
+			
+			if(message.isLocationSet()){
+				message_json.put("longitude",String.format("%.03f", message.getLongitude()));
+				message_json.put("latitude",String.format("%.03f", message.getLatitude()));
+			}else{
+				message_json.put("longitude",String.format("%.03f",181.0f));
+				message_json.put("latitude",String.format("%.03f", 91.0f));
+			}
+			
 			message_json.put("hold_time",message.getHold_time());
 			message_json.put("user_name", message.getUser_name());
 			

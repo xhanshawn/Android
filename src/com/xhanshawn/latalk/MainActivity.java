@@ -1,13 +1,19 @@
 package com.xhanshawn.latalk;
 
 import com.xhanshawn.data.UserAccount;
+import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.UserSessionManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,14 +28,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		UserSessionManager manager = new UserSessionManager(getApplicationContext());
-		if(!manager.isUserLoggedIn()){
-			Intent login_activity = new Intent("com.xhanshawn.latalk.LOGINACTIVITY");
-			startActivity(login_activity);
-		}
-		UserAccount.updateCurrentUser(manager.getCurrentUserName());
-		
-		showActionBar();
+		verifyLoginSession();
+		CustomizeActionBar();
 		
 		ImageButton options_button = (ImageButton)findViewById(R.id.options_button);
 	    
@@ -54,6 +54,12 @@ public class MainActivity extends Activity {
 				startActivity(user_messages_activity);
 			}
 		});
+	    
+	    
+	    
+	    
+	    
+	    
 	    
 		Button create_message_button = (Button) findViewById(R.id.create_message_button);
 		create_message_button.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +88,30 @@ public class MainActivity extends Activity {
 		
 	}
 	
-	private void showActionBar(){
+	
+	
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		LocationInfoFactory location_info = new LocationInfoFactory(MainActivity.this);
+	}
+
+
+	
+	private void checkSettings(){
+		
+		
+	    
+	}
+
+	private void CustomizeActionBar(){
 		
 		
 		
-		action_bar=getActionBar();
+		action_bar = getActionBar();
 		action_bar.show();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.actionbar_main,null);
@@ -100,6 +125,12 @@ public class MainActivity extends Activity {
 	
 	private void verifyLoginSession(){
 		
+		UserSessionManager manager = new UserSessionManager(getApplicationContext());
+		if(!manager.isUserLoggedIn()){
+			Intent login_activity = new Intent("com.xhanshawn.latalk.LOGINACTIVITY");
+			startActivity(login_activity);
+		}
+		UserAccount.updateCurrentUserName(manager.getCurrentUserName());
 	}
 	
 	

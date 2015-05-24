@@ -1,5 +1,7 @@
 package com.xhanshawn.latalk;
 
+import com.xhanshawn.data.UserAccount;
+
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 public class UserMessagesActivity extends TabActivity {
 	ImageView list_view;
@@ -30,6 +33,15 @@ public class UserMessagesActivity extends TabActivity {
 		
 		
 		header = (LinearLayout) findViewById(R.id.user_message_header);
+		
+		TextView user_name_tv = (TextView) findViewById(R.id.user_name_tv);
+		
+		user_name_tv.setText(UserAccount.getCurrentUserName());
+		
+		
+		
+		
+		
 		
 		messages_tab = (TabHost) findViewById(android.R.id.tabhost);
 		
@@ -74,6 +86,10 @@ public class UserMessagesActivity extends TabActivity {
         	
         });
 	}
+	
+	
+	
+	
 	
 	
 }

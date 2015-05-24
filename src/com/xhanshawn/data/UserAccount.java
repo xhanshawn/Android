@@ -34,12 +34,12 @@ public class UserAccount {
 		this.confirm_password = confirm_password;
 	}
 	
-	public static void updateCurrentUser(String _current_user_name){
+	public static void updateCurrentUserName(String _current_user_name){
 		
 		current_user_name = _current_user_name;
 	}
 	
-	public static String getCurrentUser(){
+	public static String getCurrentUserName(){
 		return current_user_name;
 	}
 }

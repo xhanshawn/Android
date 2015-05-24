@@ -12,8 +12,11 @@ public class LatalkMessage {
 	private float latitude;
 	private String user_name;
 	
+	private boolean isLocationSet;
+	
 	public LatalkMessage(){
 		
+		isLocationSet = false;
 	}
 
 	public String getMessage_type() {
@@ -45,6 +48,7 @@ public class LatalkMessage {
 	}
 
 	public void setLongitude(float longitude) {
+		this.isLocationSet = true;
 		this.longitude = longitude;
 	}
 
@@ -53,6 +57,7 @@ public class LatalkMessage {
 	}
 
 	public void setLatitude(float latitude) {
+		this.isLocationSet = true;
 		this.latitude = latitude;
 	}
 
@@ -64,6 +69,9 @@ public class LatalkMessage {
 		this.user_name = user_name;
 	}
 	
+	public boolean isLocationSet(){
+		return isLocationSet;
+	}
 	public static LatalkMessage parseJSON(JSONObject obj){
 		
 		if(obj == null) return null;
