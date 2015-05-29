@@ -6,6 +6,7 @@ import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessagePostFactory;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -74,6 +75,19 @@ public class MessageCreateActivity extends Activity {
 				
 				new MessagePoster().execute(message);
 			
+			}
+		});
+		
+		
+		Button add_pic_b = (Button) findViewById(R.id.add_pic_b);
+		add_pic_b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				Intent camera_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
+				startActivity(camera_activity);
 			}
 		});
 	}

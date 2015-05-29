@@ -1,6 +1,7 @@
 package com.xhanshawn.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,5 +72,73 @@ public class MessageGetFactory {
 		
 		return message_list;	
 	}
-
+	
+	
+	public static String getImageUrl(){
+		
+		HttpClient client = new DefaultHttpClient();
+		HttpGet get = new HttpGet("http://10.0.2.2:3000/messages/5.json");
+		
+		get.setHeader("Content-Type", "application/json");
+		JSONObject message_json = null;
+		
+		String img_url = null;
+		try {
+			
+			
+			HttpResponse response = client.execute(get);
+			int status = response.getStatusLine().getStatusCode();
+			
+			if(status >= 200 && status <= 400){
+				HttpEntity entity = response.getEntity();
+				String data = EntityUtils.toString(entity);
+				message_json = new JSONObject(data);
+				
+				img_url = message_json.getString("image_url");
+				
+			}	
+			
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return img_url;
+	}
+	
+	public static InputStream getImage(String image_url){
+		
+		HttpClient client = new DefaultHttpClient();
+		HttpGet get = new HttpGet("http://10.0.2.2:3000" + image_url);
+		
+		InputStream img_stream = null;
+		
+		try {
+			
+			
+			HttpResponse response = client.execute(get);
+			int status = response.getStatusLine().getStatusCode();
+			
+			if(status >= 200 && status <= 400){
+				
+				HttpEntity entity = response.getEntity();
+				img_stream = entity.getContent();
+			}
+				
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return img_stream;
+	}
 }

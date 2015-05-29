@@ -19,5 +19,7 @@
     <string name="title_activity_list_tab">ListTabActivity</string>
     <string name="title_activity_puzzle_tab">PuzzleTabActivity</string>
     <string name="title_activity_time_capsule_tab">TimeCapsuleTabActivity</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_photo_comfirm">PhotoComfirmActivity</string>
 
 </resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<previews>
+
+    <preview
+        name="5.1&quot; WVGA"
+        activity="com.xhanshawn.latalk.CameraActivity"
+        config="layout-ldltr-sw360dp-w360dp-h640dp-normal-notlong-port-notnight-xxhdpi-finger-keyssoft-nokeys-navhidden-nonav-1920x1080-v20"
+        device="Nexus 5"
+        devicestate="Portrait"
+        target="Android 4.4W.2"
+        theme="@style/AppTheme" >
+    </preview>
+
+</previews>

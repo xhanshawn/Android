@@ -41,6 +41,15 @@
         android:id="@+id/location_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/add_pic_b"
+        />
+    
+    <Button 
+        android:id="@+id/add_pic_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Pic"
+        android:layout_below="@+id/time_capsule_type_radio"
         />
 
 </RelativeLayout>

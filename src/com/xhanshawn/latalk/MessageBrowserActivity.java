@@ -1,5 +1,9 @@
 package com.xhanshawn.latalk;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.xhanshawn.data.LatalkMessage;
@@ -7,12 +11,15 @@ import com.xhanshawn.util.MessageGetFactory;
 import com.xhanshawn.util.MessagePostFactory;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MessageBrowserActivity extends Activity {
@@ -20,6 +27,7 @@ public class MessageBrowserActivity extends Activity {
 	private ArrayList<LatalkMessage> messages = null;
 	private TextView message_textview = null;
 	private String current_message_type = null;
+	ImageView message_img_iv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,19 @@ public class MessageBrowserActivity extends Activity {
 			}
 		});
 		
+		message_img_iv = (ImageView) findViewById(R.id.message_img_iv);
+		
+		Button get_image_button = (Button) findViewById(R.id.get_image_button);
+		get_image_button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				new MessageRetriever().execute("");
+			}
+		});
+		
 	}
 	
 	private void updateMessageText(){
@@ -77,14 +98,52 @@ public class MessageBrowserActivity extends Activity {
 		
 	}
 	
+	private void updateMessageImage(Bitmap bitmap){
+		
+		message_img_iv.setImageBitmap(bitmap);
+		
+		
+	}
+	
 	public class MessageRetriever extends AsyncTask<String, Void, Boolean> {
-
+		
+		InputStream img_stream;
+		String image_url;
+		Bitmap bitmap;
+		
 		@Override
 		protected Boolean doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			if(params[0].equals("Puzzle")) messages = MessageGetFactory.getPuzzleMessages();
 			if(params[0].equals("Time Capsule")) messages = MessageGetFactory.getTimeCapsuleMessages();
+			
+			MessagePostFactory.postImage("/sdcard/Latalk/IMG_20150526_161649.jpg");
 
+			
+//			image_url = MessageGetFactory.getImageUrl();
+//			img_stream = MessageGetFactory.getImage(image_url);
+			
+			
+			try{
+				
+				bitmap = BitmapFactory.decodeStream(img_stream);
+				
+
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			
+//			File pic = new File("/sdcard/Latalk/IMG_20150526_161649.jpg");
+//			try {
+//				InputStream pic_stream = new FileInputStream(pic);
+//				bitmap = BitmapFactory.decodeStream(pic_stream);
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			
+			
 			return true;
 		}
 
@@ -93,7 +152,9 @@ public class MessageBrowserActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			
+			message_textview.setText(image_url);
 			if(result) updateMessageText();
+			updateMessageImage(bitmap);
 		}
 		
 		

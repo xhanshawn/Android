@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    tools:context=".CameraActivity" >
+
+    
+
+    <LinearLayout
+        android:id="@+id/preview_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:weightSum="0.8">
+        <LinearLayout 
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:orientation="horizontal"
+            android:background="@color/grey"
+            >
+        <ImageButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />    
+            
+        </LinearLayout>
+		
+        <LinearLayout
+        android:id="@+id/camera_preview_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+        
+        
+        <LinearLayout 
+            
+            android:id="@+id/camera_options_panel"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:orientation="horizontal"
+        	android:background="@color/grey" >
+        	<Button
+          		android:id="@+id/front_cam_b"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:text="Front" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/camera_buttons_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:weightSum="0.2">
+		<Button
+          		android:id="@+id/take_picture_b"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:text="Take" />
+    </LinearLayout>
+
+</LinearLayout>
