@@ -54,6 +54,7 @@ public class MessagePostFactory {
 			
 			message_json.put("hold_time",message.getHold_time());
 			message_json.put("user_name", message.getUser_name());
+			message_json.put("image", "data:image/jpg;base64," + parseToBase64String(message.getAttahedPic()));
 			
 			json.put("message", message_json);
 			json.put("commit", "Create Message");
@@ -121,7 +122,7 @@ public class MessagePostFactory {
 			
 //			message_json.put("image_data", parseToBase64String(url));
 			
-			message_json.put("image", "data:image/jpg;base64," + parseToBase64String(url));
+//			message_json.put("image", "data:image/jpg;base64," + parseToBase64String(url));
 
 			
 			json.put("message", message_json);
@@ -156,11 +157,11 @@ public class MessagePostFactory {
 		return true;
 	}
 	
-	public static String parseToBase64String(String url){
+	public static String parseToBase64String(Bitmap bmp){
 		
 		String img_str = null;
 		
-		Bitmap bm_img = BitmapFactory.decodeFile(url);
+		Bitmap bm_img = bmp;
 		ByteArrayOutputStream byte_array_os = new ByteArrayOutputStream();  
 		bm_img.compress(Bitmap.CompressFormat.JPEG, 100, byte_array_os); //bm is the bitmap object   
 		byte[] byte_array = byte_array_os.toByteArray(); 

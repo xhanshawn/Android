@@ -9,9 +9,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.DataPassCache;
+import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.view.CameraPreview;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -143,6 +146,7 @@ public class CameraActivity extends Activity {
 			mPreview = new CameraPreview(CameraActivity.this, mCamera);
 			preview_layout.addView(mPreview);
 		}
+		mPreview.refreshCamera(0, 0);
 		
 	}
 	
@@ -162,40 +166,26 @@ public class CameraActivity extends Activity {
 		releaseCameraAndPreview();
 	}
 
-
-	private int getFrontCameraId(){
-		
-		int front_id = -1;
-		int camera_num = Camera.getNumberOfCameras();
-		for(int i=0; i<camera_num; i++){
-			
-			CameraInfo info = new CameraInfo();
-			Camera.getCameraInfo(i, info);
-			if(info.facing == CameraInfo.CAMERA_FACING_FRONT){
-				front_id = i;
-			}
-		}
-		
-		return front_id;
-	}
 	
 	
-	private int getBackCameraId(){
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
 		
-		int back_id = -1;
-		int camera_num = Camera.getNumberOfCameras();
-		for(int i=0; i<camera_num; i++){
+		if(requestCode == IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER) {
+			Intent resultIntent = new Intent();
+			Bundle extras = data.getExtras();
+			byte[] byteArray = extras.getByteArray("picture");
 			
-			CameraInfo info = new CameraInfo();
-			Camera.getCameraInfo(i, info);
-			if(info.facing == CameraInfo.CAMERA_FACING_BACK){
-				back_id = i;
-			}
+			resultIntent.putExtra("picture", byteArray);
+			setResult(IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER, resultIntent);
+			CameraActivity.this.finish();
 		}
-		
-		return back_id;
 	}
 
+
+	
 	
 	
 	private PictureCallback getPictureCallback(){
@@ -206,24 +196,35 @@ public class CameraActivity extends Activity {
 			public void onPictureTaken(byte[] data, Camera camera) {
 				// TODO Auto-generated method stub
 				
-				File picture_file = getOutputMediaFile();
+//				File picture_file = getOutputMediaFile();
 				
-				if(picture_file == null) {
-					return;
-				}
+//				if(picture_file == null) {
+//					return;
+//				}
 				
 				try{
 					
-					FileOutputStream file_os = new FileOutputStream(picture_file);
-					file_os.write(resizePicture(data));
-					file_os.close();
+//					FileOutputStream file_os = new FileOutputStream(picture_file);
 					
-					Toast pic_saved_toast = Toast.makeText(CameraActivity.this, "Picture Saved", Toast.LENGTH_LONG);
-					pic_saved_toast.show();
+					byte[] pic_byte_array = resizePicture(data);
 					
-				} catch (FileNotFoundException e){
-					e.printStackTrace();
-				} catch (IOException e){
+//					CameraActivity.this.finish();
+					
+					Intent intent = new Intent("com.xhanshawn.latalk.PHOTOCONFIRMACTIVITY");
+					int key = DataPassCache.cachePic(pic_byte_array);
+					intent.putExtra("pic_key", key);
+					
+//					startActivity(intent);
+					startActivityForResult(intent, IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER);
+
+					
+//					file_os.write(resizePicture(data));
+//					file_os.close();
+					
+//					Toast pic_saved_toast = Toast.makeText(CameraActivity.this, "Picture Saved", Toast.LENGTH_LONG);
+//					pic_saved_toast.show();
+					
+				} catch (Exception e){
 					e.printStackTrace();
 				}
 				
@@ -261,6 +262,41 @@ public class CameraActivity extends Activity {
 		return media_file;
 	}
 
+	
+	private int getFrontCameraId(){
+		
+		int front_id = -1;
+		int camera_num = Camera.getNumberOfCameras();
+		for(int i=0; i<camera_num; i++){
+			
+			CameraInfo info = new CameraInfo();
+			Camera.getCameraInfo(i, info);
+			if(info.facing == CameraInfo.CAMERA_FACING_FRONT){
+				front_id = i;
+			}
+		}
+		
+		return front_id;
+	}
+	
+	
+	private int getBackCameraId(){
+		
+		int back_id = -1;
+		int camera_num = Camera.getNumberOfCameras();
+		for(int i=0; i<camera_num; i++){
+			
+			CameraInfo info = new CameraInfo();
+			Camera.getCameraInfo(i, info);
+			if(info.facing == CameraInfo.CAMERA_FACING_BACK){
+				back_id = i;
+			}
+		}
+		
+		return back_id;
+	}
+
+	
 	private boolean safeCameraOpen(int id){
 		
 		try{

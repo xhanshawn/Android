@@ -16,6 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.xhanshawn.data.LatalkMessage;
 
 public class MessageGetFactory {
@@ -53,7 +56,13 @@ public class MessageGetFactory {
 				
 				for(int i=0; i<messages.length(); i++){
 					message_json = messages.getJSONObject(i);
-					message_list.add(LatalkMessage.parseJSON(message_json));
+					int id = message_json.getInt("id");
+					String url = getImageUrl(id);
+					Bitmap attached_pic = null;
+					if(url != null) attached_pic = getImage(url);
+					LatalkMessage new_message = LatalkMessage.parseJSON(message_json);
+					new_message.setAttachedPic(attached_pic);
+					message_list.add(new_message);
 				}
 				
 				
@@ -74,10 +83,10 @@ public class MessageGetFactory {
 	}
 	
 	
-	public static String getImageUrl(){
+	public static String getImageUrl(int id){
 		
 		HttpClient client = new DefaultHttpClient();
-		HttpGet get = new HttpGet("http://10.0.2.2:3000/messages/5.json");
+		HttpGet get = new HttpGet(URIBase + "/messages/" + id + ".json");
 		
 		get.setHeader("Content-Type", "application/json");
 		JSONObject message_json = null;
@@ -112,12 +121,12 @@ public class MessageGetFactory {
 		return img_url;
 	}
 	
-	public static InputStream getImage(String image_url){
+	public static Bitmap getImage(String image_url){
 		
 		HttpClient client = new DefaultHttpClient();
-		HttpGet get = new HttpGet("http://10.0.2.2:3000" + image_url);
+		HttpGet get = new HttpGet(URIBase+ "/" + image_url);
 		
-		InputStream img_stream = null;
+		Bitmap output_bmp = null;
 		
 		try {
 			
@@ -128,7 +137,8 @@ public class MessageGetFactory {
 			if(status >= 200 && status <= 400){
 				
 				HttpEntity entity = response.getEntity();
-				img_stream = entity.getContent();
+				InputStream img_stream = entity.getContent();
+				output_bmp = BitmapFactory.decodeStream(img_stream);
 			}
 				
 		} catch (ClientProtocolException e) {
@@ -139,6 +149,6 @@ public class MessageGetFactory {
 			e.printStackTrace();
 		} 
 		
-		return img_stream;
+		return output_bmp;
 	}
 }

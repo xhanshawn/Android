@@ -2,11 +2,15 @@ package com.xhanshawn.latalk;
 
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.data.UserAccount;
+import com.xhanshawn.util.DataPassCache;
+import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessagePostFactory;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -31,7 +36,10 @@ public class MessageCreateActivity extends Activity {
 	private float current_latitude;
 	private float current_longitude;
 	private boolean location_is_enabled;
-
+	private Bitmap taken_pic;
+	
+	ImageView attached_pic_iv;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,9 +55,9 @@ public class MessageCreateActivity extends Activity {
 		if(puzzle_type_button.isChecked()) message_type = "Puzzle";
 		else if(timecapsule_type_button.isChecked()) message_type = "Time_Capsule";
 
-		Button post_message = (Button) findViewById(R.id.post_message_button);
+		Button post_message_b = (Button) findViewById(R.id.post_message_button);
 
-		post_message.setOnClickListener(new View.OnClickListener() {
+		post_message_b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -73,6 +81,8 @@ public class MessageCreateActivity extends Activity {
 				message.setHold_time(3000);
 				message.setUser_name(UserAccount.getCurrentUserName());
 				
+				message.setAttachedPic(taken_pic);
+				
 				new MessagePoster().execute(message);
 			
 			}
@@ -87,9 +97,14 @@ public class MessageCreateActivity extends Activity {
 				// TODO Auto-generated method stub
 				
 				Intent camera_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
-				startActivity(camera_activity);
+				startActivityForResult(camera_activity, IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER);
+
+//				startActivity(camera_activity);
 			}
 		});
+		
+		
+		attached_pic_iv = (ImageView) findViewById(R.id.attached_pic_iv);
 	}
 	
 	
@@ -101,6 +116,23 @@ public class MessageCreateActivity extends Activity {
 		
 		getCurrentLocation();
 
+	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER) {
+			
+			Bundle extras = data.getExtras();
+			
+			int key = extras.getInt("pic_key");
+			byte[] byte_array = DataPassCache.getPicByKey(key);
+			
+			taken_pic = BitmapFactory.decodeByteArray(byte_array, 0, byte_array.length);
+			attached_pic_iv.setImageBitmap(taken_pic);
+		}
 	}
 
 

@@ -1,7 +1,13 @@
 package com.xhanshawn.data;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class LatalkMessage {
 	
@@ -11,9 +17,9 @@ public class LatalkMessage {
 	private float longitude;
 	private float latitude;
 	private String user_name;
-	
+	private Bitmap attached_pic;
 	private boolean isLocationSet;
-	
+	private String file_name;
 	public LatalkMessage(){
 		
 		isLocationSet = false;
@@ -69,7 +75,18 @@ public class LatalkMessage {
 		this.user_name = user_name;
 	}
 	
+	public void setAttachedPic(Bitmap bmp) {
+		
+		attached_pic = bmp;
+	}
+	
+	public Bitmap getAttahedPic(){
+		
+		return attached_pic;
+	}
+	
 	public boolean isLocationSet(){
+		
 		return isLocationSet;
 	}
 	public static LatalkMessage parseJSON(JSONObject obj){

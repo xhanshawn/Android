@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class LatalkItemAdapter extends BaseAdapter {
@@ -63,7 +64,9 @@ public class LatalkItemAdapter extends BaseAdapter {
 		TextView tv_content = (TextView) row.findViewById(R.id.latalk_content_tv);
 		TextView tv_user_name = (TextView) row.findViewById(R.id.user_name_tv);
 		TextView tv_hold_time = (TextView) row.findViewById(R.id.hold_time_tv);
+		ImageView pic_iv = (ImageView) row.findViewById(R.id.latalk_pic_iv);
 		
+		pic_iv.setImageBitmap(message.getAttahedPic());
 		tv_content.setText(message.getContent());
 		tv_user_name.setText(message.getUser_name());
 		tv_hold_time.setText(String.valueOf(message.getHold_time()));

@@ -117,7 +117,7 @@ public class MessageBrowserActivity extends Activity {
 			if(params[0].equals("Puzzle")) messages = MessageGetFactory.getPuzzleMessages();
 			if(params[0].equals("Time Capsule")) messages = MessageGetFactory.getTimeCapsuleMessages();
 			
-			MessagePostFactory.postImage("/sdcard/Latalk/IMG_20150526_161649.jpg");
+//			MessagePostFactory.postImage("/sdcard/Latalk/IMG_20150526_161649.jpg");
 
 			
 //			image_url = MessageGetFactory.getImageUrl();
