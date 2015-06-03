@@ -21,5 +21,6 @@
     <string name="title_activity_time_capsule_tab">TimeCapsuleTabActivity</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_activity_photo_comfirm">PhotoComfirmActivity</string>
+    <string name="title_activity_time_capsule">TimeCapsuleActivity</string>
 
 </resources>

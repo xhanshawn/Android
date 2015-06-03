@@ -45,11 +45,11 @@ public class MessagePostFactory {
 			message_json.put("content",message.getContent());
 			
 			if(message.isLocationSet()){
-				message_json.put("longitude",String.format("%.03f", message.getLongitude()));
-				message_json.put("latitude",String.format("%.03f", message.getLatitude()));
+				message_json.put("longitude",String.format("%.06f", message.getLongitude()));
+				message_json.put("latitude",String.format("%.06f", message.getLatitude()));
 			}else{
-				message_json.put("longitude",String.format("%.03f",181.0f));
-				message_json.put("latitude",String.format("%.03f", 91.0f));
+				message_json.put("longitude",String.format("%.06f",181.0f));
+				message_json.put("latitude",String.format("%.06f", 91.0f));
 			}
 			
 			message_json.put("hold_time",message.getHold_time());

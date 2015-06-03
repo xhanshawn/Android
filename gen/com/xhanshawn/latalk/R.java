@@ -35,7 +35,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int white=0x7f050005;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int circle=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int radar_circle=0x7f020002;
+        public static final int radar_circle_purple=0x7f020003;
     }
     public static final class id {
         public static final int add_pic_b=0x7f09000f;
@@ -43,7 +46,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int camera_buttons_panel=0x7f090008;
         public static final int camera_options_panel=0x7f090006;
         public static final int camera_preview_ll=0x7f090005;
-        public static final int comment_button=0x7f090033;
+        public static final int comment_button=0x7f090036;
         public static final int confirm_control_panel_rl=0x7f090024;
         public static final int confirm_pic_b=0x7f090026;
         public static final int create_message_button=0x7f09001b;
@@ -51,11 +54,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int get_image_button=0x7f090020;
         public static final int get_puzzle_button=0x7f09001e;
         public static final int get_timecapsule_button=0x7f09001f;
-        public static final int hold_time_tv=0x7f09002e;
-        public static final int latalk_content_tv=0x7f090030;
-        public static final int latalk_options=0x7f090031;
-        public static final int latalk_pic_iv=0x7f09002f;
-        public static final int like_button=0x7f090032;
+        public static final int hold_time_tv=0x7f090031;
+        public static final int latalk_content_tv=0x7f090033;
+        public static final int latalk_options=0x7f090034;
+        public static final int latalk_pic_iv=0x7f090032;
+        public static final int like_button=0x7f090035;
         public static final int linearlayout_login=0x7f090013;
         public static final int linearlayout_signup_buttons=0x7f090016;
         public static final int list1=0x7f090021;
@@ -65,34 +68,37 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int location_tv=0x7f09000b;
         public static final int login_button=0x7f090017;
         public static final int login_message_textview=0x7f090012;
-        public static final int menu_icon=0x7f090035;
-        public static final int menu_text=0x7f090036;
+        public static final int menu_icon=0x7f090038;
+        public static final int menu_text=0x7f090039;
         public static final int menu_to_main=0x7f090002;
         public static final int message_browser_button=0x7f09001a;
-        public static final int message_header=0x7f09002b;
+        public static final int message_header=0x7f09002e;
         public static final int message_img_iv=0x7f09001d;
         public static final int message_input=0x7f09000a;
-        public static final int message_more_ops_ib=0x7f09002d;
+        public static final int message_more_ops_ib=0x7f090030;
         public static final int message_textiew=0x7f09001c;
-        public static final int my_menu_list=0x7f090034;
+        public static final int my_menu_list=0x7f090037;
         public static final int options_button=0x7f090000;
         public static final int passward_edittext=0x7f090015;
         public static final int post_message_button=0x7f09000d;
         public static final int preview_panel=0x7f090003;
         public static final int puzzle_type_radio=0x7f09000c;
+        public static final int radar_search_b=0x7f090029;
         public static final int retake_pic_b=0x7f090025;
         public static final int signup_button=0x7f090018;
         public static final int take_picture_b=0x7f090009;
         public static final int taken_pic_iv=0x7f090004;
         public static final int textView1=0x7f090019;
+        public static final int time_capsule_pic1_iv=0x7f090027;
+        public static final int time_capsule_txt_tv=0x7f090028;
         public static final int time_capsule_type_radio=0x7f09000e;
         public static final int user_account_button=0x7f090001;
-        public static final int user_message_header=0x7f090027;
-        public static final int user_message_sv=0x7f09002a;
+        public static final int user_message_header=0x7f09002a;
+        public static final int user_message_sv=0x7f09002d;
         public static final int user_name_edittext=0x7f090014;
-        public static final int user_name_tv=0x7f090029;
-        public static final int user_photo=0x7f090028;
-        public static final int user_photo_ib=0x7f09002c;
+        public static final int user_name_tv=0x7f09002c;
+        public static final int user_photo=0x7f09002b;
+        public static final int user_photo_ib=0x7f09002f;
     }
     public static final class layout {
         public static final int actionbar_main=0x7f030000;
@@ -107,10 +113,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_options=0x7f030009;
         public static final int activity_photo_confirm=0x7f03000a;
         public static final int activity_puzzle_tab=0x7f03000b;
-        public static final int activity_time_capsule_tab=0x7f03000c;
-        public static final int activity_user_messages=0x7f03000d;
-        public static final int latalk_item=0x7f03000e;
-        public static final int menulist=0x7f03000f;
+        public static final int activity_time_capsule=0x7f03000c;
+        public static final int activity_time_capsule_tab=0x7f03000d;
+        public static final int activity_user_messages=0x7f03000e;
+        public static final int latalk_item=0x7f03000f;
+        public static final int menulist=0x7f030010;
     }
     public static final class string {
         public static final int app_name=0x7f060000;
@@ -119,27 +126,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int login=0x7f060008;
         public static final int login_message=0x7f06000c;
         public static final int password_hint=0x7f06000b;
-        public static final int pref_default_display_name=0x7f060019;
-        public static final int pref_description_social_recommendations=0x7f060017;
+        public static final int pref_default_display_name=0x7f06001a;
+        public static final int pref_description_social_recommendations=0x7f060018;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f06001b;
+        public static final int pref_header_data_sync=0x7f06001c;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f060015;
+        public static final int pref_header_general=0x7f060016;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f06001e;
-        public static final int pref_ringtone_silent=0x7f060021;
-        public static final int pref_title_add_friends_to_messages=0x7f06001a;
-        public static final int pref_title_display_name=0x7f060018;
-        public static final int pref_title_new_message_notifications=0x7f06001f;
-        public static final int pref_title_ringtone=0x7f060020;
-        public static final int pref_title_social_recommendations=0x7f060016;
-        public static final int pref_title_sync_frequency=0x7f06001c;
-        public static final int pref_title_system_sync_settings=0x7f06001d;
-        public static final int pref_title_vibrate=0x7f060022;
+        public static final int pref_header_notifications=0x7f06001f;
+        public static final int pref_ringtone_silent=0x7f060022;
+        public static final int pref_title_add_friends_to_messages=0x7f06001b;
+        public static final int pref_title_display_name=0x7f060019;
+        public static final int pref_title_new_message_notifications=0x7f060020;
+        public static final int pref_title_ringtone=0x7f060021;
+        public static final int pref_title_social_recommendations=0x7f060017;
+        public static final int pref_title_sync_frequency=0x7f06001d;
+        public static final int pref_title_system_sync_settings=0x7f06001e;
+        public static final int pref_title_vibrate=0x7f060023;
         public static final int signup=0x7f060009;
         public static final int title_activity_camera=0x7f060012;
         public static final int title_activity_create=0x7f060004;
@@ -151,7 +158,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_activity_options=0x7f060006;
         public static final int title_activity_photo_comfirm=0x7f060013;
         public static final int title_activity_puzzle_tab=0x7f060010;
-        public static final int title_activity_settings=0x7f060014;
+        public static final int title_activity_settings=0x7f060015;
+        public static final int title_activity_time_capsule=0x7f060014;
         public static final int title_activity_time_capsule_tab=0x7f060011;
         public static final int title_activity_user_messages=0x7f06000d;
         public static final int username_hint=0x7f06000a;

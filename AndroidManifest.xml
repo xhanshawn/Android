@@ -106,6 +106,7 @@
             android:label="@string/title_activity_camera" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.CAMERAACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -114,6 +115,14 @@
             android:label="@string/title_activity_photo_comfirm" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.PHOTOCONFIRMACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TimeCapsuleActivity"
+            android:label="@string/title_activity_time_capsule" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.TIMECAPSULEACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

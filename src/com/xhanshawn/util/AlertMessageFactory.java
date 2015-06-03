@@ -13,4 +13,14 @@ public class AlertMessageFactory {
 		String message = "Your device has no camera or no camera is available";
 		return message;
 	}
+	
+	public static String locationClosedAlert(){
+		String message = "Location is not available. We've found something far from you";
+		return message;
+	}
+	
+	public static String noMessagesFound(){
+		String message = "Sorry, we can not find messages";
+		return message;
+	}
 }

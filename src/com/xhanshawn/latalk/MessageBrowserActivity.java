@@ -11,6 +11,7 @@ import com.xhanshawn.util.MessageGetFactory;
 import com.xhanshawn.util.MessagePostFactory;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -61,10 +62,13 @@ public class MessageBrowserActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(messages == null || !current_message_type.equals("Time Capsule")) {
-					new MessageRetriever().execute("Time Capsule");
-					current_message_type = "Time Capsule";
-				}
+//				if(messages == null || !current_message_type.equals("Time Capsule")) {
+//					new MessageRetriever().execute("Time Capsule");
+//					current_message_type = "Time Capsule";
+//				}
+				
+				Intent time_capsule = new Intent("com.xhanshawn.latalk.TIMECAPSULEACTIVITY");
+				startActivity(time_capsule);
 			}
 		});
 		
@@ -117,11 +121,6 @@ public class MessageBrowserActivity extends Activity {
 			if(params[0].equals("Puzzle")) messages = MessageGetFactory.getPuzzleMessages();
 			if(params[0].equals("Time Capsule")) messages = MessageGetFactory.getTimeCapsuleMessages();
 			
-//			MessagePostFactory.postImage("/sdcard/Latalk/IMG_20150526_161649.jpg");
-
-			
-//			image_url = MessageGetFactory.getImageUrl();
-//			img_stream = MessageGetFactory.getImage(image_url);
 			
 			
 			try{
@@ -134,14 +133,6 @@ public class MessageBrowserActivity extends Activity {
 			}
 			
 			
-//			File pic = new File("/sdcard/Latalk/IMG_20150526_161649.jpg");
-//			try {
-//				InputStream pic_stream = new FileInputStream(pic);
-//				bitmap = BitmapFactory.decodeStream(pic_stream);
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 			
 			
 			return true;
