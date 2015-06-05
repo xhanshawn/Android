@@ -4,16 +4,19 @@ import java.util.ArrayList;
 
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +25,21 @@ import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class TimeCapsuleActivity extends Activity {
 	
-	private ArrayList<LatalkMessage> messages = null;
-	private float offset = 0.000000f;
+	final static int GET_TIMECAPSILE = 10;
+	final static int GET_PIC = 11;
+	final static int UPDATE_FIRST = 12;
+	
+	final static int LOADING_TIME = 300;
+
+	
+	private ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage> ();
 	private int read_num = 0 ;
 	private int request_num;
 	ImageView tc_pic1_iv;
@@ -64,15 +75,22 @@ public class TimeCapsuleActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				updateCurrentTimeCapsule();
-						
 				
 			}
 		});
 		
+		updateCurrentTimeCapsule();
+		new TimeCapsuleGetter().execute(UPDATE_FIRST);
 		
 		tc_txt_tv = (TextView) findViewById(R.id.time_capsule_txt_tv);
 		tc_txt_tv.setText("123");
-
+		
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int width = size.x;
+		LinearLayout time_capsule_ll = (LinearLayout) findViewById(R.id.time_capsule_ll);
+		time_capsule_ll.setLayoutParams(new LinearLayout.LayoutParams(width, width));
 	}
 	
 	
@@ -101,15 +119,17 @@ public class TimeCapsuleActivity extends Activity {
 	private void getTimeCapsules(){
 		
 		searchRadar();
-		new TimeCapsuleGetter().execute("");
+		new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
 	}
 	
 	private void updateCurrentTimeCapsule() {
 		
-		if(messages == null || messages.size() == read_num) {
+		if(messages.isEmpty() || messages.size() == read_num) {
 			if(request_num <3) {
+				
 				getTimeCapsules();
 			} else {
+				
 				Toast location_closed_toast = Toast.makeText(TimeCapsuleActivity.this,
 						AlertMessageFactory.noMessagesFound(),
 						Toast.LENGTH_LONG);
@@ -128,55 +148,134 @@ public class TimeCapsuleActivity extends Activity {
 		}
 		
 	}
-	public class TimeCapsuleGetter extends AsyncTask<String, Void, Boolean> {
-
+	public class TimeCapsuleGetter extends AsyncTask<Integer, Void, Integer> {
+		LatalkMessage first_message = null;
+		
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
-			LocationInfoFactory location_info = new LocationInfoFactory(TimeCapsuleActivity.this);
 			
-			Location current_location = location_info.getCurrentLocation();
-			if(current_location == null) {
-				
-				if(messages == null) {
+			switch (params[0]) {
+			
+				case GET_TIMECAPSILE: {
 					
-					messages = MessageGetFactory.getTimeCapsuleMessagesNearby(TimeCapsuleActivity.this, 0);
-				} else {
+					LocationInfoFactory location_info = new LocationInfoFactory(TimeCapsuleActivity.this);
+					Location current_location = location_info.getCurrentLocation();
 					
-					messages.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(TimeCapsuleActivity.this, 0));
+					
+					
+					messages.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location));
+					
+					break;
 				}
 				
-			} else {
-				
-				while(messages == null || messages.size() == read_num){
+				case GET_PIC: {
 					
-					if(messages == null) {
+					if(!messages.isEmpty()) {
 						
-						messages = MessageGetFactory.getTimeCapsuleMessagesNearby(TimeCapsuleActivity.this,offset);
-					} else {
-						
-						messages.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(TimeCapsuleActivity.this,offset));
+						int count = 0;
+						while(count < messages.size()) {
+							
+							if(messages.get(count).getAttahedPic() == null) {
+								String url = messages.get(count).getPicUrl();
+								if(url != null && !url.equals("")) {
+									Bitmap pic = MessageGetFactory.getImage(url);
+									messages.get(count).setAttachedPic(pic);
+								}
+							}
+							
+							count ++;
+						}
 					}
 					
-					if(offset < 0.000008) offset += 0.000002f;
-					if(offset >= 0.000008) offset += 0.00001f;
-					if(offset >= 0.000048) offset += 0.0001f;
-					if(offset >= 0.000148) offset += 0.001f;
-					if(offset >= 0.001148) break;
+					break;
 				}
+				
+				case UPDATE_FIRST: {
+					
+					int count = 0;
+					
+					while(count < 100) {
+						
+						first_message = DataPassCache.getTimeCapsule();
+						if(first_message != null) break;
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {}
+					}
+					
+					radar_handler1.removeCallbacks(radar_cir_1);
+					
+					if(first_message == null) {
+						
+						tc_txt_tv.setText(AlertMessageFactory.loadingMessageFailed());
+					} else {
+						
+						messages.add(first_message);
+						read_num++;
+					}
+					
+					Bitmap img = first_message.getAttahedPic();
+					if(img == null) {
+						String url = first_message.getPicUrl();
+						img = MessageGetFactory.getImage(url);
+					}
+					first_message.setAttachedPic(img);
+					
+					break;
+				}
+				
+				default: break;
+			
 			}
 			
 			
-			return true;
+			 
+			return params[0];
 		}
-
+		
+		
+		
 		@Override
-		protected void onPostExecute(Boolean result) {
+		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			request_num ++ ;
-			if(result) radar_handler1.removeCallbacks(radar_cir_1);
-			updateCurrentTimeCapsule();
+			
+			switch(result) {
+				
+				case GET_TIMECAPSILE: {
+					
+					new TimeCapsuleGetter().execute(GET_PIC);
+					break;
+				}
+				
+				case UPDATE_FIRST: {
+					
+					
+
+					runOnUiThread(new Runnable(){
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							
+							tc_pic1_iv.setImageBitmap(first_message.getAttahedPic());
+							tc_txt_tv.setText(first_message.getContent());
+							tc_txt_tv.setText(read_num + "");
+						}
+					});
+					
+					
+					
+					
+					read_num++;
+					break;
+				}
+				
+				default: break;
+			}
+			
 		}
 		
 	}

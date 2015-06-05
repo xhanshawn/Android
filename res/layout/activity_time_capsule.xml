@@ -7,12 +7,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10px"
         android:layout_marginRight="10px"
 	    android:background="@color/milk"
         >
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/time_capsule_ll"
             android:layout_height="match_parent"
 	    	android:layout_width="match_parent"
 	    	android:paddingLeft="5px"
@@ -20,10 +21,10 @@
             >
             <ImageView
 	    	android:id="@+id/time_capsule_pic1_iv"
-	    	android:layout_height="wrap_content"
+	    	android:layout_height="match_parent"
 	    	android:layout_width="match_parent"
 	    	/>
-        </RelativeLayout>
+        </LinearLayout>
         
 	    
 	

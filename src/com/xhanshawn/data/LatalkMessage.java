@@ -17,9 +17,12 @@ public class LatalkMessage {
 	private float longitude;
 	private float latitude;
 	private String user_name;
-	private Bitmap attached_pic;
+	private Bitmap attached_pic = null;
 	private boolean isLocationSet;
-	private String file_name;
+	private String pic_url;
+	private int message_id;
+	
+	
 	public LatalkMessage(){
 		
 		isLocationSet = false;
@@ -85,6 +88,24 @@ public class LatalkMessage {
 		return attached_pic;
 	}
 	
+	public void setPicUrl(String _url) {
+		
+		pic_url = _url;
+	}
+	
+	public String getPicUrl(){
+		return pic_url;
+	}
+	
+	
+	public int getMessage_id() {
+		return message_id;
+	}
+
+	public void setMessage_id(int message_id) {
+		this.message_id = message_id;
+	}
+
 	public boolean isLocationSet(){
 		
 		return isLocationSet;
@@ -102,7 +123,7 @@ public class LatalkMessage {
 			message.setLongitude(Float.valueOf(obj.getString("longitude")));
 			message.setHold_time(obj.getLong("hold_time"));
 			message.setUser_name(obj.getString("user_name"));
-			
+			message.setMessage_id(obj.getInt("id"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

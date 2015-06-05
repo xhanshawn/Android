@@ -23,4 +23,9 @@ public class AlertMessageFactory {
 		String message = "Sorry, we can not find messages";
 		return message;
 	}
+	
+	public static String loadingMessageFailed(){
+		String message = "loadingMessageFailed";
+		return message;
+	}
 }
