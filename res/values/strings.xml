@@ -22,5 +22,7 @@
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_activity_photo_comfirm">PhotoComfirmActivity</string>
     <string name="title_activity_time_capsule">TimeCapsuleActivity</string>
+    <string name="title_activity_puzzle_map">PuzzleMapActivity</string>
+    <string name="API_KEY">AIzaSyCY55KL_aQTQ-tt1sh2A1KIYiys2wlc0I0</string>
 
 </resources>

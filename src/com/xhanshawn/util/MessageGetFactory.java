@@ -28,8 +28,11 @@ import com.xhanshawn.latalk.MessageCreateActivity;
 import com.xhanshawn.latalk.TimeCapsuleActivity;
 
 public class MessageGetFactory {
-	
-	private static String URIBase = "http://10.0.2.2:3000";
+	//default avd
+//	private static String URIBase = "http://10.0.2.2:3000";
+
+	//genymotion
+	private static String URIBase = "http://10.0.3.2:3000";
 	
 	public static ArrayList<LatalkMessage> getPuzzleMessagesNearby(Context context){
 		
@@ -38,7 +41,7 @@ public class MessageGetFactory {
 	
 	public static ArrayList<LatalkMessage> getPuzzleMessages(){
 		
-		String url = URIBase + "/messages.json" + "?message_type=Puzzle";
+		String url = ServerAccessFactory.queryMessage() + "&message_type=Puzzle";
 
 		return getMessages(url);
 	}
@@ -56,7 +59,7 @@ public class MessageGetFactory {
 			float longitude = 181.000000f;
 			float latitude = 91.000000f;
 			
-			String url = URIBase + "/messages.json" + "?message_type=TimeCapsule";
+			String url = ServerAccessFactory.queryMessage() + "&message_type=TimeCapsule";
 			
 			if(current_location != null) {
 				
@@ -84,7 +87,7 @@ public class MessageGetFactory {
 	
 	public static ArrayList<LatalkMessage> getTimeCapsuleMessages(){
 		
-		String url = URIBase + "/messages.json" + "?message_type=TimeCapsule";
+		String url = ServerAccessFactory.queryMessage() + "&message_type=TimeCapsule";
 		
 		//
 		

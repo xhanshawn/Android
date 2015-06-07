@@ -47,10 +47,14 @@ public class MessageBrowserActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(messages == null || !current_message_type.equals("Puzzle")) {
-					new MessageRetriever().execute("Puzzle");
-					current_message_type = "Puzzle";
-				}
+//				if(messages == null || !current_message_type.equals("Puzzle")) {
+//					new MessageRetriever().execute("Puzzle");
+//					current_message_type = "Puzzle";
+//				}
+				
+				Intent puzzle = new Intent("com.xhanshawn.latalk.PUZZLEMAPACTIVITY");
+				startActivity(puzzle);
+				
 			}
 		});
 		

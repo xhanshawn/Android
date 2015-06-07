@@ -26,7 +26,11 @@ import com.xhanshawn.data.LatalkMessage;
 
 public class MessagePostFactory {
 	
-	private static String URIBase = "http://10.0.2.2:3000";
+	//default avd
+//	private static String URIBase = "http://10.0.2.2:3000";
+
+	//genymotion
+	private static String URIBase = "http://10.0.3.2:3000";
 	
 	public static boolean postLatalkMessage(LatalkMessage message){
 		
