@@ -599,9 +599,9 @@ containing a value of this type.
         public static final int activity_options=0x7f030009;
         public static final int activity_photo_confirm=0x7f03000a;
         public static final int activity_puzzle_map=0x7f03000b;
-        public static final int activity_puzzle_tab=0x7f03000c;
-        public static final int activity_time_capsule=0x7f03000d;
-        public static final int activity_time_capsule_tab=0x7f03000e;
+        public static final int activity_time_capsule=0x7f03000c;
+        public static final int activity_time_capsule_tab=0x7f03000d;
+        public static final int activity_user_latalk_map=0x7f03000e;
         public static final int activity_user_messages=0x7f03000f;
         public static final int latalk_item=0x7f030010;
         public static final int menulist=0x7f030011;

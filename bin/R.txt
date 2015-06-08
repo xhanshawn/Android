@@ -217,9 +217,9 @@ int layout activity_message_browser 0x7f030008
 int layout activity_options 0x7f030009
 int layout activity_photo_confirm 0x7f03000a
 int layout activity_puzzle_map 0x7f03000b
-int layout activity_puzzle_tab 0x7f03000c
-int layout activity_time_capsule 0x7f03000d
-int layout activity_time_capsule_tab 0x7f03000e
+int layout activity_time_capsule 0x7f03000c
+int layout activity_time_capsule_tab 0x7f03000d
+int layout activity_user_latalk_map 0x7f03000e
 int layout activity_user_messages 0x7f03000f
 int layout latalk_item 0x7f030010
 int layout menulist 0x7f030011

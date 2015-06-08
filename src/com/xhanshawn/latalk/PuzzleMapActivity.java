@@ -2,6 +2,9 @@ package com.xhanshawn.latalk;
 
 import java.util.ArrayList;
 
+import com.directions.route.Route;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -9,11 +12,13 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.MessageGetFactory;
 import com.xhanshawn.view.LatalkItemAdapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -23,6 +28,10 @@ import android.view.MenuItem;
 public class PuzzleMapActivity extends FragmentActivity implements OnMapReadyCallback {
 	ArrayList<LatalkMessage> puzzles = new ArrayList<LatalkMessage>();
 	GoogleMap puzzle_map;
+	LatLng start;
+	LatLng end;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +45,8 @@ public class PuzzleMapActivity extends FragmentActivity implements OnMapReadyCal
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		// TODO Auto-generated method stub
+		
+		
 		googleMap.addMarker(new MarkerOptions()
         .position(new LatLng(42.26905, -71.810625))
         .title("Home"));
@@ -46,6 +57,44 @@ public class PuzzleMapActivity extends FragmentActivity implements OnMapReadyCal
 		puzzle_map_settings.setZoomGesturesEnabled(true);
 		puzzle_map = googleMap;
 		new MessageRetriever().execute("");
+		
+		
+		start = new LatLng(42.26905, -71.810625);
+		end = new LatLng(42.36905, -71.810625);
+		
+		Routing routing = new Routing(Routing.TravelMode.WALKING);
+		routing.registerListener(new RoutingListener() {
+
+			@Override
+			public void onRoutingFailure() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onRoutingStart() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onRoutingSuccess(PolylineOptions mPolyOptions,
+					Route route) {
+				// TODO Auto-generated method stub
+				
+				PolylineOptions polyoptions = new PolylineOptions();
+		        polyoptions.color(Color.BLUE);
+		        polyoptions.width(10);
+		        polyoptions.addAll(mPolyOptions.getPoints());
+		        puzzle_map.addPolyline(polyoptions);
+			}
+			
+		});
+		
+		routing.execute(start,end);
+		
+//		Routing routing = new Routing(Routing)
+		
 	}
 	
 	public class MessageRetriever extends AsyncTask<String, Void, Boolean> {

@@ -103,7 +103,7 @@
             android:label="@string/title_activity_list_tab" >
         </activity>
         <activity
-            android:name=".PuzzleTabActivity"
+            android:name=".UserLatalkMapActivity"
             android:label="@string/title_activity_puzzle_tab" >
         </activity>
         <activity
@@ -145,6 +145,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        
     </application>
 
 </manifest>

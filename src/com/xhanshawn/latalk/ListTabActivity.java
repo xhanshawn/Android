@@ -45,7 +45,7 @@ public class ListTabActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			messages = MessageGetFactory.getPuzzleMessages();
+			messages = MessageGetFactory.getTimeCapsuleMessages();
 
 			return true;
 		}
