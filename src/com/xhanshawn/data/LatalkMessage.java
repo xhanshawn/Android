@@ -110,6 +110,12 @@ public class LatalkMessage {
 		
 		return isLocationSet;
 	}
+	
+	public boolean hasPic(){
+		
+		return !(pic_url == null || pic_url == "" || pic_url == "null");
+	}
+	
 	public static LatalkMessage parseJSON(JSONObject obj){
 		
 		if(obj == null) return null;

@@ -63,7 +63,7 @@ public class MessageCreateActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(puzzle_type_button.isChecked()) message_type = "Puzzle";
-				else if(timecapsule_type_button.isChecked()) message_type = "Time_Capsule";
+				else if(timecapsule_type_button.isChecked()) message_type = "TimeCapsule";
 				
 				
 				message_content = message_input.getText().toString();
@@ -78,7 +78,7 @@ public class MessageCreateActivity extends Activity {
 				}
 				
 				
-				message.setHold_time(3000);
+				message.setHold_time(86400000000l);
 				message.setUser_name(UserAccount.getCurrentUserName());
 				
 				message.setAttachedPic(taken_pic);

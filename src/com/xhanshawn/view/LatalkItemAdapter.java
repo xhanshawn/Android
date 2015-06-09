@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.latalk.R;
+import com.xhanshawn.util.MessageGetFactory;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class LatalkItemAdapter extends BaseAdapter {
@@ -51,23 +54,46 @@ public class LatalkItemAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		View row = convertView;
+		int type = getItemViewType(position);
 		
 		if(row == null){
 			
 			LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            row = inflater.inflate(R.layout.latalk_item, parent, false);
+			if(type == 0) { 
+				
+				row = inflater.inflate(R.layout.latalk_item, null);
+				
+			} else {
+				
+				row = inflater.inflate(R.layout.latalk_item_with_pic, null);
+			}
+            
 //			row = View.inflate(context, , null);
 		}
 		
 		LatalkMessage message = messages.get(position);
 		
+//		if(message.hasPic()) {
+//			
+//			LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+//            row = inflater.inflate(R.layout.latalk_item_with_pic, parent, false);
+////			ll.removeView(pic_iv);
+//
+////			pic_iv.setVisibility(View.INVISIBLE);
+//			
+//		}
+		
 		TextView tv_content = (TextView) row.findViewById(R.id.latalk_content_tv);
 		TextView tv_user_name = (TextView) row.findViewById(R.id.user_name_tv);
 		TextView tv_hold_time = (TextView) row.findViewById(R.id.hold_time_tv);
-		ImageView pic_iv = (ImageView) row.findViewById(R.id.latalk_pic_iv);
-		
-		pic_iv.setImageBitmap(message.getAttahedPic());
-		tv_content.setText(message.getContent());
+//		ImageView pic_iv = (ImageView) row.findViewById(R.id.latalk_pic_iv);
+//		
+//		
+//		LinearLayout ll = (LinearLayout) row.findViewById(R.id.latalk_item_ll);
+//		
+
+//		tv_content.setText(message.getContent());
+		tv_content.setText(message.getPicUrl());
 		tv_user_name.setText(message.getUser_name());
 		tv_hold_time.setText(String.valueOf(message.getHold_time()));
 		
@@ -79,4 +105,18 @@ public class LatalkItemAdapter extends BaseAdapter {
 		
 		messages.add(_message);
 	}
+
+	@Override
+	public int getViewTypeCount() {
+		// TODO Auto-generated method stub
+		return 2;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		// TODO Auto-generated method stub
+		return (messages.get(position).hasPic()) ? 1 : 0 ;
+			
+	}
+	
 }

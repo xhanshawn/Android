@@ -99,7 +99,7 @@
             android:label="@string/title_activity_grid_tab" >
         </activity>
         <activity
-            android:name=".ListTabActivity"
+            android:name=".PuzzleTabActivity"
             android:label="@string/title_activity_list_tab" >
         </activity>
         <activity

@@ -89,10 +89,7 @@ public class MessageGetFactory {
 		
 		String url = ServerAccessFactory.queryMessage() + "&message_type=TimeCapsule";
 		
-		//
 		
-		//add user
-		//
 		return getMessages(url);
 	}
 	
@@ -193,7 +190,7 @@ public class MessageGetFactory {
 	
 	public static Bitmap getImage(String image_url){
 		
-		if(image_url == null) return null;
+		if(image_url == null || image_url == "" || image_url.equals("null")) return null;
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(URIBase+ "/" + image_url);

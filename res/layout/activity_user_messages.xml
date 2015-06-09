@@ -50,17 +50,12 @@
             android:layout_height="wrap_content" >
         </TabWidget>
         
-        <ScrollView 
-	    android:id="@+id/user_message_sv"
-	    android:layout_width="match_parent"
-    	android:layout_height="match_parent"
-    	android:scrollbars="none">
+        
     	<FrameLayout 
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
         </FrameLayout>
-        </ScrollView>
         </LinearLayout>
     </TabHost>
 

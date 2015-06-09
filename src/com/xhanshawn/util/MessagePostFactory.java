@@ -58,7 +58,9 @@ public class MessagePostFactory {
 			
 			message_json.put("hold_time",message.getHold_time());
 			message_json.put("user_name", message.getUser_name());
-			message_json.put("image", "data:image/jpg;base64," + parseToBase64String(message.getAttahedPic()));
+			if(message.getAttahedPic() != null) {
+				message_json.put("image", "data:image/jpg;base64," + parseToBase64String(message.getAttahedPic()));;
+			}
 			
 			json.put("message", message_json);
 			json.put("commit", "Create Message");
@@ -163,6 +165,7 @@ public class MessagePostFactory {
 	
 	public static String parseToBase64String(Bitmap bmp){
 		
+		if(bmp == null) return null;
 		String img_str = null;
 		
 		Bitmap bm_img = bmp;

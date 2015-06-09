@@ -29,7 +29,7 @@ public class UserMessagesActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_messages);
 		
-		m_scroll_view = (ScrollView) findViewById(R.id.user_message_sv);
+//		m_scroll_view = (ScrollView) findViewById(R.id.user_message_sv);
 		
 		
 		header = (LinearLayout) findViewById(R.id.user_message_header);
@@ -57,7 +57,7 @@ public class UserMessagesActivity extends TabActivity {
         grid_tab.setIndicator("Tab2");
         grid_tab.setContent(new Intent(this,GridTabActivity.class));
         
-        list_tab.setContent(new Intent(this,ListTabActivity.class));
+        list_tab.setContent(new Intent(this,PuzzleTabActivity.class));
         
         list_view = new ImageView(this);
         list_view.setImageResource(R.drawable.ic_launcher);
@@ -82,7 +82,7 @@ public class UserMessagesActivity extends TabActivity {
 				messages_tab.clearFocus();
 				header.requestFocus();
 
-				m_scroll_view.fullScroll(View.FOCUS_UP);
+//				m_scroll_view.fullScroll(View.FOCUS_UP);
 
 			}
         	
