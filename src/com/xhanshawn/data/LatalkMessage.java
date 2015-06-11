@@ -6,6 +6,8 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.xhanshawn.util.ServerAccessFactory;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -95,6 +97,11 @@ public class LatalkMessage {
 	
 	public String getPicUrl(){
 		return pic_url;
+	}
+	
+	public String getFullPicUrl(){
+		
+		return ServerAccessFactory.getUrlBase() + pic_url;
 	}
 	
 	

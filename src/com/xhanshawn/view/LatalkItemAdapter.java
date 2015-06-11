@@ -2,6 +2,7 @@ package com.xhanshawn.view;
 
 import java.util.ArrayList;
 
+import com.fedorvlasov.lazylist.ImageLoader;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.latalk.R;
 import com.xhanshawn.util.MessageGetFactory;
@@ -21,11 +22,22 @@ public class LatalkItemAdapter extends BaseAdapter {
 	
 	private Context context;
 	private ArrayList<LatalkMessage> messages;
+	private ImageLoader img_loader;
 	
 	public LatalkItemAdapter(Context _context, ArrayList<LatalkMessage> _messages ){
 		
 		this.context = _context;
 		this.messages = _messages;
+		
+		//adopted lazy list tool developed by fedorvlasov
+		//I made some modifications for that
+		img_loader = new ImageLoader(_context);
+		
+	}
+	
+	public void clearImageCache() {
+		
+		img_loader.clearCache();
 	}
 	
 	//how many items
@@ -86,16 +98,17 @@ public class LatalkItemAdapter extends BaseAdapter {
 		TextView tv_content = (TextView) row.findViewById(R.id.latalk_content_tv);
 		TextView tv_user_name = (TextView) row.findViewById(R.id.user_name_tv);
 		TextView tv_hold_time = (TextView) row.findViewById(R.id.hold_time_tv);
-//		ImageView pic_iv = (ImageView) row.findViewById(R.id.latalk_pic_iv);
-//		
-//		
+		ImageView pic_iv = (ImageView) row.findViewById(R.id.latalk_pic_iv);
+		
 //		LinearLayout ll = (LinearLayout) row.findViewById(R.id.latalk_item_ll);
-//		
 
-//		tv_content.setText(message.getContent());
-		tv_content.setText(message.getPicUrl());
+		tv_content.setText(message.getContent());
 		tv_user_name.setText(message.getUser_name());
 		tv_hold_time.setText(String.valueOf(message.getHold_time()));
+		if(type == 1) {
+			
+			img_loader.DisplayImage(message.getFullPicUrl(), pic_iv, R.drawable.loading_picture);
+		}
 		
 		
 		return row;
@@ -118,5 +131,13 @@ public class LatalkItemAdapter extends BaseAdapter {
 		return (messages.get(position).hasPic()) ? 1 : 0 ;
 			
 	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		// TODO Auto-generated method stub
+		super.notifyDataSetChanged();
+	}
+	
+	
 	
 }

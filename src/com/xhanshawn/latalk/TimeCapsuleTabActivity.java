@@ -25,7 +25,7 @@ public class TimeCapsuleTabActivity extends Activity {
 	
 	ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage>();
 	MyListView latalk_mlv;
-
+	LatalkItemAdapter latalk_item_adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class TimeCapsuleTabActivity extends Activity {
         latalk_mlv = (MyListView) findViewById(R.id.tc_tab_mlv);
         
 		new MessageRetriever().execute("");
+		
 		
 		
 	}
@@ -58,7 +59,6 @@ public class TimeCapsuleTabActivity extends Activity {
 			if(params[0].equals("GetMessage")) messages = MessageGetFactory.getTimeCapsuleMessages();
 			if(params[0].equals("LoadImage")) {
 				
-				
 			}
 			
 			return params[0];
@@ -69,22 +69,12 @@ public class TimeCapsuleTabActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if(result.equals("GetMessage")){
-				LatalkItemAdapter latalk_item_adapter = new LatalkItemAdapter(TimeCapsuleTabActivity.this,messages);
+				latalk_item_adapter = new LatalkItemAdapter(TimeCapsuleTabActivity.this,messages);
 			
 				latalk_mlv.setAdapter(latalk_item_adapter);
-				
+				latalk_item_adapter.clearImageCache();
 				
 			}
-			
-			
-//			LatalkItemAdapter adapter = (LatalkItemAdapter) latalk_mlv.getAdapter();
-//			View current_view = adapter.getView(0, null, null);
-//			
-//			LinearLayout ll = (LinearLayout) current_view.findViewById(R.id.latalk_item_ll);
-//			ImageView iv = new ImageView(TimeCapsuleTabActivity.this);
-//			iv.setLayoutParams(new LayoutParams(640, 640));
-//			iv.setBackgroundResource(R.drawable.circle);
-//			ll.addView(iv);
 			
 			
 		}

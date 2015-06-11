@@ -35,8 +35,9 @@ public class MessageGetFactory {
 	private static String URIBase = "http://10.0.3.2:3000";
 	
 	public static ArrayList<LatalkMessage> getPuzzleMessagesNearby(Context context){
-		
+
 		return getMessages("");
+		
 	}
 	
 	public static ArrayList<LatalkMessage> getPuzzleMessages(){

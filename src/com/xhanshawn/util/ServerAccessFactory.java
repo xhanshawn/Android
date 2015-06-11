@@ -29,4 +29,9 @@ public class ServerAccessFactory {
 		String user_name = UserAccount.getCurrentUserName();
 		return url_base + "/messages.json?user_name=" + user_name;
 	}
+	
+	public static String getUrlBase(){
+		
+		return url_base;
+	}
 }

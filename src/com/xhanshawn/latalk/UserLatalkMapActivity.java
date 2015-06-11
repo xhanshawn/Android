@@ -39,20 +39,28 @@ public class UserLatalkMapActivity extends FragmentActivity {
 		LocationInfoFactory location_info_f = new LocationInfoFactory(UserLatalkMapActivity.this);
 		Location current_location = location_info_f.getCurrentLocation();
 		
-		LatLng current_lat_lng = new LatLng(current_location.getLatitude() ,
-				current_location.getLongitude());
+		
 		
 		MapFragment map_frag = (MapFragment) getFragmentManager().findFragmentById(R.id.user_latalk_map);
 		user_messages_map = map_frag.getMap();
 		
 		//update together, not separately
-		CameraUpdate current_update = CameraUpdateFactory.newLatLngZoom(current_lat_lng, 16);
+		
 //		map.moveCamera(CameraUpdateFactory.newLatLng(current_lat_lng));
-		user_messages_map.animateCamera(current_update);
-
-		user_messages_map.addMarker(new MarkerOptions()
-        .position(current_lat_lng)
-        .title("Current"));
+		
+		if(current_location !=null) {
+			
+			LatLng current_lat_lng = new LatLng(current_location.getLatitude() ,
+					current_location.getLongitude());
+			
+			user_messages_map.addMarker(new MarkerOptions()
+	        .position(current_lat_lng)
+	        .title("Current"));
+			
+			CameraUpdate current_update = CameraUpdateFactory.newLatLngZoom(current_lat_lng, 16);
+			user_messages_map.animateCamera(current_update);
+		}
+		
 		UiSettings puzzle_map_settings = user_messages_map.getUiSettings();
 		puzzle_map_settings.setZoomControlsEnabled(true);
 		user_messages_map.setMyLocationEnabled(true);

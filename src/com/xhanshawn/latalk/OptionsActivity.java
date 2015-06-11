@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.xhanshawn.data.UserAccount;
+import com.xhanshawn.util.AlertMessageFactory;
 import com.xhanshawn.util.UserSessionManager;
 import com.xhanshawn.util.UsersController;
 import com.xhanshawn.view.MyListView;
@@ -22,11 +23,12 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 public class OptionsActivity extends Activity {
 
 	private static final String Options[] = { " Option1"," Option2"," Option3"," Option4"," Option5"};
-	private static final String OTHERS_OPTIONS[] = { " Log Out"," Option2"," Option3"," Option4"," Option5"};
+	private static final String OTHERS_OPTIONS[] = { " Log Out"," Clear Cache"," Option3"," Option4"," Option5"};
 	
 	private MyListView list1;
 	private MyListView list2;
@@ -100,6 +102,15 @@ public class OptionsActivity extends Activity {
 					OptionsActivity.this.finish();
 					Intent login_activity = new Intent("com.xhanshawn.latalk.LOGINACTIVITY");
 					startActivity(login_activity);
+				}
+				
+				if(position == 1) {
+					
+					Toast clear_cache_toast = Toast.makeText(OptionsActivity.this,
+							AlertMessageFactory.clearCacheSuccess(),
+							Toast.LENGTH_LONG);
+				
+					clear_cache_toast.show();
 				}
 				
 			}

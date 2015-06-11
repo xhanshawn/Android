@@ -28,4 +28,9 @@ public class AlertMessageFactory {
 		String message = "loadingMessageFailed";
 		return message;
 	}
+	
+	public static String clearCacheSuccess(){
+		String message = "Clear Cache Succeed";
+		return message;
+	}
 }
