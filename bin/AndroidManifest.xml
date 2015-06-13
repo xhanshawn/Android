@@ -3,16 +3,17 @@
     package="com.xhanshawn.latalk"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-	
+
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
@@ -29,11 +30,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
-    	android:name="com.google.android.gms.version"
-    	android:value="@integer/google_play_services_version" />
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <meta-data
-    	android:name="com.google.android.geo.API_KEY"
-    	android:value="@string/API_KEY"/>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/API_KEY" />
 
         <activity
             android:name=".MainActivity"
@@ -41,6 +42,7 @@
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -133,6 +135,7 @@
             android:label="@string/title_activity_time_capsule" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.TIMECAPSULEACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -142,11 +145,18 @@
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.PUZZLEMAPACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-        
+        <activity
+            android:name=".ControlPanelActivity"
+            android:label="@string/title_activity_control_panel" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.CONTROLPANELACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

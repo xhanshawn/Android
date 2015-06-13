@@ -7,16 +7,18 @@ import com.xhanshawn.util.UserSessionManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.LocationManager;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ImageButton;
 
 public class MainActivity extends Activity {
@@ -31,6 +33,63 @@ public class MainActivity extends Activity {
 		verifyLoginSession();
 		CustomizeActionBar();
 		
+		//set buttons panel
+		FrameLayout buttons_panel_fl = (FrameLayout) findViewById(R.id.buttons_panel_fl);
+		
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int window_width = (int) (size.x* 1.1f);
+		int window_height =(int) (size.y* 1.1f);
+		
+		FrameLayout.LayoutParams init_params = new FrameLayout.LayoutParams(window_width, window_height);
+        init_params.leftMargin = (size.x - window_width)/2;
+        init_params.topMargin = (size.y - window_height)/2;
+        
+        buttons_panel_fl.setLayoutParams(init_params);
+        buttons_panel_fl.setOnTouchListener(new View.OnTouchListener() {
+			
+        	private int _xDelta;
+			private int _yDelta;
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				
+				
+				final int X = (int) event.getRawX();
+			    final int Y = (int) event.getRawY();
+			    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+			        case MotionEvent.ACTION_DOWN:
+			        	FrameLayout.LayoutParams lParams =  (FrameLayout.LayoutParams) v.getLayoutParams();
+			            _xDelta = X - lParams.leftMargin;
+			            _yDelta = Y - lParams.topMargin;
+			            break;
+			        case MotionEvent.ACTION_UP:
+			            break;
+			        case MotionEvent.ACTION_POINTER_DOWN:
+			            break;
+			        case MotionEvent.ACTION_POINTER_UP:
+			            break;
+			        case MotionEvent.ACTION_MOVE:
+			        	FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) v.getLayoutParams();
+			            layoutParams.leftMargin = X - _xDelta;
+			            layoutParams.topMargin = Y - _yDelta;
+//			            layoutParams.height = window_height;
+//			            layoutParams.width = window_width;
+			            
+//			            layoutParams.rightMargin = -250;
+//			            layoutParams.bottomMargin = -250;
+			            v.setLayoutParams(layoutParams);
+			            break;
+			    }
+//			    v.invalidate();
+			    return true;
+			}
+		});
+		
+        
+        
 		ImageButton options_button = (ImageButton)findViewById(R.id.options_button);
 	    
 	    options_button.setOnClickListener(new View.OnClickListener() {

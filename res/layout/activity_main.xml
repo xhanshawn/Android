@@ -1,38 +1,125 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
-	<FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true" >
-   
-		<LinearLayout
-	   		android:layout_width="match_parent"
-	    	android:layout_height="match_parent"
-	    	android:orientation="vertical">
-	    	<TextView
-	       		android:id="@+id/textView1"
-	        	android:layout_width="match_parent"
-	        	android:layout_height="100dp"
-	        	android:text="@string/latalk" />
+    android:id="@+id/buttons_panel_fl"
+    >
+	<RelativeLayout 
+	    
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    >
+	    
+	
+	    	<Button
+	    	    android:id="@+id/latalk_label_b"
+	    	    android:layout_width="150dp"
+	    	    android:layout_height="150dp"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:layout_centerVertical="true"
+	    	    android:background="@drawable/deep_pink_round_b"
+	    	    android:text="Latalk"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="40dp" />
 
 	    	<Button
-	        	android:id="@+id/message_browser_button"
-	        	android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content"
-	        	android:background="@color/grey"
-	        	android:text="browser" />
+	    	    android:id="@+id/create_message_button"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	   	android:layout_centerVertical="true"
+	    	    android:layout_toRightOf="@+id/latalk_label_b"
+	    	    android:layout_marginLeft="20dp"
+	    	    android:background="@drawable/pink_round_b"
+	    	    android:text="create"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+
+	    	
 
 	    	<Button
-	        	android:id="@+id/create_message_button"
-	        	android:layout_width="wrap_content"
-	        	android:layout_height="60dp"
-	        	android:layout_marginTop="30dp"
-	        	android:background="@color/grey"
-	        	android:text="create" />
-		</LinearLayout>
-	</FrameLayout>
+	    	    android:id="@+id/message_browser_button"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_above="@+id/latalk_label_b"
+	    	    android:layout_marginBottom="20dp"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:background="@drawable/purple_round_b"
+	    	    android:text="browser"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+	    	
+	    	
+	    	<Button
+	    	    android:id="@+id/reserved_button"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_toLeftOf="@+id/latalk_label_b"
+	    	    android:layout_centerVertical="true"
+	    	   	android:layout_marginRight="20dp"
+	    	    android:background="@drawable/blue_round_b"
+	    	    android:text="R1"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+			
+	    	<Button
+	    	    android:id="@+id/reserved_button2"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_above="@+id/reserved_button"
+	    	    android:layout_toRightOf="@+id/message_browser_button"
+	    	    android:background="@drawable/yellow_round_b"
+	    	    android:text="R2"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+	    	
+	    	<Button
+	    	    android:id="@+id/reserved_button3"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_below="@+id/latalk_label_b"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:layout_marginTop="20dp"
+	    	    android:background="@drawable/green_round_b"
+	    	    android:text="R3"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+	    	
+			<Button
+	    	    android:id="@+id/reserved_button4"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_above="@+id/reserved_button"
+	    	    android:layout_toLeftOf="@+id/message_browser_button"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:background="@drawable/orange_round_b"
+	    	    android:text="R4"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+			
+			<Button
+	    	    android:id="@+id/reserved_button5"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_below="@+id/reserved_button"
+	    	    android:layout_toLeftOf="@+id/message_browser_button"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:background="@drawable/red_round_b"
+	    	    android:text="R5"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+			
+			<Button
+	    	    android:id="@+id/reserved_button6"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_below="@+id/reserved_button"
+	    	    android:layout_toRightOf="@+id/message_browser_button"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:background="@drawable/deep_blue_round_b"
+	    	    android:text="R6"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+	    	
 
-</RelativeLayout>
+	</RelativeLayout>
+</FrameLayout>
+
