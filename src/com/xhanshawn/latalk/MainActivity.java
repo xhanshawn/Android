@@ -2,19 +2,28 @@ package com.xhanshawn.latalk;
 
 import com.xhanshawn.data.UserAccount;
 import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.AnimationFactory;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.UserSessionManager;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -24,7 +33,11 @@ import android.widget.ImageButton;
 public class MainActivity extends Activity {
 	
 	private ActionBar action_bar = null;
+	FrameLayout buttons_panel_fl;
+	RelativeLayout buttons_panel_rl;
+	ImageButton create_message_button;
 	
+	Button R6;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +47,8 @@ public class MainActivity extends Activity {
 		CustomizeActionBar();
 		
 		//set buttons panel
-		FrameLayout buttons_panel_fl = (FrameLayout) findViewById(R.id.buttons_panel_fl);
+		buttons_panel_fl = (FrameLayout) findViewById(R.id.buttons_panel_fl);
+		buttons_panel_rl = (RelativeLayout) findViewById(R.id.buttons_panel_rl);
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
@@ -47,6 +61,7 @@ public class MainActivity extends Activity {
         init_params.topMargin = (size.y - window_height)/2;
         
         buttons_panel_fl.setLayoutParams(init_params);
+        
         buttons_panel_fl.setOnTouchListener(new View.OnTouchListener() {
 			
         	private int _xDelta;
@@ -118,16 +133,59 @@ public class MainActivity extends Activity {
 	    
 	    
 	    
+	    R6 = (Button) findViewById(R.id.reserved_button6);
 	    
 	    
-		Button create_message_button = (Button) findViewById(R.id.create_message_button);
+	    create_message_button = (ImageButton) findViewById(R.id.create_message_button);
 		create_message_button.setOnClickListener(new View.OnClickListener() {
+			ImageButton mButton;
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent create_activity = new Intent("com.xhanshawn.latalk.CREATEACTIVITY");
-				startActivity(create_activity);
+				AnimationFactory anim_factory = new AnimationFactory();
+				
+				AnimationSet anim = anim_factory.scaleButtonAndOpenActivity();
+				
+				mButton = (ImageButton) v;
+				
+				anim.setAnimationListener(new AnimationListener(){
+					
+					@SuppressLint("NewApi")
+					@SuppressWarnings("deprecation")
+					@Override
+					public void onAnimationStart(Animation animation) {
+						// TODO Auto-generated method stub
+						if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) mButton.setAlpha(0);
+						else mButton.setImageAlpha(0);
+						new Handler().postDelayed(new Runnable()
+						{
+						   @Override
+						   public void run()
+						   {
+							   Intent create_activity = new Intent("com.xhanshawn.latalk.CREATEACTIVITY");
+								startActivity(create_activity);
+						   }
+						}, 400);
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						// TODO Auto-generated method stub
+
+						
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				});
+				v.startAnimation(anim);
+				
+				
 			}
 		});
 		
@@ -142,23 +200,36 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		
-		
+		//sequentially scale buttons 
+		scaleButtons();
 		
 	}
 	
 	
 	
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) create_message_button.setAlpha(255);
+		else create_message_button.setImageAlpha(255);
 		
 		LocationInfoFactory location_info = new LocationInfoFactory(MainActivity.this);
 	}
 
+	
+	
+	private void scaleButtons(){
+		
+		int count = buttons_panel_rl.getChildCount();
+		for(int i=0; i<count; i++) {
+			
+			AnimationFactory.scaleButtonAnimationSquentially(buttons_panel_rl.getChildAt(i), i);
+		}
 
+	}
 	
 	private void checkSettings(){
 		

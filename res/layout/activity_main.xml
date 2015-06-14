@@ -5,11 +5,10 @@
     >
 	<RelativeLayout 
 	    
+	    android:id="@+id/buttons_panel_rl"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    >
-	    
-	
 	    	<Button
 	    	    android:id="@+id/latalk_label_b"
 	    	    android:layout_width="150dp"
@@ -20,8 +19,8 @@
 	    	    android:text="Latalk"
 	    	    android:textColor="@color/white"
 	    	    android:textSize="40dp" />
-
-	    	<Button
+	    	
+	    	<ImageButton
 	    	    android:id="@+id/create_message_button"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
@@ -29,45 +28,18 @@
 	    	    android:layout_toRightOf="@+id/latalk_label_b"
 	    	    android:layout_marginLeft="20dp"
 	    	    android:background="@drawable/pink_round_b"
-	    	    android:text="create"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="20dp" />
-
-	    	
-
+	    	    android:src="@drawable/capsule"
+	    	    android:scaleType="fitCenter"
+				/>	    	
 	    	<Button
-	    	    android:id="@+id/message_browser_button"
+	    	    android:id="@+id/reserved_button6"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
-	    	    android:layout_above="@+id/latalk_label_b"
-	    	    android:layout_marginBottom="20dp"
-	    	    android:layout_centerHorizontal="true"
-	    	    android:background="@drawable/purple_round_b"
-	    	    android:text="browser"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="20dp" />
-	    	
-	    	
-	    	<Button
-	    	    android:id="@+id/reserved_button"
-	    	    android:layout_width="100dp"
-	    	    android:layout_height="100dp"
-	    	    android:layout_toLeftOf="@+id/latalk_label_b"
-	    	    android:layout_centerVertical="true"
-	    	   	android:layout_marginRight="20dp"
-	    	    android:background="@drawable/blue_round_b"
-	    	    android:text="R1"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="20dp" />
-			
-	    	<Button
-	    	    android:id="@+id/reserved_button2"
-	    	    android:layout_width="100dp"
-	    	    android:layout_height="100dp"
-	    	    android:layout_above="@+id/reserved_button"
+	    	    android:layout_below="@+id/reserved_button"
 	    	    android:layout_toRightOf="@+id/message_browser_button"
-	    	    android:background="@drawable/yellow_round_b"
-	    	    android:text="R2"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:background="@drawable/deep_blue_round_b"
+	    	    android:text="R6"
 	    	    android:textColor="@color/white"
 	    	    android:textSize="20dp" />
 	    	
@@ -83,19 +55,7 @@
 	    	    android:textColor="@color/white"
 	    	    android:textSize="20dp" />
 	    	
-			<Button
-	    	    android:id="@+id/reserved_button4"
-	    	    android:layout_width="100dp"
-	    	    android:layout_height="100dp"
-	    	    android:layout_above="@+id/reserved_button"
-	    	    android:layout_toLeftOf="@+id/message_browser_button"
-	    	    android:layout_centerHorizontal="true"
-	    	    android:background="@drawable/orange_round_b"
-	    	    android:text="R4"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="20dp" />
-			
-			<Button
+	    	<Button
 	    	    android:id="@+id/reserved_button5"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
@@ -106,20 +66,53 @@
 	    	    android:text="R5"
 	    	    android:textColor="@color/white"
 	    	    android:textSize="20dp" />
-			
-			<Button
-	    	    android:id="@+id/reserved_button6"
+	    	<Button
+	    	    android:id="@+id/reserved_button"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
-	    	    android:layout_below="@+id/reserved_button"
-	    	    android:layout_toRightOf="@+id/message_browser_button"
-	    	    android:layout_centerHorizontal="true"
-	    	    android:background="@drawable/deep_blue_round_b"
-	    	    android:text="R6"
+	    	    android:layout_toLeftOf="@+id/latalk_label_b"
+	    	    android:layout_centerVertical="true"
+	    	   	android:layout_marginRight="20dp"
+	    	    android:background="@drawable/blue_round_b"
+	    	    android:text="R1"
 	    	    android:textColor="@color/white"
 	    	    android:textSize="20dp" />
 	    	
-
+	    	<Button
+	    	    android:id="@+id/reserved_button4"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_above="@+id/reserved_button"
+	    	    android:layout_toLeftOf="@+id/message_browser_button"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:background="@drawable/orange_round_b"
+	    	    android:text="R4"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+	    	
+	    	<Button
+	    	    android:id="@+id/message_browser_button"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_above="@+id/latalk_label_b"
+	    	    android:layout_marginBottom="20dp"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:background="@drawable/purple_round_b"
+	    	    android:text="browser"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+			
+			<Button
+	    	    android:id="@+id/reserved_button2"
+	    	    android:layout_width="100dp"
+	    	    android:layout_height="100dp"
+	    	    android:layout_above="@+id/reserved_button"
+	    	    android:layout_toRightOf="@+id/message_browser_button"
+	    	    android:background="@drawable/yellow_round_b"
+	    	    android:text="R2"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="20dp" />
+	    	
 	</RelativeLayout>
 </FrameLayout>
 
