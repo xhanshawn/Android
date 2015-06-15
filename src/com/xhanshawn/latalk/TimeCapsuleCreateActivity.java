@@ -7,7 +7,9 @@ import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessagePostFactory;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Editable;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,26 +28,33 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-public class MessageCreateActivity extends Activity {
+public class TimeCapsuleCreateActivity extends Activity {
 	private String message_content = null;
 	private EditText message_input;
 	RadioButton puzzle_type_button;
 	RadioButton timecapsule_type_button;
 	private String message_type = null;
 	private TextView location_message_tv;
+	private ActionBar actionBar;
+	
 	
 	private float current_latitude;
 	private float current_longitude;
 	private boolean location_is_enabled;
 	private Bitmap taken_pic;
 	
+	
 	ImageView attached_pic_iv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_createmessages);
+		setContentView(R.layout.activity_time_capsule_create);
 		message_input = (EditText) findViewById(R.id.message_input);
+		
+		
+		customActionBar();
+		
 		
 		location_message_tv = (TextView) findViewById(R.id.location_tv);
 		
@@ -135,10 +145,32 @@ public class MessageCreateActivity extends Activity {
 		}
 	}
 
+	
+	private void customActionBar(){
+		actionBar = getActionBar();
+		actionBar.show();
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.actionbar_create_time_capsule,null);
+		
+	    actionBar.setDisplayShowCustomEnabled(true);
 
+	    actionBar.setCustomView(v);
+	    
+	    Button back_to_main_b = (Button) v.findViewById(R.id.c_t_to_main_b);
+	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TimeCapsuleCreateActivity.this.finish();
+			}
+		});
+	    
+	}
+	
 
 	private void getCurrentLocation(){
-		LocationInfoFactory location_info = new LocationInfoFactory(MessageCreateActivity.this);
+		LocationInfoFactory location_info = new LocationInfoFactory(TimeCapsuleCreateActivity.this);
 		
 		Location current_location = location_info.getCurrentLocation();
 		

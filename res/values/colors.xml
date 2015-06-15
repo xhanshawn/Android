@@ -9,4 +9,6 @@
     <color name="transparent">#0FFF</color>
     <color name="black">#000000</color>
 	<color name="lite_blue">#4DDBFF</color>
+	<color name="pink">#FFB8DB</color>
+	<color name="blue">#4DDBFF</color>
 </resources>

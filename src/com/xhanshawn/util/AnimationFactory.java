@@ -1,13 +1,23 @@
 package com.xhanshawn.util;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class AnimationFactory {
+	ImageButton mImageButton;
+	Intent mActivity;
+	Context mContext;
+	
 	public static void scaleButtonAnimation(View v){
 		
 		
@@ -33,7 +43,12 @@ public class AnimationFactory {
 		v.startAnimation(animation);
 		
 	}
-	public AnimationSet scaleButtonAndOpenActivity(){
+	
+	public void scaleButtonAndOpenActivity(ImageButton v, Intent m_activity, Context context){
+		
+		mImageButton = v;
+		mActivity = m_activity;
+		mContext = context;
 		
 		AnimationSet animation = new AnimationSet(true);
 
@@ -46,17 +61,46 @@ public class AnimationFactory {
 				1.0f,16.0f,1.0f,16.0f,
 				Animation.RELATIVE_TO_SELF,0.5f,
 				Animation.RELATIVE_TO_SELF,0.5f);
-
+		
 		scale1.setDuration(80);
 		scale2.setDuration(500);
 		scale2.setStartOffset(80);
 		animation.addAnimation(scale1);
 		animation.addAnimation(scale2);
+		
+		animation.setAnimationListener(new AnimationListener(){
+			
+			@SuppressLint("NewApi")
+			@SuppressWarnings("deprecation")
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) mImageButton.setAlpha(0);
+				else mImageButton.setImageAlpha(0);
+				new Handler().postDelayed(new Runnable()
+				{
+				   @Override
+				   public void run()
+				   {
+						mContext.startActivity(mActivity);
+				   }
+				}, 400);
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+			}
+
+		});
+		v.startAnimation(animation);
 
 //		animation.setFillAfter(true);
-		
-		return animation;
-		
 		
 	}
 	public static void scaleButtonAnimationSquentially(View v, int position){
@@ -76,7 +120,7 @@ public class AnimationFactory {
 		scale1.setStartOffset(160*position);
 		scale1.setDuration(80);
 		scale2.setDuration(100);
-		scale2.setStartOffset(180*position + 80);
+		scale2.setStartOffset(160*position + 80);
 		animation.addAnimation(scale1);
 		animation.addAnimation(scale2);
 

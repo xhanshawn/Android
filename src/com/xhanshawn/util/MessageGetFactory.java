@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.latalk.CameraActivity;
-import com.xhanshawn.latalk.MessageCreateActivity;
+import com.xhanshawn.latalk.TimeCapsuleCreateActivity;
 import com.xhanshawn.latalk.TimeCapsuleActivity;
 
 public class MessageGetFactory {

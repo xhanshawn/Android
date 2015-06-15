@@ -25,5 +25,6 @@
     <string name="title_activity_puzzle_map">PuzzleMapActivity</string>
     <string name="API_KEY">AIzaSyCY55KL_aQTQ-tt1sh2A1KIYiys2wlc0I0</string>
     <string name="title_activity_control_panel">ControlPanelActivity</string>
+    <string name="title_activity_puzzle_race_create">PuzzleRaceCreateActivity</string>
 
 </resources>

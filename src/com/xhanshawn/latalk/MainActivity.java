@@ -1,5 +1,7 @@
 package com.xhanshawn.latalk;
 
+import java.util.ArrayList;
+
 import com.xhanshawn.data.UserAccount;
 import com.xhanshawn.util.AlertMessageFactory;
 import com.xhanshawn.util.AnimationFactory;
@@ -36,6 +38,9 @@ public class MainActivity extends Activity {
 	FrameLayout buttons_panel_fl;
 	RelativeLayout buttons_panel_rl;
 	ImageButton create_message_button;
+	private ArrayList<ImageButton> image_buttons = new ArrayList<ImageButton>();
+	
+	
 	
 	Button R6;
 	@Override
@@ -137,57 +142,39 @@ public class MainActivity extends Activity {
 	    
 	    
 	    create_message_button = (ImageButton) findViewById(R.id.create_message_button);
+	    image_buttons.add(create_message_button);
 		create_message_button.setOnClickListener(new View.OnClickListener() {
-			ImageButton mButton;
+			
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				Intent create_activity = new Intent("com.xhanshawn.latalk.CREATEACTIVITY");
+				
 				AnimationFactory anim_factory = new AnimationFactory();
-				
-				AnimationSet anim = anim_factory.scaleButtonAndOpenActivity();
-				
-				mButton = (ImageButton) v;
-				
-				anim.setAnimationListener(new AnimationListener(){
-					
-					@SuppressLint("NewApi")
-					@SuppressWarnings("deprecation")
-					@Override
-					public void onAnimationStart(Animation animation) {
-						// TODO Auto-generated method stub
-						if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) mButton.setAlpha(0);
-						else mButton.setImageAlpha(0);
-						new Handler().postDelayed(new Runnable()
-						{
-						   @Override
-						   public void run()
-						   {
-							   Intent create_activity = new Intent("com.xhanshawn.latalk.CREATEACTIVITY");
-								startActivity(create_activity);
-						   }
-						}, 400);
-					}
-
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						// TODO Auto-generated method stub
-
-						
-					}
-
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				});
-				v.startAnimation(anim);
-				
+				anim_factory.scaleButtonAndOpenActivity((ImageButton)v,
+						create_activity, MainActivity.this);
 				
 			}
 		});
+		
+		
+		ImageButton puzzle_race_c_ib = (ImageButton) findViewById(R.id.puzzle_race_c_ib);
+		image_buttons.add(puzzle_race_c_ib);
+		puzzle_race_c_ib.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent puzzle_race_c_activity = new Intent("com.xhanshawn.latalk.PUZZLERACECREATEACTIVITY");
+				AnimationFactory anim_factory = new AnimationFactory();
+				anim_factory.scaleButtonAndOpenActivity((ImageButton)v, 
+						puzzle_race_c_activity, MainActivity.this);
+			}
+		});
+		
+		
+		
 		
 		Button message_browser_button = (Button) findViewById(R.id.message_browser_button);
 		message_browser_button.setOnClickListener(new View.OnClickListener() {
@@ -208,18 +195,26 @@ public class MainActivity extends Activity {
 	
 	
 	
-	@SuppressLint("NewApi")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) create_message_button.setAlpha(255);
-		else create_message_button.setImageAlpha(255);
+		
+		scaleButtons();
+		resetButtons();
 		
 		LocationInfoFactory location_info = new LocationInfoFactory(MainActivity.this);
 	}
 
-	
+	@SuppressLint("NewApi")
+	private void resetButtons(){
+		
+		for(ImageButton ib : image_buttons) {
+
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) create_message_button.setAlpha(255);
+			else ib.setImageAlpha(255);
+		}
+	}
 	
 	private void scaleButtons(){
 		
@@ -228,7 +223,7 @@ public class MainActivity extends Activity {
 			
 			AnimationFactory.scaleButtonAnimationSquentially(buttons_panel_rl.getChildAt(i), i);
 		}
-
+//		AnimationFactory.scaleButtonAnimationSquentially(create_message_button, 1);
 	}
 	
 	private void checkSettings(){

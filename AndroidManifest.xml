@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MessageCreateActivity"
+            android:name=".TimeCapsuleCreateActivity"
             android:label="@string/app_name"
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
@@ -145,7 +145,6 @@
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.PUZZLEMAPACTIVITY" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -154,6 +153,15 @@
             android:label="@string/title_activity_control_panel" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.CONTROLPANELACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PuzzleRaceCreateActivity"
+            android:label="@string/title_activity_puzzle_race_create"
+			android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.PUZZLERACECREATEACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
