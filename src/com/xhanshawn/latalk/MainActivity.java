@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
 	Button R6;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
@@ -217,7 +218,6 @@ public class MainActivity extends Activity {
 	}
 	
 	private void scaleButtons(){
-		
 		int count = buttons_panel_rl.getChildCount();
 		for(int i=0; i<count; i++) {
 			

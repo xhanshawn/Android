@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="${relativePackage}.${activityClass}" >
+	<com.xhanshawn.view.MyListView 
+ 	    android:id="@+id/puzzle_create_mlv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:focusable="false"
+ 	    >   
+ 	</com.xhanshawn.view.MyListView >
+    
+	
+	<ImageView 
+	    android:id="@+id/iv_1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/iv_2"
+	    android:background="@color/white"
+	    />
+	<ImageView 
+	    android:id="@+id/iv_2"
+	    android:layout_alignParentBottom="true"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	   	android:background="@color/white"
+	    />
+</RelativeLayout>

@@ -1,8 +1,99 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
-
-
-</RelativeLayout>
+    android:fitsSystemWindows="true"
+    tools:context="${relativePackage}.${activityClass}" 
+    >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical"
+	    >
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <LinearLayout 
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            
+        <GridView 
+        	android:id="@+id/attached_pic_pr_gv"
+        	android:layout_width="match_parent"
+    		android:layout_height="match_parent"
+        	android:numColumns="3"
+       		>
+    	</GridView>	
+    	
+       	</LinearLayout>
+       	<ImageView 
+	    	android:layout_width="match_parent"
+	    	android:layout_height="1.5dp"
+	    	android:background="@color/grey"
+	    	/>
+       	<LinearLayout 
+       	    android:layout_weight="7"
+       		android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+        	android:orientation="horizontal"
+        	>
+        	<ImageButton
+        		android:id="@+id/post_message_ib"
+        		android:layout_width="50dp"
+        		android:layout_height="match_parent"
+        		android:layout_below="@+id/message_input"
+        		android:layout_weight="1"
+        		android:src="@drawable/capsule_grey"
+        		android:background="@color/transparent"
+        		android:scaleType="fitCenter"
+         		/>
+    		<ImageButton 
+        		android:id="@+id/add_pic_ib"
+        		android:layout_weight="1"
+        		android:layout_width="50dp"
+        		android:layout_height="match_parent"
+        		android:background="@color/transparent"
+        		android:src="@drawable/camera_icon_grey"
+        		android:scaleType="fitCenter"
+        		/>
+    		<ImageButton 
+        		android:id="@+id/pic_f_gallery_pr_ib"
+        		android:layout_weight="1"
+        		android:layout_width="50dp"
+        		android:layout_height="match_parent"
+        		android:background="@color/transparent"
+        		android:src="@drawable/landscape_grey_icon"
+        		android:scaleType="fitCenter"
+        		/>
+    		<ImageButton 
+        		android:id="@+id/puzzle_race_map_ib"
+        		android:layout_weight="1"
+        		android:layout_width="50dp"
+        		android:layout_height="match_parent"
+        		android:background="@color/transparent"
+        		android:src="@drawable/pin_icon_grey"
+        		android:scaleType="fitCenter"
+        		/>
+    	</LinearLayout>
+    	<ImageView 
+	    	android:layout_width="match_parent"
+	   		android:layout_height="1.5dp"
+	    	android:background="@color/grey"
+	    	/>
+        
+    </LinearLayout>
+	<fragment 
+	    
+        android:id="@+id/puzzle_race_c_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:name="com.google.android.gms.maps.MapFragment"/>
+	</LinearLayout>
+</FrameLayout>

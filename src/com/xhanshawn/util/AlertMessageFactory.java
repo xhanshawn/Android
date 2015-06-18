@@ -33,4 +33,9 @@ public class AlertMessageFactory {
 		String message = "Clear Cache Succeed";
 		return message;
 	}
+	
+	public static String chooseImgOneByOne(){
+		String message = "Your Android system version is too low. You have to add picture one by one!";
+		return message;
+	}
 }

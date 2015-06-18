@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class PuzzleTabActivity extends Activity {
 	
 	ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage>();
-	MyListView latalk_tv;
+	MyListView latalk_mlv;
 	Context context;
 	
 	@Override
@@ -31,7 +31,7 @@ public class PuzzleTabActivity extends Activity {
 		
 		
 		
-		latalk_tv = (MyListView) findViewById(R.id.puzzle_tab_mlv);
+		latalk_mlv = (MyListView) findViewById(R.id.puzzle_tab_mlv);
 		
 		new MessageRetriever().execute("");
 		
@@ -75,7 +75,7 @@ public class PuzzleTabActivity extends Activity {
 			if(result){
 				LatalkItemAdapter latalk_item_adapter = new LatalkItemAdapter(context, messages);
 			
-				latalk_tv.setAdapter(latalk_item_adapter);
+				latalk_mlv.setAdapter(latalk_item_adapter);
 			}
 		}
 		

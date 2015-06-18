@@ -145,6 +145,7 @@
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.PUZZLEMAPACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -153,15 +154,35 @@
             android:label="@string/title_activity_control_panel" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.CONTROLPANELACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".PuzzleRaceCreateActivity"
             android:label="@string/title_activity_puzzle_race_create"
-			android:theme="@style/CustomActionBarTheme" >
+            android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.PUZZLERACECREATEACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PuzzleCreateActivity"
+            android:label="@string/title_activity_puzzle_create"
+            android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.PUZZLECREATEACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CustomGalleryActivity"
+            android:label="@string/title_activity_custom_gallery"
+    		android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.CUSTOMGALLERYACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

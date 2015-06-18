@@ -19,5 +19,16 @@
  	    android:textColor="@color/white"
  	    android:layout_centerVertical="true"
  	    />
+    
+    <Button 
+        android:id="@+id/puzzle_create_ok_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        />
 
 </RelativeLayout>

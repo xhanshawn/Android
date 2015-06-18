@@ -21,9 +21,11 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -31,9 +33,6 @@ import android.widget.TextView;
 public class TimeCapsuleCreateActivity extends Activity {
 	private String message_content = null;
 	private EditText message_input;
-	RadioButton puzzle_type_button;
-	RadioButton timecapsule_type_button;
-	private String message_type = null;
 	private TextView location_message_tv;
 	private ActionBar actionBar;
 	
@@ -58,60 +57,107 @@ public class TimeCapsuleCreateActivity extends Activity {
 		
 		location_message_tv = (TextView) findViewById(R.id.location_tv);
 		
-		puzzle_type_button = (RadioButton) findViewById(R.id.puzzle_type_radio);
-		
-		
-		timecapsule_type_button = (RadioButton) findViewById(R.id.time_capsule_type_radio);
-		if(puzzle_type_button.isChecked()) message_type = "Puzzle";
-		else if(timecapsule_type_button.isChecked()) message_type = "Time_Capsule";
-
-		Button post_message_b = (Button) findViewById(R.id.post_message_button);
-
-		post_message_b.setOnClickListener(new View.OnClickListener() {
+		location_message_tv.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(puzzle_type_button.isChecked()) message_type = "Puzzle";
-				else if(timecapsule_type_button.isChecked()) message_type = "TimeCapsule";
 				
+			}
+		});
+		
+
+		ImageButton post_message_ib = (ImageButton) findViewById(R.id.post_message_ib);
+		
+		
+		post_message_ib.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				ImageButton ib = (ImageButton) v;
 				
-				message_content = message_input.getText().toString();
-				LatalkMessage message = new LatalkMessage();
-				message.setContent(message_content);
-				message.setMessage_type(message_type);
-				
-				if(location_is_enabled){
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
 					
-					message.setLatitude(current_latitude);
-					message.setLongitude(current_longitude);
+					ib.setImageResource(R.drawable.capsule_pink);
 				}
 				
-				
-				message.setHold_time(86400000000l);
-				message.setUser_name(UserAccount.getCurrentUserName());
-				
-				message.setAttachedPic(taken_pic);
-				
-				new MessagePoster().execute(message);
-			
+				if(event.getAction() == MotionEvent.ACTION_UP) {
+					
+					ib.setImageResource(R.drawable.capsule_grey);
+				}
+				return false;
 			}
 		});
 		
+//		post_message_ib.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				
+//				
+//				message_content = message_input.getText().toString();
+//				LatalkMessage message = new LatalkMessage();
+//				message.setContent(message_content);
+//				message.setMessage_type("TimeCapsule");
+//				
+//				if(location_is_enabled){
+//					
+//					message.setLatitude(current_latitude);
+//					message.setLongitude(current_longitude);
+//				}
+//				
+//				
+//				message.setHold_time(86400000000l);
+//				message.setUser_name(UserAccount.getCurrentUserName());
+//				
+//				message.setAttachedPic(taken_pic);
+//				
+////				new MessagePoster().execute(message);
+//			
+//			}
+//			
+//		});
+//		
 		
-		Button add_pic_b = (Button) findViewById(R.id.add_pic_b);
-		add_pic_b.setOnClickListener(new View.OnClickListener() {
+		ImageButton add_pic_b = (ImageButton) findViewById(R.id.add_pic_ib);
+		
+		add_pic_b.setOnTouchListener(new View.OnTouchListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				
-				Intent camera_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
-				startActivityForResult(camera_activity, IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER);
-
-//				startActivity(camera_activity);
+				ImageButton ib = (ImageButton) v;
+				
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					
+					ib.setImageResource(R.drawable.camera_icon_pink);
+				}
+				
+				if(event.getAction() == MotionEvent.ACTION_UP) {
+					
+					ib.setImageResource(R.drawable.camera_icon_grey);
+				}
+				
+				return false;
 			}
 		});
+		
+		
+//		add_pic_b.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				
+//				Intent camera_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
+//				startActivityForResult(camera_activity, IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER);
+//
+////				startActivity(camera_activity);
+//			}
+//		});
 		
 		
 		attached_pic_iv = (ImageView) findViewById(R.id.attached_pic_iv);

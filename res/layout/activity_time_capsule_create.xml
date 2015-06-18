@@ -20,12 +20,15 @@
         >
 
     </EditText>
-	
+	<ImageView 
+	    android:layout_width="match_parent"
+	    android:layout_height="1.5dp"
+	    android:background="@color/grey"
+	    />
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@drawable/border_layout"
         >
         <ImageButton
         android:id="@+id/post_message_ib"
@@ -46,8 +49,21 @@
         android:src="@drawable/camera_icon_grey"
         android:scaleType="fitCenter"
         />
+    	<ImageButton 
+        android:id="@+id/add_pic_gallery_ib"
+        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:src="@drawable/landscape_grey_icon"
+        android:scaleType="fitCenter"
+        />
     </LinearLayout>
-    
+    <ImageView 
+	    android:layout_width="match_parent"
+	    android:layout_height="1.5dp"
+	    android:background="@color/grey"
+	    />
     <TextView 
         android:id="@+id/location_tv"
         android:layout_width="match_parent"
@@ -55,12 +71,14 @@
         android:layout_below="@+id/message_input"
         android:textSize="25dp"
         android:padding="5dp"
-        android:textColor="@color/grey"
-        android:textColorHighlight="@color/pink"
+        android:textColor="@color/dark_grey"
         android:clickable="true"
-        
         />
-    
+    <ImageView 
+	    android:layout_width="match_parent"
+	    android:layout_height="1.5dp"
+	    android:background="@color/grey"
+	    />
     <ImageView 
         android:id="@+id/attached_pic_iv"
         android:layout_width="wrap_content"
