@@ -12,14 +12,14 @@ public final class R {
 		public static final int stub = 0x7f020042;
 	}
 	public static final class id {
-		public static final int button1 = 0x7f08006f;
-		public static final int image = 0x7f080062;
-		public static final int list = 0x7f08006e;
-		public static final int text = 0x7f080063;
+		public static final int button1 = 0x7f08006e;
+		public static final int image = 0x7f080061;
+		public static final int list = 0x7f08006d;
+		public static final int text = 0x7f080062;
 	}
 	public static final class layout {
-		public static final int item = 0x7f030018;
-		public static final int main = 0x7f03001b;
+		public static final int item = 0x7f030019;
+		public static final int main = 0x7f03001c;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f060001;

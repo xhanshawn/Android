@@ -16,22 +16,34 @@
         android:layout_weight="1"
         android:orientation="vertical"
         >
-        <LinearLayout 
+        <RelativeLayout 
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             >
             
+        <EditText 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:maxLines="4"
+            android:background="@color/transparent"
+            android:textSize="25dp"
+            android:hint="@string/puzzle_race_hint"
+            android:layout_above="@+id/attached_pic_pr_gv"
+			/>
         <GridView 
         	android:id="@+id/attached_pic_pr_gv"
         	android:layout_width="match_parent"
-    		android:layout_height="match_parent"
-        	android:numColumns="3"
+    		android:layout_height="wrap_content"
+    		android:paddingLeft="3dp"
+    		android:paddingRight="3dp"
+        	android:numColumns="4"
+        	android:layout_alignParentBottom="true"
        		>
     	</GridView>	
     	
-       	</LinearLayout>
+       	</RelativeLayout>
        	<ImageView 
 	    	android:layout_width="match_parent"
 	    	android:layout_height="1.5dp"

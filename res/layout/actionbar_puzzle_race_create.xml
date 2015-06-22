@@ -21,7 +21,7 @@
  	    />
     
     <Button 
-        android:id="@+id/puzzle_create_ok_b"
+        android:id="@+id/puzzle_r_create_ok_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"

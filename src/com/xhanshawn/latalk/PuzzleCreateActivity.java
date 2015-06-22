@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.DataPassCache;
+import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.view.MyListView;
+import com.xhanshawn.view.PicPuzzleAdapter;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -30,13 +34,12 @@ import android.widget.Toast;
 
 public class PuzzleCreateActivity extends Activity {
 	
-	private static final int SELECT_PHOTO = 100;
 
 	private ActionBar mActionBar;
 	private MyListView puzzle_create_mlv;
 	ImageView iv1;
 	ImageView iv2;
-	private ArrayList<Bitmap> bmps = new ArrayList<Bitmap>();
+	private ArrayList<LatalkMessage> puzzles = new ArrayList<LatalkMessage>();
 	
 
 	
@@ -61,7 +64,7 @@ public class PuzzleCreateActivity extends Activity {
 		}
 		
 		photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-		startActivityForResult(photoPickerIntent, SELECT_PHOTO); 
+		startActivityForResult(photoPickerIntent, IntegerIdentifiers.SELECT_PHOTO); 
 		
 //		Intent custom_gallery_activity = new Intent("com.xhanshawn.latalk.CUSTOMGALLERYACTIVITY");
 //		startActivity(custom_gallery_activity);
@@ -71,14 +74,28 @@ public class PuzzleCreateActivity extends Activity {
 	
 	
 	
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		PicPuzzleAdapter pp_adapter = new PicPuzzleAdapter(PuzzleCreateActivity.this, puzzles);
+		
+		puzzle_create_mlv.setAdapter(pp_adapter);
+		
+	}
+
+
+
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
 	    super.onActivityResult(requestCode, resultCode, data); 
-
 	    switch(requestCode) { 
 	    
-	    case SELECT_PHOTO:
+	    case IntegerIdentifiers.SELECT_PHOTO:
 	        if(resultCode == RESULT_OK){
 	        	if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2 || data.getData() != null) {
 	        		
@@ -92,7 +109,9 @@ public class PuzzleCreateActivity extends Activity {
 	        			e.printStackTrace();
 	        		}
 	        		Bitmap selected_img = BitmapFactory.decodeStream(is);
-	        		bmps.add(selected_img);
+	        		LatalkMessage message = new LatalkMessage();
+	        		message.setAttachedPic(selected_img);
+	        		puzzles.add(message);
 	        	}else {
 	        		
 	        		ClipData clipdata = data.getClipData();
@@ -101,7 +120,9 @@ public class PuzzleCreateActivity extends Activity {
 	                    try {
 	                    	
 	                        Bitmap selected_img = MediaStore.Images.Media.getBitmap(this.getContentResolver(), clipdata.getItemAt(i).getUri());
-	    	        		bmps.add(selected_img);
+	                        LatalkMessage message = new LatalkMessage();
+	    	        		message.setAttachedPic(selected_img);
+	    	        		puzzles.add(message);
 	                    } catch (IOException e) {
 	                        // TODO Auto-generated catch block
 	                        e.printStackTrace();
@@ -135,15 +156,21 @@ public class PuzzleCreateActivity extends Activity {
 			}
 		});
 	    
-	    Button done_puzzles_b = (Button) v.findViewById(R.id.puzzle_create_ok_b);
+	    Button done_puzzles_b = (Button) v.findViewById(R.id.puzzle_r_create_ok_b);
 	    done_puzzles_b.setText("Done");
 	    done_puzzles_b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				int key = DataPassCache.cacheLatalks(puzzles);
+				Intent resultIntent = new Intent();
+				resultIntent.putExtra("puzzles_key", key);
+				setResult(IntegerIdentifiers.PASS_PUZZLES, resultIntent);
 				PuzzleCreateActivity.this.finish();
 			}
 		});
 	}
+	
+	
 }

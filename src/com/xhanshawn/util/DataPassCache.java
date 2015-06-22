@@ -13,6 +13,7 @@ public class DataPassCache {
 	private static ArrayList<LatalkMessage> time_capsule_list = new ArrayList<LatalkMessage>();
 	private static int time_capsule_read = Integer.MIN_VALUE;
 	private static Set<Integer> time_capsule_id_hash = new HashSet<Integer>();
+	private static ArrayList<ArrayList<LatalkMessage>> lists = new ArrayList<ArrayList<LatalkMessage>>();
 	public static byte[] getPicByKey(int key) {
 		
 		return pic_list.get(key);
@@ -62,4 +63,16 @@ public class DataPassCache {
 		time_capsule_read ++ ;
 		return message;
 	}
+	
+	public static int cacheLatalks(ArrayList<LatalkMessage> messages) {
+		
+		lists.add(messages);
+		
+		return lists.size() - 1;
+	}
+	
+	public static ArrayList<LatalkMessage> getLatalks(int key) {
+		return lists.get(key);
+	}
+	
 }
