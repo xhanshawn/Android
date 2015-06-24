@@ -100,12 +100,13 @@
 	    	/>
         
     </LinearLayout>
+    
 	<fragment 
 	    
         android:id="@+id/puzzle_race_c_map"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:name="com.google.android.gms.maps.MapFragment"/>
 	</LinearLayout>
 </FrameLayout>

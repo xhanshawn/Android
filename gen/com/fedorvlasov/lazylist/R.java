@@ -9,7 +9,7 @@ package com.fedorvlasov.lazylist;
 public final class R {
 	public static final class drawable {
 		public static final int icon = 0x7f020032;
-		public static final int stub = 0x7f020042;
+		public static final int stub = 0x7f020043;
 	}
 	public static final class id {
 		public static final int button1 = 0x7f08006e;

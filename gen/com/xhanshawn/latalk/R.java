@@ -512,19 +512,20 @@ containing a value of this type.
         public static final int landscape_grey_icon=0x7f020034;
         public static final int landscape_pink_icon=0x7f020035;
         public static final int loading_picture=0x7f020036;
-        public static final int orange_round_b=0x7f020037;
-        public static final int pin_icon_blue=0x7f020038;
-        public static final int pin_icon_grey=0x7f020039;
-        public static final int pink_round_b=0x7f02003a;
-        public static final int powered_by_google_dark=0x7f02003b;
-        public static final int powered_by_google_light=0x7f02003c;
-        public static final int purple_round_b=0x7f02003d;
-        public static final int radar_circle=0x7f02003e;
-        public static final int radar_circle_purple=0x7f02003f;
-        public static final int red_round_b=0x7f020040;
-        public static final int running_man=0x7f020041;
-        public static final int stub=0x7f020042;
-        public static final int yellow_round_b=0x7f020043;
+        public static final int map_pin_icon_blue=0x7f020037;
+        public static final int orange_round_b=0x7f020038;
+        public static final int pin_icon_blue=0x7f020039;
+        public static final int pin_icon_grey=0x7f02003a;
+        public static final int pink_round_b=0x7f02003b;
+        public static final int powered_by_google_dark=0x7f02003c;
+        public static final int powered_by_google_light=0x7f02003d;
+        public static final int purple_round_b=0x7f02003e;
+        public static final int radar_circle=0x7f02003f;
+        public static final int radar_circle_purple=0x7f020040;
+        public static final int red_round_b=0x7f020041;
+        public static final int running_man=0x7f020042;
+        public static final int stub=0x7f020043;
+        public static final int yellow_round_b=0x7f020044;
     }
     public static final class id {
         public static final int add_pic_gallery_ib=0x7f080057;

@@ -93,6 +93,9 @@ public class PuzzleCreateActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
 	    super.onActivityResult(requestCode, resultCode, data); 
+	    
+	    if(data == null) PuzzleCreateActivity.this.finish();
+
 	    switch(requestCode) { 
 	    
 	    case IntegerIdentifiers.SELECT_PHOTO:
