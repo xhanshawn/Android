@@ -44,7 +44,7 @@ public class PhotoConfirmActivity extends Activity {
 				
 				Intent resultIntent = new Intent();
 				resultIntent.putExtra("pic_key", pic_key);
-				setResult(IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER, resultIntent);
+				setResult(IntegerIdentifiers.ATTACH_PIC_IDENTIFIER, resultIntent);
 				PhotoConfirmActivity.this.finish();
 			}
 		});
@@ -57,9 +57,6 @@ public class PhotoConfirmActivity extends Activity {
 				// TODO Auto-generated method stub
 				
 				PhotoConfirmActivity.this.finish();
-//				Intent camera_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
-//				startActivity(camera_activity);
-				
 			}
 		});
 

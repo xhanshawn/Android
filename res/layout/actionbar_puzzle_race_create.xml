@@ -4,12 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/blue"
     >
-    <Button 
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/back_icon"
-        android:id="@+id/c_p_r_to_main_b"
-        />
+    
     <TextView 
  	    android:layout_width="fill_parent"
  	    android:layout_height="wrap_content"
@@ -19,7 +14,13 @@
  	    android:textColor="@color/white"
  	    android:layout_centerVertical="true"
  	    />
-    
+    <Button 
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:background="@drawable/white_back_icon"
+        android:id="@+id/c_p_r_to_main_b"
+        android:layout_centerVertical="true"
+        />
     <Button 
         android:id="@+id/puzzle_r_create_ok_b"
         android:layout_width="wrap_content"

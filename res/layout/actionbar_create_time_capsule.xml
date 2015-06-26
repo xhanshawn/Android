@@ -5,9 +5,9 @@
     android:background="@color/pink"
     >
     <Button 
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/back_icon"
+       	android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:background="@drawable/white_back_icon"
         android:id="@+id/c_t_to_main_b"
         />
     <TextView 

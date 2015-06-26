@@ -146,18 +146,6 @@ public class TimeCapsuleCreateActivity extends Activity {
 		});
 		
 		
-//		add_pic_b.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				
-//				Intent camera_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
-//				startActivityForResult(camera_activity, IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER);
-//
-////				startActivity(camera_activity);
-//			}
-//		});
 		
 		
 		attached_pic_iv = (ImageView) findViewById(R.id.attached_pic_iv);
@@ -179,7 +167,7 @@ public class TimeCapsuleCreateActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER) {
+		if(requestCode == IntegerIdentifiers.ATTACH_PIC_IDENTIFIER) {
 			
 			Bundle extras = data.getExtras();
 			

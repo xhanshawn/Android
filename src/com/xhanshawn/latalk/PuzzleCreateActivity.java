@@ -51,25 +51,40 @@ public class PuzzleCreateActivity extends Activity {
 		customActionBar();
 		
 		puzzle_create_mlv = (MyListView) findViewById(R.id.puzzle_create_mlv);
-		
-		Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-		photoPickerIntent.setType("image/*");
-		
-		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			Toast lower_version_toast = Toast.makeText(PuzzleCreateActivity.this,
-					AlertMessageFactory.chooseImgOneByOne(),
-					Toast.LENGTH_LONG);
 
-			lower_version_toast.show();
+		int img_src = getIntent().getExtras().getInt("Img_src");
+		
+		switch(img_src) {
+			case IntegerIdentifiers.ATTACH_IMG_FROM_GAL :
+				
+				Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+				photoPickerIntent.setType("image/*");
+				
+				if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+					Toast lower_version_toast = Toast.makeText(PuzzleCreateActivity.this,
+							AlertMessageFactory.chooseImgOneByOne(),
+							Toast.LENGTH_LONG);
+
+					lower_version_toast.show();
+				}
+				
+				photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+				startActivityForResult(photoPickerIntent, IntegerIdentifiers.SELECT_PHOTO); 
+				
+				break;
+			case IntegerIdentifiers.ATTACH_IMG_FROM_CAM:
+				
+				Intent puzzle_create_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
+				startActivityForResult(puzzle_create_activity, IntegerIdentifiers.ATTACH_PIC_IDENTIFIER); 
+				break;
+				
+			default: break;
+				
 		}
 		
-		photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-		startActivityForResult(photoPickerIntent, IntegerIdentifiers.SELECT_PHOTO); 
 		
-//		Intent custom_gallery_activity = new Intent("com.xhanshawn.latalk.CUSTOMGALLERYACTIVITY");
-//		startActivity(custom_gallery_activity);
 		
-
+		
 	}
 	
 	
@@ -134,7 +149,21 @@ public class PuzzleCreateActivity extends Activity {
 	                
 	        	}
 	        }
+	        break;
+	    case IntegerIdentifiers.ATTACH_PIC_IDENTIFIER:
+	    	if(data == null) break;
+	    	int key = data.getExtras().getInt("pic_key");
+	    	byte[] img_byte_array = DataPassCache.getPicByKey(key);
+	    	Bitmap selected_img = BitmapFactory.decodeByteArray(img_byte_array, 0, img_byte_array.length);
+    		LatalkMessage message = new LatalkMessage();
+    		message.setAttachedPic(selected_img);
+    		puzzles.add(message);
+	    	break;
+	    	
+	    default: break;
 	    }
+	    
+	    
 	}
 	
 	private void customActionBar(){

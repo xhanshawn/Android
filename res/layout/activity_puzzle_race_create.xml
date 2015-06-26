@@ -8,105 +8,111 @@
 	<LinearLayout 
 	    android:layout_width="match_parent"
     	android:layout_height="match_parent"
+    	android:id="@+id/bottom"
     	android:orientation="vertical"
 	    >
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
-        <RelativeLayout 
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            
-        <EditText 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:maxLines="4"
-            android:background="@color/transparent"
-            android:textSize="25dp"
-            android:hint="@string/puzzle_race_hint"
-            android:layout_above="@+id/attached_pic_pr_gv"
-			/>
-        <GridView 
-        	android:id="@+id/attached_pic_pr_gv"
+	    
+    	<LinearLayout 
+        	android:id="@+id/puzzle_r_c_panel_ll"
         	android:layout_width="match_parent"
-    		android:layout_height="wrap_content"
-    		android:paddingLeft="3dp"
-    		android:paddingRight="3dp"
-        	android:numColumns="4"
-        	android:layout_alignParentBottom="true"
-       		>
-    	</GridView>	
-    	
-       	</RelativeLayout>
-       	<ImageView 
-	    	android:layout_width="match_parent"
-	    	android:layout_height="1.5dp"
-	    	android:background="@color/grey"
-	    	/>
-       	<LinearLayout 
-       	    android:layout_weight="7"
-       		android:layout_width="match_parent"
         	android:layout_height="match_parent"
-        	android:orientation="horizontal"
+        	android:orientation="vertical"
         	>
-        	<ImageButton
-        		android:id="@+id/post_message_ib"
-        		android:layout_width="50dp"
-        		android:layout_height="match_parent"
-        		android:layout_below="@+id/message_input"
-        		android:layout_weight="1"
-        		android:src="@drawable/capsule_grey"
-        		android:background="@color/transparent"
-        		android:scaleType="fitCenter"
-         		/>
-    		<ImageButton 
-        		android:id="@+id/add_pic_ib"
-        		android:layout_weight="1"
-        		android:layout_width="50dp"
-        		android:layout_height="match_parent"
-        		android:background="@color/transparent"
-        		android:src="@drawable/camera_icon_grey"
-        		android:scaleType="fitCenter"
-        		/>
-    		<ImageButton 
-        		android:id="@+id/pic_f_gallery_pr_ib"
-        		android:layout_weight="1"
-        		android:layout_width="50dp"
-        		android:layout_height="match_parent"
-        		android:background="@color/transparent"
-        		android:src="@drawable/landscape_grey_icon"
-        		android:scaleType="fitCenter"
-        		/>
-    		<ImageButton 
-        		android:id="@+id/puzzle_race_map_ib"
-        		android:layout_weight="1"
-        		android:layout_width="50dp"
-        		android:layout_height="match_parent"
-        		android:background="@color/transparent"
-        		android:src="@drawable/pin_icon_grey"
-        		android:scaleType="fitCenter"
-        		/>
+        	<RelativeLayout 
+            	android:layout_width="match_parent"
+            	android:layout_height="match_parent"
+            	android:id="@+id/puzzle_r_c_panel_rl"
+            	>
+            
+        		<EditText 
+            		android:layout_width="match_parent"
+            		android:layout_height="match_parent"
+            		android:gravity="top"
+            		android:maxLines="4"
+            		android:background="@color/transparent"
+            		android:textSize="25dp"
+            		android:hint="@string/puzzle_race_hint"
+            		android:layout_above="@+id/attached_pic_pr_gv"
+					/>
+        		<GridView 
+        			android:id="@+id/attached_pic_pr_gv"
+        			android:layout_width="match_parent"
+    				android:layout_height="wrap_content"
+    				android:paddingLeft="3dp"
+    				android:paddingRight="3dp"
+        			android:numColumns="4"
+        			android:layout_alignParentBottom="true"
+       			>
+    			</GridView>	
+    	
+       		</RelativeLayout>
     	</LinearLayout>
     	<ImageView 
-	    	android:layout_width="match_parent"
-	   		android:layout_height="1.5dp"
-	    	android:background="@color/grey"
-	    	/>
-        
-    </LinearLayout>
-    
-	<fragment 
-	    
-        android:id="@+id/puzzle_race_c_map"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.MapFragment"/>
+	    		android:layout_width="match_parent"
+	    		android:layout_height="1.5dp"
+	    		android:background="@color/grey"
+	    		/>
+    	<LinearLayout 
+       			android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+        		android:minHeight="100dp"
+        		android:id="@+id/p_r_buttons_ll"
+        		android:orientation="horizontal"
+        		>
+        		<ImageButton
+        			android:id="@+id/post_message_ib"
+        			android:layout_width="50dp"
+        			android:layout_height="match_parent"
+        			android:layout_below="@+id/message_input"
+        			android:layout_weight="1"
+        			android:src="@drawable/capsule_grey"
+        			android:background="@color/transparent"
+        			android:scaleType="fitCenter"
+         			/>
+    			<ImageButton 
+        			android:id="@+id/add_pic_f_cam_ib"
+        			android:layout_weight="1"
+        			android:layout_width="50dp"
+        			android:layout_height="match_parent"
+        			android:background="@color/transparent"
+        			android:src="@drawable/camera_icon_grey"
+        			android:scaleType="fitCenter"
+        			/>
+    			<ImageButton 
+        			android:id="@+id/pic_f_gallery_pr_ib"
+        			android:layout_weight="1"
+        			android:layout_width="50dp"
+        			android:layout_height="match_parent"
+        			android:background="@color/transparent"
+        			android:src="@drawable/landscape_grey_icon"
+        			android:scaleType="fitCenter"
+        			/>
+    			<ImageButton 
+        			android:id="@+id/puzzle_race_map_open_ib"
+        			android:layout_weight="1"
+        			android:layout_width="50dp"
+        			android:layout_height="match_parent"
+        			android:background="@color/transparent"
+        			android:src="@drawable/pin_icon_grey"
+        			android:scaleType="fitCenter"
+        			/>
+    			
+    	</LinearLayout>
+    	<ImageView 
+	    			android:layout_width="match_parent"
+	   				android:layout_height="1.5dp"
+	    			android:background="@color/grey"
+	    			/>
+    	<FrameLayout 
+    	    android:id="@+id/p_r_c_map_fl"
+    	    android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+    	    >
+    		<fragment 
+        		android:id="@+id/puzzle_race_c_map"
+        		android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+        		android:name="com.google.android.gms.maps.MapFragment"/>
+    	</FrameLayout>
 	</LinearLayout>
 </FrameLayout>

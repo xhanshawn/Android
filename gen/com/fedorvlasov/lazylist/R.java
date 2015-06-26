@@ -8,14 +8,14 @@ package com.fedorvlasov.lazylist;
 
 public final class R {
 	public static final class drawable {
-		public static final int icon = 0x7f020032;
-		public static final int stub = 0x7f020043;
+		public static final int icon = 0x7f020034;
+		public static final int stub = 0x7f020047;
 	}
 	public static final class id {
-		public static final int button1 = 0x7f08006e;
-		public static final int image = 0x7f080061;
-		public static final int list = 0x7f08006d;
-		public static final int text = 0x7f080062;
+		public static final int button1 = 0x7f080074;
+		public static final int image = 0x7f080067;
+		public static final int list = 0x7f080073;
+		public static final int text = 0x7f080068;
 	}
 	public static final class layout {
 		public static final int item = 0x7f030019;

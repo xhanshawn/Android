@@ -173,13 +173,13 @@ public class CameraActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		if(requestCode == IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER) {
+		if(requestCode == IntegerIdentifiers.ATTACH_PIC_IDENTIFIER) {
 			Intent resultIntent = new Intent();
 			Bundle extras = data.getExtras();
-			byte[] byteArray = extras.getByteArray("picture");
+			int key = extras.getInt("pic_key");
 			
-			resultIntent.putExtra("picture", byteArray);
-			setResult(IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER, resultIntent);
+			resultIntent.putExtra("pic_key", key);
+			setResult(IntegerIdentifiers.ATTACH_PIC_IDENTIFIER, resultIntent);
 			CameraActivity.this.finish();
 		}
 	}
@@ -214,8 +214,7 @@ public class CameraActivity extends Activity {
 					int key = DataPassCache.cachePic(pic_byte_array);
 					intent.putExtra("pic_key", key);
 					
-//					startActivity(intent);
-					startActivityForResult(intent, IntegerIdentifiers.ATTACHED_PIC_IDENTIFIER);
+					startActivityForResult(intent, IntegerIdentifiers.ATTACH_PIC_IDENTIFIER);
 
 					
 //					file_os.write(resizePicture(data));
