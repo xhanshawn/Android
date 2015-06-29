@@ -15,11 +15,13 @@
  	    android:layout_centerVertical="true"
  	    />
     <Button 
-        android:layout_width="40dp"
-        android:layout_height="35dp"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
         android:background="@drawable/white_back_icon"
         android:id="@+id/c_p_r_to_main_b"
-        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="3dp"
         />
     <Button 
         android:id="@+id/puzzle_r_create_ok_b"

@@ -29,7 +29,7 @@ public class DataPassCache {
 	public static int cacheTimeCapsule(LatalkMessage new_time_capsule) {
 		
 		if(time_capsule_read == Integer.MIN_VALUE) time_capsule_read = 0;
-		int tc_id = new_time_capsule.getMessage_id();
+		int tc_id = new_time_capsule.getMessageId();
 		
 		if(time_capsule_id_hash.contains(tc_id)) return -1;
 		else {

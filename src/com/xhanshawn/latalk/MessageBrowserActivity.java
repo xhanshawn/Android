@@ -97,9 +97,9 @@ public class MessageBrowserActivity extends Activity {
 		else{
 			
 			LatalkMessage message = messages.get(0);
-			String message_content = "message_type: " + message.getMessage_type() + "\nContent: "
+			String message_content = "message_type: " + message.getMessageType() + "\nContent: "
 					+ message.getContent() + "\nLatitude: " + message.getLatitude() + "\nLongitude: "
-					+ message.getLongitude() + "\nUser: " + message.getUser_name() + "\nHold Time:"
+					+ message.getLongitude() + "\nUser: " + message.getUserName() + "\nHold Time:"
 					+ message.getHold_time();
 			message_textview.setText(message_content);
 		}

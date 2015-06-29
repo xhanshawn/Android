@@ -103,7 +103,7 @@ public class LatalkItemAdapter extends BaseAdapter {
 //		LinearLayout ll = (LinearLayout) row.findViewById(R.id.latalk_item_ll);
 
 		tv_content.setText(message.getContent());
-		tv_user_name.setText(message.getUser_name());
+		tv_user_name.setText(message.getUserName());
 		tv_hold_time.setText(String.valueOf(message.getHold_time()));
 		if(type == 1) {
 			

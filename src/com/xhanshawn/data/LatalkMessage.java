@@ -23,6 +23,8 @@ public class LatalkMessage {
 	private boolean isLocationSet;
 	private String pic_url;
 	private int message_id;
+	private int race_num;
+	private LatalkMessage start;
 	
 	
 	public LatalkMessage(){
@@ -30,11 +32,11 @@ public class LatalkMessage {
 		isLocationSet = false;
 	}
 
-	public String getMessage_type() {
+	public String getMessageType() {
 		return message_type;
 	}
 
-	public void setMessage_type(String message_type) {
+	public void setMessageType(String message_type) {
 		this.message_type = message_type;
 	}
 
@@ -72,11 +74,11 @@ public class LatalkMessage {
 		this.latitude = latitude;
 	}
 
-	public String getUser_name() {
+	public String getUserName() {
 		return user_name;
 	}
 
-	public void setUser_name(String user_name) {
+	public void setUserName(String user_name) {
 		this.user_name = user_name;
 	}
 	
@@ -105,11 +107,11 @@ public class LatalkMessage {
 	}
 	
 	
-	public int getMessage_id() {
+	public int getMessageId() {
 		return message_id;
 	}
 
-	public void setMessage_id(int message_id) {
+	public void setMessageId(int message_id) {
 		this.message_id = message_id;
 	}
 
@@ -123,6 +125,22 @@ public class LatalkMessage {
 		return !(pic_url == null || pic_url == "" || pic_url == "null");
 	}
 	
+	public void setRaceNum(int num) {
+		this.race_num = num;
+	}
+	
+	public int getRaceNum() {
+		return this.race_num;
+	}
+	
+	public void setStart(LatalkMessage start){
+		this.start = start;
+	}
+	
+	public LatalkMessage getStart(){
+		return this.start;
+	}
+	
 	public static LatalkMessage parseJSON(JSONObject obj){
 		
 		if(obj == null) return null;
@@ -130,13 +148,13 @@ public class LatalkMessage {
 		
 		try {
 			
-			message.setMessage_type(obj.getString("message_type"));
+			message.setMessageType(obj.getString("message_type"));
 			message.setContent(obj.getString("content"));
 			message.setLatitude(Float.valueOf(obj.getString("latitude")));
 			message.setLongitude(Float.valueOf(obj.getString("longitude")));
 			message.setHold_time(obj.getLong("hold_time"));
-			message.setUser_name(obj.getString("user_name"));
-			message.setMessage_id(obj.getInt("id"));
+			message.setUserName(obj.getString("user_name"));
+			message.setMessageId(obj.getInt("id"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

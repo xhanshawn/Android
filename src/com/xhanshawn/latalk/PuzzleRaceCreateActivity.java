@@ -15,9 +15,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.xhanshawn.data.LatalkMessage;
+import com.xhanshawn.data.UserAccount;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.util.LocationInfoFactory;
+import com.xhanshawn.util.MessagePostFactory;
 import com.xhanshawn.view.ImageDragShadowBuilder;
 import com.xhanshawn.view.ResizeAnimation;
 
@@ -29,6 +31,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.DragEvent;
@@ -60,6 +63,7 @@ public class PuzzleRaceCreateActivity extends Activity {
 	private ActionBar mActionBar;
 	private GridView attached_pic_pr_gv;
 	private ArrayList<LatalkMessage> race_puzzles = new ArrayList<LatalkMessage>();
+	private ArrayList<LatalkMessage> pined_puzzles = new ArrayList<LatalkMessage>();
 	private GoogleMap puzzle_race_map;
 	private PuzzleGridAdapter pg_adapter;
 	private boolean add_marker_enabled;
@@ -71,6 +75,8 @@ public class PuzzleRaceCreateActivity extends Activity {
 	private int screen_height;
 	private FrameLayout p_r_c_map_fl;
 	private LatLng last_pin;
+	private int puzzle_num = 0;;
+	
 //	private Routing routing;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +116,11 @@ public class PuzzleRaceCreateActivity extends Activity {
 			LatLng current_lat_lng = new LatLng(current_location.getLatitude() ,
 					current_location.getLongitude());
 			
-			puzzle_race_map.addMarker(new MarkerOptions()
-	        .position(current_lat_lng)
-	        .title("My Position")
-	        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-			
+//			puzzle_race_map.addMarker(new MarkerOptions()
+//	        .position(current_lat_lng)
+//	        .title("My Position")
+//	        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+//			
 			CameraUpdate current_update = CameraUpdateFactory.newLatLngZoom(current_lat_lng, 16);
 			puzzle_race_map.animateCamera(current_update);
 		}
@@ -135,12 +141,29 @@ public class PuzzleRaceCreateActivity extends Activity {
 				// TODO Auto-generated method stub
 				
 				if(add_marker_enabled) {
+					String marker_str = " " + ++puzzle_num;
 					MarkerOptions marker = new MarkerOptions().position(
-	                        new LatLng(point.latitude, point.longitude)).title("New Marker");
+	                        new LatLng(point.latitude, point.longitude))
+	                        .title(marker_str)
+	                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+;
 
 					puzzle_race_map.addMarker(marker);
 					add_marker_enabled = false;
+					LatalkMessage next_puzzle = pg_adapter.getItem(current_img_position);
+					
+
+					if(next_puzzle != null) {
+						next_puzzle.setMessageType("Puzzle");
+						next_puzzle.setLatitude((float)point.latitude);
+						next_puzzle.setLongitude((float)point.longitude);
+						next_puzzle.setUserName(UserAccount.getCurrentUserName());
+						next_puzzle.setHold_time(86400000000l);
+						next_puzzle.setRaceNum(puzzle_num);
+						pined_puzzles.add(next_puzzle);
+					}
 					pg_adapter.removeItem(current_img_position);
+					
 					if(last_pin != null) {
 						Routing routing = new Routing(Routing.TravelMode.WALKING);
 						routing.registerListener(new RoutingListener() {
@@ -160,7 +183,8 @@ public class PuzzleRaceCreateActivity extends Activity {
 									Route route) {
 								// TODO Auto-generated method stub
 								PolylineOptions polyoptions = new PolylineOptions();
-						        polyoptions.color(Color.BLUE);
+						        
+								polyoptions.color(getResources().getColor(R.color.blue));
 						        polyoptions.width(10);
 						        polyoptions.addAll(mPolyOptions.getPoints());
 						        puzzle_race_map.addPolyline(polyoptions);
@@ -323,144 +347,173 @@ public class PuzzleRaceCreateActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
+				new MessagePoster().execute("PostRace");
 				PuzzleRaceCreateActivity.this.finish();
 			}
 		});
 	    
 	}
 	
-	 class PuzzleGridAdapter extends BaseAdapter{
-			Context context;
-			ArrayList<LatalkMessage> puzzles = new ArrayList<LatalkMessage>();
+	public class MessagePoster extends AsyncTask<String, Void, String> {
 
-			public PuzzleGridAdapter(Context context, ArrayList<LatalkMessage> data){
-				
-				this.context = context;
-				this.puzzles = data;
-				add_marker_enabled = false;
-			}
-			
-			public void removeItem(int current_img_position) {
-				
-				puzzles.remove(current_img_position);
-				PuzzleGridAdapter.this.notifyDataSetChanged();
-			}
-
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return (puzzles.size() + 1 <= 8) ? puzzles.size() + 1 : 8;
-			}
-
-			@Override
-			public Object getItem(int position) {
-				// TODO Auto-generated method stub
-				if(position<puzzles.size()) return puzzles.get(position);
-				else return null;
-			}
-
-			@Override
-			public long getItemId(int position) {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				// TODO Auto-generated method stub
-				ViewHolder holder = null;
-				
-				if(convertView == null) {
-					LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-					holder = new ViewHolder();
-					
-					convertView = inflater.inflate(R.layout.puzzle_img_grid_item, parent, false);
-					if(position<puzzles.size()) {
-						holder.num_icon = (TextView) convertView.findViewById(R.id.img_num_grey_icon);
-						holder.close_icon = (ImageView) convertView.findViewById(R.id.puzzle_r_c_close_icon);
-					}
-					holder.puzzle_iv = (ImageView) convertView.findViewById(R.id.puzzle_img_grid_iv);
-					convertView.setTag(holder);
-				}else {
-					holder = (ViewHolder) convertView.getTag();
-				}
-				if(position < puzzles.size()) {
-					if(holder.num_icon != null) {
-						int num = position + 1;
-						holder.num_icon.setText("" + num);
-						holder.num_icon.setBackgroundResource(R.drawable.img_num_blue_icon);
-					}
-					if(holder.close_icon != null) {
-						holder.close_icon.setBackgroundResource(R.drawable.tiny_close_icon);
-						holder.close_icon.setTag(position);
-						holder.close_icon.setOnClickListener(new View.OnClickListener() {
-							
-							@Override
-							public void onClick(View v) {
-								// TODO Auto-generated method stub
-								ImageView iv = (ImageView) v;
-								int position = (Integer) iv.getTag();
-								pg_adapter.removeItem(position);
-							}
-						});
-					}
-					holder.puzzle_iv.setTag(position);
-					holder.puzzle_iv.setImageBitmap(puzzles.get(position).getAttahedPic());
-					holder.puzzle_iv.setOnClickListener(new View.OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							if (current_iv != null) current_iv.setBackgroundResource(R.color.transparent);
-							current_iv = (ImageView) v;
-							current_iv.setBackgroundResource(R.color.blue);
-							add_marker_enabled = true;
-							current_img_position = (Integer) current_iv.getTag();;
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			if(params[0].equals("PostRace")){
+				if(pined_puzzles.size() > 0) {
+					LatalkMessage start = pined_puzzles.get(0);
+					start.setStart(start);
+					MessagePostFactory.postLatalkMessage(start);
+					if(pined_puzzles.size() > 1) {
+						for(int i = 1; i < pined_puzzles.size(); i++) {
+							LatalkMessage message = pined_puzzles.get(i);
+							message.setStart(start);
+							MessagePostFactory.postLatalkMessage(message);
 						}
-					});
-					
-				}
-				
-				if(position == puzzles.size() && position < 8) {
-					
-					if(holder.num_icon != null) {
-						
-						holder.num_icon.setText("");
-						holder.num_icon.setBackgroundResource(R.color.transparent);
 					}
-					
-					if(holder.close_icon != null) holder.close_icon.setBackgroundResource(R.color.transparent);
-					
-					holder.puzzle_iv.setImageResource(R.drawable.loading_picture);
-					holder.puzzle_iv.setOnClickListener(new View.OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							Intent puzzle_create_activity = new Intent("com.xhanshawn.latalk.PUZZLECREATEACTIVITY");
-							puzzle_create_activity.putExtra("Img_src", IntegerIdentifiers.ATTACH_IMG_FROM_GAL);
-							startActivityForResult(puzzle_create_activity, IntegerIdentifiers.PASS_PUZZLES);
-						}
-					});
 				}
-				
-				return convertView;
 			}
 			
 			
-			@Override
-			public void notifyDataSetChanged() {
-				// TODO Auto-generated method stub
-				super.notifyDataSetChanged();
-				if(current_iv != null) current_iv.setBackgroundResource(R.color.transparent);
-			}
-
-
-			class ViewHolder{
-				TextView num_icon;
-				ImageView puzzle_iv;
-				ImageView close_icon;
-			}
+			return null;
 		}
+		
+	}
+	
+	
+	class PuzzleGridAdapter extends BaseAdapter{
+		Context context;
+		ArrayList<LatalkMessage> puzzles = new ArrayList<LatalkMessage>();
+
+		public PuzzleGridAdapter(Context context, ArrayList<LatalkMessage> data){
+			
+			this.context = context;
+			this.puzzles = data;
+			add_marker_enabled = false;
+		}
+		
+		public void removeItem(int current_img_position) {
+			
+			puzzles.remove(current_img_position);
+			PuzzleGridAdapter.this.notifyDataSetChanged();
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return (puzzles.size() + 1 <= 8) ? puzzles.size() + 1 : 8;
+		}
+
+		@Override
+		public LatalkMessage getItem(int position) {
+			// TODO Auto-generated method stub
+			if(position<puzzles.size()) return puzzles.get(position);
+			else return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			ViewHolder holder = null;
+			
+			if(convertView == null) {
+				LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+				holder = new ViewHolder();
+				
+				convertView = inflater.inflate(R.layout.puzzle_img_grid_item, parent, false);
+				if(position<puzzles.size()) {
+					holder.num_icon = (TextView) convertView.findViewById(R.id.img_num_grey_icon);
+					holder.close_icon = (ImageView) convertView.findViewById(R.id.puzzle_r_c_close_icon);
+				}
+				holder.puzzle_iv = (ImageView) convertView.findViewById(R.id.puzzle_img_grid_iv);
+				convertView.setTag(holder);
+			}else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+			if(position < puzzles.size()) {
+				if(holder.num_icon != null) {
+					int num = position + 1;
+					holder.num_icon.setText("" + num);
+					holder.num_icon.setBackgroundResource(R.drawable.img_num_blue_icon);
+				}
+				if(holder.close_icon != null) {
+					holder.close_icon.setBackgroundResource(R.drawable.tiny_close_icon);
+					holder.close_icon.setTag(position);
+					holder.close_icon.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							ImageView iv = (ImageView) v;
+							int position = (Integer) iv.getTag();
+							pg_adapter.removeItem(position);
+						}
+					});
+				}
+				holder.puzzle_iv.setTag(position);
+				holder.puzzle_iv.setImageBitmap(puzzles.get(position).getAttahedPic());
+				holder.puzzle_iv.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if (current_iv != null) current_iv.setBackgroundResource(R.color.transparent);
+						current_iv = (ImageView) v;
+						current_iv.setBackgroundResource(R.color.blue);
+						add_marker_enabled = true;
+						current_img_position = (Integer) current_iv.getTag();;
+					}
+				});
+				
+			}
+			
+			if(position == puzzles.size() && position < 8) {
+				
+				if(holder.num_icon != null) {
+					
+					holder.num_icon.setText("");
+					holder.num_icon.setBackgroundResource(R.color.transparent);
+				}
+				
+				if(holder.close_icon != null) holder.close_icon.setBackgroundResource(R.color.transparent);
+				
+				holder.puzzle_iv.setImageResource(R.drawable.loading_picture);
+				holder.puzzle_iv.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Intent puzzle_create_activity = new Intent("com.xhanshawn.latalk.PUZZLECREATEACTIVITY");
+						puzzle_create_activity.putExtra("Img_src", IntegerIdentifiers.ATTACH_IMG_FROM_GAL);
+						startActivityForResult(puzzle_create_activity, IntegerIdentifiers.PASS_PUZZLES);
+					}
+				});
+			}
+			
+			return convertView;
+		}
+		
+		
+		@Override
+		public void notifyDataSetChanged() {
+			// TODO Auto-generated method stub
+			super.notifyDataSetChanged();
+			if(current_iv != null) current_iv.setBackgroundResource(R.color.transparent);
+		}
+
+
+		class ViewHolder{
+			TextView num_icon;
+			ImageView puzzle_iv;
+			ImageView close_icon;
+		}
+	}
 
 }

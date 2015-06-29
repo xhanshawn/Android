@@ -8,12 +8,15 @@ import java.io.UnsupportedEncodingException;
 
 import javax.imageio.ImageIO;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,8 +48,13 @@ public class MessagePostFactory {
 		
 		try {
 			JSONObject message_json = new JSONObject();
-			message_json.put("message_type",message.getMessage_type());
+			message_json.put("message_type",message.getMessageType());
 			message_json.put("content",message.getContent());
+			
+			if(message.getMessageType().equals("Puzzle")) {
+				message_json.put("race_num", message.getRaceNum());
+				message_json.put("start_id", message.getStart().getMessageId());
+			}
 			
 			if(message.isLocationSet()){
 				message_json.put("longitude",String.format("%.06f", message.getLongitude()));
@@ -57,7 +65,7 @@ public class MessagePostFactory {
 			}
 			
 			message_json.put("hold_time",message.getHold_time());
-			message_json.put("user_name", message.getUser_name());
+			message_json.put("user_name", message.getUserName());
 			if(message.getAttahedPic() != null) {
 				message_json.put("image", "data:image/jpg;base64," + parseToBase64String(message.getAttahedPic()));;
 			}
@@ -68,7 +76,11 @@ public class MessagePostFactory {
 			StringEntity entity = new StringEntity(json.toString(), "UTF-8");
 			post.setEntity(entity);
 			HttpResponse response = client.execute(post);
-			
+			HttpEntity res_entity = response.getEntity();
+			String data = EntityUtils.toString(res_entity);
+			JSONObject attrs = new JSONObject(data);
+			message.setMessageId(attrs.getInt("id"));
+			return true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,11 +99,7 @@ public class MessagePostFactory {
 			
 			
 	
-		
-		
-		
-		return true;
-		
+		return false;
 	}
 	
 	public static boolean postImage(String url){

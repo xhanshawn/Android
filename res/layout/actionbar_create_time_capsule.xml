@@ -5,10 +5,13 @@
     android:background="@color/pink"
     >
     <Button 
-       	android:layout_width="40dp"
-        android:layout_height="35dp"
+       	android:layout_width="35dp"
+        android:layout_height="30dp"
         android:background="@drawable/white_back_icon"
         android:id="@+id/c_t_to_main_b"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="3dp"
         />
     <TextView 
  	    android:layout_width="fill_parent"
