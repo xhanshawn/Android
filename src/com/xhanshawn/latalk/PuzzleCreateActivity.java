@@ -172,7 +172,7 @@ public class PuzzleCreateActivity extends Activity {
 		mActionBar = getActionBar();
 		mActionBar.show();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflater.inflate(R.layout.actionbar_puzzle_race_create,null);
+		View v = inflater.inflate(R.layout.actionbar_color_with_text,null);
 		
 		mActionBar.setDisplayShowCustomEnabled(true);
 

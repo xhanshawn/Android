@@ -2,29 +2,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:id="@+id/tc_bottom_rl"
     tools:context="${relativePackage}.${activityClass}" >
-	
+    <ImageButton 
+            android:id="@+id/map_switch_ib"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/map_switch_icon"
+          	android:layout_gravity="right"
+          	android:layout_alignParentTop="true"
+          	android:layout_alignParentRight="true"
+          	android:scaleType="fitXY"
+	    	android:adjustViewBounds="true"
+	    	android:background="@color/milk"
+            />
     <LinearLayout
+        android:id="@+id/tc_panel_ll"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10px"
-        android:layout_marginRight="10px"
-	    android:background="@color/milk"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/map_switch_ib"
         >
-        <LinearLayout
-            android:id="@+id/time_capsule_ll"
+        
+        
+        <RelativeLayout
+            android:id="@+id/time_capsule_rl"
             android:layout_height="match_parent"
 	    	android:layout_width="match_parent"
 	    	android:paddingLeft="5px"
 	    	android:paddingRight="5px"
             >
+            <ImageView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/tc_panel_top"
+                />
             <ImageView
-	    	android:id="@+id/time_capsule_pic1_iv"
-	    	android:layout_height="match_parent"
-	    	android:layout_width="match_parent"
-	    	/>
-        </LinearLayout>
+	    		android:id="@+id/time_capsule_pic1_iv"
+	    		android:layout_height="match_parent"
+	    		android:layout_width="match_parent"
+	    		android:adjustViewBounds="true"
+	    		android:layout_above="@+id/tc_panel_bot_bar"
+	    		/>
+            
+            <ImageView 
+                android:id="@+id/tc_panel_bot_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/tc_panel_bot"
+                />
+        </RelativeLayout>
         
 	    
 	
@@ -43,5 +77,6 @@
         
     </LinearLayout>
 	
+
 	
 </RelativeLayout>

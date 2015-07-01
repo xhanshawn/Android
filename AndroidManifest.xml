@@ -132,7 +132,8 @@
         </activity>
         <activity
             android:name=".TimeCapsuleActivity"
-            android:label="@string/title_activity_time_capsule" >
+            android:label="@string/title_activity_time_capsule"
+            android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.TIMECAPSULEACTIVITY" />
 
@@ -174,15 +175,27 @@
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.PUZZLECREATEACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".CustomGalleryActivity"
             android:label="@string/title_activity_custom_gallery"
-    		android:theme="@style/CustomActionBarTheme" >
+            android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.CUSTOMGALLERYACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TimeCapsuleMapActivity"
+            android:label="@string/title_activity_time_capsule_map" 
+			android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.TIMECAPSULEMAPACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

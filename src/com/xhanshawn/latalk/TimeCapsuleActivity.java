@@ -2,13 +2,21 @@ package com.xhanshawn.latalk;
 
 import java.util.ArrayList;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.xhanshawn.data.LatalkMessage;
+import com.xhanshawn.latalk.PuzzleRaceCreateActivity.MessagePoster;
 import com.xhanshawn.util.AlertMessageFactory;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -17,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +33,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -43,18 +53,27 @@ public class TimeCapsuleActivity extends Activity {
 	private int read_num = 0 ;
 	private int request_num;
 	ImageView tc_pic1_iv;
-	ImageView tc_pic2_iv;
 	Handler radar_handler1;
 	Handler radar_handler2;
 	Runnable radar_cir_1;
 	TextView tc_txt_tv;
 	
 	AnimationSet radar;
+	GoogleMap time_c_map;
+	ActionBar mActionBar;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_time_capsule);
-		getActionBar().hide();
+		customActionBar();
+		
+		LocationInfoFactory location_info_f = new LocationInfoFactory(TimeCapsuleActivity.this);
+		Location current_location = location_info_f.getCurrentLocation();
+		
+		
+		
+		
 		
 		tc_pic1_iv = (ImageView) findViewById(R.id.time_capsule_pic1_iv);
 		tc_pic1_iv.setImageResource(R.drawable.radar_circle_purple);
@@ -68,6 +87,18 @@ public class TimeCapsuleActivity extends Activity {
 		radar_search.setDuration(1800);
 		radar.addAnimation(radar_search);
 		
+		ImageButton tc_map_switch_ib = (ImageButton) findViewById(R.id.map_switch_ib);
+		tc_map_switch_ib.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent tc_map_activity = new Intent("com.xhanshawn.latalk.TIMECAPSULEMAPACTIVITY");
+				startActivity(tc_map_activity);
+			}
+		});
+		
+		
 		Button search_b = (Button) findViewById(R.id.radar_search_b);
 		search_b.setOnClickListener(new View.OnClickListener() {
 			
@@ -78,7 +109,7 @@ public class TimeCapsuleActivity extends Activity {
 				
 			}
 		});
-		
+
 		updateCurrentTimeCapsule();
 		new TimeCapsuleGetter().execute(UPDATE_FIRST);
 		
@@ -89,10 +120,51 @@ public class TimeCapsuleActivity extends Activity {
 		Point size = new Point();
 		display.getSize(size);
 		int width = size.x;
-		LinearLayout time_capsule_ll = (LinearLayout) findViewById(R.id.time_capsule_ll);
-		time_capsule_ll.setLayoutParams(new LinearLayout.LayoutParams(width, width));
+		RelativeLayout time_capsule_ll = (RelativeLayout) findViewById(R.id.time_capsule_rl);
+//		time_capsule_ll.setLayoutParams(new LinearLayout.LayoutParams(width, width));
 	}
 	
+	
+	private void customActionBar(){
+		
+		
+		mActionBar = getActionBar();
+		mActionBar.show();
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.actionbar_color_with_img,null);
+		
+		mActionBar.setDisplayShowCustomEnabled(true);
+
+		mActionBar.setCustomView(v);
+	    mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.purple));
+
+		Button back_to_main_b = (Button) v.findViewById(R.id.c_p_r_to_main_b);
+	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TimeCapsuleActivity.this.finish();
+			}
+		});
+	    
+	    ImageButton tc_map_switch_b = (ImageButton) v.findViewById(R.id.color_ab_ib);
+	    tc_map_switch_b.setImageResource(R.drawable.map_switch_icon);
+	    tc_map_switch_b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				Intent tc_map_activity = new Intent("com.xhanshawn.latalk.TIMECAPSULEMAPACTIVITY");
+				startActivity(tc_map_activity);
+			}
+		});
+	    
+	    TextView banner_tv = (TextView) findViewById(R.id.actionbar_color_banner);
+	    banner_tv.setText("Time Capsule");
+	    
+	}
 	
 	private void searchRadar(){
 		

@@ -88,7 +88,7 @@
 			    android:textColor="@color/white"
 			    android:textSize="20dp" />
 	    	
-	    	<Button
+	    	<ImageButton
 	    	    android:id="@+id/message_browser_button"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
@@ -96,9 +96,10 @@
 	    	    android:layout_marginBottom="20dp"
 	    	    android:layout_centerHorizontal="true"
 	    	    android:background="@drawable/purple_round_b"
-	    	    android:text="browser"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="20dp" />
+	    	    android:src="@drawable/time_capsule_map_icon"
+	    	   	android:scaleType="fitXY"
+	    	   	android:adjustViewBounds="true"
+	    	    />
 
 
 			<Button

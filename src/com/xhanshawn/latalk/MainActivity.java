@@ -177,14 +177,17 @@ public class MainActivity extends Activity {
 		
 		
 		
-		Button message_browser_button = (Button) findViewById(R.id.message_browser_button);
-		message_browser_button.setOnClickListener(new View.OnClickListener() {
+		ImageButton tc_browser_button = (ImageButton) findViewById(R.id.message_browser_button);
+		image_buttons.add(tc_browser_button);
+		tc_browser_button.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent message_browser_activity = new Intent("com.xhanshawn.latalk.MESSAGEBROWSERACTIVITY");
-				startActivity(message_browser_activity);
+				Intent tc_browser_activity = new Intent("com.xhanshawn.latalk.TIMECAPSULEACTIVITY");
+				AnimationFactory anim_factory = new AnimationFactory();
+				anim_factory.scaleButtonAndOpenActivity((ImageButton)v, 
+						tc_browser_activity, MainActivity.this);
 			}
 		});
 		
@@ -212,7 +215,7 @@ public class MainActivity extends Activity {
 		
 		for(ImageButton ib : image_buttons) {
 
-			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) create_message_button.setAlpha(255);
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) ib.setAlpha(255);
 			else ib.setImageAlpha(255);
 		}
 	}

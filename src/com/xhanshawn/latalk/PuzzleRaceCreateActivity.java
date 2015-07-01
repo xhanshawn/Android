@@ -324,12 +324,13 @@ public class PuzzleRaceCreateActivity extends Activity {
 		mActionBar = getActionBar();
 		mActionBar.show();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflater.inflate(R.layout.actionbar_puzzle_race_create,null);
+		View v = inflater.inflate(R.layout.actionbar_color_with_text,null);
 		
 		mActionBar.setDisplayShowCustomEnabled(true);
 
 		mActionBar.setCustomView(v);
-	    
+	    mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue));
+
 		Button back_to_main_b = (Button) v.findViewById(R.id.c_p_r_to_main_b);
 	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
 			
@@ -353,6 +354,8 @@ public class PuzzleRaceCreateActivity extends Activity {
 			}
 		});
 	    
+	    TextView banner_tv = (TextView) findViewById(R.id.actionbar_color_banner);
+	    banner_tv.setText("Puzzle Race");
 	}
 	
 	public class MessagePoster extends AsyncTask<String, Void, String> {
