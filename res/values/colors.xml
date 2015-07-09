@@ -2,7 +2,7 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="lite_white">#F4F4F4</color>
-    <color name="very_lite_white">#FCFCFC</color>
+    <color name="very_lite_white">#FDFDFD</color>
     <color name="grey">#B5B5B5</color>
     <color name="dark_grey">#7F7F7F</color>
     <color name="milk">#FAF0E6</color>
@@ -13,4 +13,5 @@
 	<color name="pink">#FFB8DB</color>
 	<color name="blue">#4DDBFF</color>
 	<color name="purple">#CC66FF</color>
+	<color name="green">#66FF99</color>
 </resources>

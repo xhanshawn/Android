@@ -25,7 +25,11 @@ public class LatalkMessage {
 	private int message_id;
 	private int race_num;
 	private LatalkMessage start;
-	
+	private String thumb_url;
+	private String small_thumb_url;
+	private Bitmap thumb_pic = null;
+	private Bitmap small_thumb_pic = null;
+
 	
 	public LatalkMessage(){
 		
@@ -141,6 +145,38 @@ public class LatalkMessage {
 		return this.start;
 	}
 	
+	public String getThumbRrl() {
+		return thumb_url;
+	}
+
+	public void setThumbUrl(String thumb_url) {
+		this.thumb_url = thumb_url;
+	}
+
+	public String getSmallThumbUrl() {
+		return small_thumb_url;
+	}
+
+	public void setSmallThumbUrl(String small_thumb_url) {
+		this.small_thumb_url = small_thumb_url;
+	}
+
+	public Bitmap getThumbPic() {
+		return thumb_pic;
+	}
+
+	public void setThumbPic(Bitmap thumb_pic) {
+		this.thumb_pic = thumb_pic;
+	}
+
+	public Bitmap getSmallThumbPic() {
+		return small_thumb_pic;
+	}
+
+	public void setSmallThumbPic(Bitmap small_thumb_pic) {
+		this.small_thumb_pic = small_thumb_pic;
+	}
+
 	public static LatalkMessage parseJSON(JSONObject obj){
 		
 		if(obj == null) return null;

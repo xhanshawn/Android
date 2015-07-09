@@ -61,6 +61,7 @@ public class TimeCapsuleActivity extends Activity {
 	AnimationSet radar;
 	GoogleMap time_c_map;
 	ActionBar mActionBar;
+	LocationInfoFactory location_info;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +69,8 @@ public class TimeCapsuleActivity extends Activity {
 		setContentView(R.layout.activity_time_capsule);
 		customActionBar();
 		
-		LocationInfoFactory location_info_f = new LocationInfoFactory(TimeCapsuleActivity.this);
-		Location current_location = location_info_f.getCurrentLocation();
-		
-		
-		
-		
+		location_info = new LocationInfoFactory(TimeCapsuleActivity.this);
+
 		
 		tc_pic1_iv = (ImageView) findViewById(R.id.time_capsule_pic1_iv);
 		tc_pic1_iv.setImageResource(R.drawable.radar_circle_purple);
@@ -138,7 +135,7 @@ public class TimeCapsuleActivity extends Activity {
 		mActionBar.setCustomView(v);
 	    mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.purple));
 
-		Button back_to_main_b = (Button) v.findViewById(R.id.c_p_r_to_main_b);
+		Button back_to_main_b = (Button) v.findViewById(R.id.color_ab_back_b);
 	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -220,7 +217,8 @@ public class TimeCapsuleActivity extends Activity {
 		}
 		
 	}
-	public class TimeCapsuleGetter extends AsyncTask<Integer, Void, Integer> {
+	
+	class TimeCapsuleGetter extends AsyncTask<Integer, Void, Integer> {
 		LatalkMessage first_message = null;
 		
 		@Override
@@ -230,13 +228,17 @@ public class TimeCapsuleActivity extends Activity {
 			switch (params[0]) {
 			
 				case GET_TIMECAPSILE: {
+					runOnUiThread(new Runnable(){
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							
+							}
+					});
 					
-					LocationInfoFactory location_info = new LocationInfoFactory(TimeCapsuleActivity.this);
 					Location current_location = location_info.getCurrentLocation();
-					
-					
-					
-					messages.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location));
+					messages.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location, 1.0f));
 					
 					break;
 				}

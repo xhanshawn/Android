@@ -47,13 +47,13 @@ public class MessageGetFactory {
 		return getMessages(url);
 	}
 	
-	public static ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location){
+	public static ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location, float radius_level){
 	
 		
 		ArrayList<LatalkMessage> messages = null;
-		float offset = 0.000002f;
+		float offset = 0.000002f * radius_level;
 		
-		while(messages == null){
+		while(messages == null || messages.isEmpty()){
 			
 				
 				
@@ -67,7 +67,7 @@ public class MessageGetFactory {
 				longitude = (float) current_location.getLongitude();
 				latitude = (float) current_location.getLatitude();
 				
-				url += "&offset=" + offset;
+				url += "&offset=" + String.format("%.06f", offset);
 			}
 			
 			url += "&longitude=" + String.format("%.06f", longitude)
@@ -77,10 +77,10 @@ public class MessageGetFactory {
 			messages = getMessages(url);
 
 			if(offset < 0.000008) offset += 0.000002f;
-			if(offset >= 0.000008) offset += 0.00001f;
-			if(offset >= 0.000048) offset += 0.0001f;
-			if(offset >= 0.000148) offset += 0.001f;
-			if(offset >= 0.001148) break;
+			else if(offset < 0.000048) offset += 0.00001f;
+			else if(offset < 0.000148) offset += 0.0001f;
+			else if(offset < 0.001148) offset += 0.001f;
+			else break;
 		}
 		
 		return messages;
@@ -121,11 +121,17 @@ public class MessageGetFactory {
 				for(int i=0; i<messages.length(); i++){
 					message_json = messages.getJSONObject(i);
 					int id = message_json.getInt("id");
-					String img_url = getImageUrl(id);
+					String img_url = message_json.getString("image_url");
+					String thumb_url = message_json.getString("thumb_url");
+					String small_thumb_url = message_json.getString("small_thumb_url");
+					
 //					Bitmap attached_pic = null;
 //					if(img_url != null && img_url != "") attached_pic = getImage(img_url);
 					LatalkMessage new_message = LatalkMessage.parseJSON(message_json);
+					
 					new_message.setPicUrl(img_url);
+					new_message.setThumbUrl(thumb_url);
+					new_message.setSmallThumbUrl(small_thumb_url);
 //					new_message.setAttachedPic(attached_pic);
 					
 					DataPassCache.cacheTimeCapsule(new_message);

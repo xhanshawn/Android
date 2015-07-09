@@ -36,29 +36,27 @@
 			    android:layout_width="100dp"
 			    android:layout_height="100dp"
 			    android:layout_below="@+id/create_message_button"
-			    android:layout_toRightOf="@+id/reserved_button3"
-			    android:background="@drawable/deep_blue_round_b"
+			    android:layout_toRightOf="@+id/r3_ib"
+			    android:background="@drawable/yellow_round_b"
 			    android:text="R6"
 			    android:textColor="@color/white"
 			    android:textSize="20dp" />
-	    	<Button
-	    	    android:id="@+id/reserved_button3"
+	    	<ImageButton
+	    	    android:id="@+id/r3_ib"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
 	    	    android:layout_below="@+id/latalk_label_b"
 	    	    android:layout_centerHorizontal="true"
 	    	    android:layout_marginTop="20dp"
 	    	    android:background="@drawable/green_round_b"
-	    	    android:text="R3"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="20dp" />
+	    	 	/>
 	    	
 	    	<ImageButton
 			    android:id="@+id/reserved_button5"
 			    android:layout_width="100dp"
 			    android:layout_height="100dp"
 			    android:layout_below="@+id/puzzle_race_c_ib"
-			    android:layout_toLeftOf="@+id/reserved_button3"
+			    android:layout_toLeftOf="@+id/tc_map_ib"
 			    android:background="@drawable/red_round_b"
 			    android:text="R5"
 			    android:textColor="@color/white"
@@ -82,14 +80,14 @@
 			    android:layout_width="100dp"
 			    android:layout_height="100dp"
 			    android:layout_above="@+id/puzzle_race_c_ib"
-			    android:layout_toLeftOf="@+id/message_browser_button"
+			    android:layout_toLeftOf="@+id/tc_map_ib"
 			    android:background="@drawable/orange_round_b"
 			    android:text="R4"
 			    android:textColor="@color/white"
 			    android:textSize="20dp" />
 	    	
 	    	<ImageButton
-	    	    android:id="@+id/message_browser_button"
+	    	    android:id="@+id/tc_map_ib"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
 	    	    android:layout_above="@+id/latalk_label_b"
@@ -107,8 +105,8 @@
 			    android:layout_width="100dp"
 			    android:layout_height="100dp"
 			    android:layout_above="@+id/create_message_button"
-			    android:layout_toRightOf="@+id/message_browser_button"
-			    android:background="@drawable/yellow_round_b"
+			    android:layout_toRightOf="@+id/tc_map_ib"
+			    android:background="@drawable/deep_blue_round_b"
 			    android:text="R2"
 			    android:textColor="@color/white"
 			    android:textSize="20dp" />

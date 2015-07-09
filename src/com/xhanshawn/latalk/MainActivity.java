@@ -177,7 +177,7 @@ public class MainActivity extends Activity {
 		
 		
 		
-		ImageButton tc_browser_button = (ImageButton) findViewById(R.id.message_browser_button);
+		ImageButton tc_browser_button = (ImageButton) findViewById(R.id.tc_map_ib);
 		image_buttons.add(tc_browser_button);
 		tc_browser_button.setOnClickListener(new View.OnClickListener() {
 			

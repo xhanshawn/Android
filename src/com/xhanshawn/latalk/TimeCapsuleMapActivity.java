@@ -1,9 +1,34 @@
 package com.xhanshawn.latalk;
 
+import java.util.ArrayList;
+
+import com.fedorvlasov.lazylist.ImageLoader;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.xhanshawn.data.LatalkMessage;
+import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.IntegerIdentifiers;
+import com.xhanshawn.util.LocationInfoFactory;
+import com.xhanshawn.util.MessageGetFactory;
+
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,17 +39,49 @@ import android.widget.TextView;
 
 
 public class TimeCapsuleMapActivity extends Activity {
+	
 	ActionBar mActionBar;
+	private ArrayList<LatalkMessage> tcs = new ArrayList<LatalkMessage> ();
+	LocationInfoFactory location_info;
+	private int tc_got_num = 0;
+	private int thumb_got_num = 0;
+	private int sml_thumb_num = 0;
 
+	
+	private GoogleMap tc_map;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_time_capsule_map);
 		
 		customActionBar();
+		
+		location_info = new LocationInfoFactory(TimeCapsuleMapActivity.this);
+		Location current_location = location_info.getCurrentLocation();
+		MapFragment map_frag = (MapFragment) getFragmentManager().findFragmentById(R.id.tc_map);
+		
+		tc_map = map_frag.getMap();
+		if(current_location != null) {
+			
+			LatLng current_lat_lng = new LatLng(current_location.getLatitude() ,
+				current_location.getLongitude());
+		
+			CameraUpdate current_update = CameraUpdateFactory.newLatLngZoom(current_lat_lng, 16);
+			tc_map.animateCamera(current_update);
+		}
+	
+		UiSettings puzzle_map_settings = tc_map.getUiSettings();
+		puzzle_map_settings.setZoomControlsEnabled(true);
+		tc_map.setMyLocationEnabled(true);
+		puzzle_map_settings.setCompassEnabled(true);
+		puzzle_map_settings.setZoomGesturesEnabled(true);
+	
+	    new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_TIMECAPSULE);
+
 	}
 	
-private void customActionBar(){
+	private void customActionBar(){
 		
 		
 		mActionBar = getActionBar();
@@ -37,7 +94,7 @@ private void customActionBar(){
 		mActionBar.setCustomView(v);
 	    mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.purple));
 
-		Button back_to_main_b = (Button) v.findViewById(R.id.c_p_r_to_main_b);
+		Button back_to_main_b = (Button) v.findViewById(R.id.color_ab_back_b);
 	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -61,6 +118,79 @@ private void customActionBar(){
 	    
 	    TextView banner_tv = (TextView) findViewById(R.id.actionbar_color_banner);
 	    banner_tv.setText("Time Capsule");
-	    
 	}
+
+	class TimeCapsuleGetter extends AsyncTask<Integer, Void, Integer> {
+
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			// TODO Auto-generated method stub
+			
+			
+			switch (params[0]) {
+			
+				case IntegerIdentifiers.GET_TIMECAPSULE:
+					Location current_location = location_info.getCurrentLocation();
+					tcs.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location, 1.0f));
+//					tcs.addAll(MessageGetFactory.getTimeCapsuleMessages());
+					break;
+					
+				case IntegerIdentifiers.GET_PIC:
+					if(sml_thumb_num < tcs.size()) {
+						for(int i = sml_thumb_num; i < sml_thumb_num; i++) {
+							LatalkMessage message = tcs.get(i);
+							message.setSmallThumbPic(
+									MessageGetFactory.getImage(message.getSmallThumbUrl()));
+							
+						}
+						sml_thumb_num = tcs.size();
+					}
+					
+					break;
+			
+				default: break;
+			
+			}
+			return params[0];
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			
+			switch(result) {
+				case IntegerIdentifiers.GET_TIMECAPSULE:
+					new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_PIC);
+					break;
+				case IntegerIdentifiers.GET_PIC:
+					if(tc_got_num < tcs.size()) {
+						
+						for(int i=tc_got_num; i<tcs.size();i++) {
+							LatalkMessage tc = tcs.get(i);
+							float lng = tc.getLongitude();
+							float lat = tc.getLatitude();
+							Bitmap thumb = tc.getSmallThumbPic();
+							BitmapDescriptor bd = null;
+							if(thumb != null) bd = BitmapDescriptorFactory.fromBitmap(tc.getSmallThumbPic());
+							else bd = BitmapDescriptorFactory.fromResource(R.drawable.loading_picture);
+							MarkerOptions marker = new MarkerOptions().position(
+			                        new LatLng(lat, lng))
+			                        .title("")
+			                        .icon(bd);
+							tc_map.addMarker(marker);
+						}
+						tc_got_num = tcs.size();
+					}
+					
+					break;
+		
+				default: break;
+			}
+			super.onPostExecute(result);
+		}
+		
+		
+		
+	}
+	
 }
