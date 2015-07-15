@@ -128,7 +128,6 @@ public class MessageGetFactory {
 //					Bitmap attached_pic = null;
 //					if(img_url != null && img_url != "") attached_pic = getImage(img_url);
 					LatalkMessage new_message = LatalkMessage.parseJSON(message_json);
-					
 					new_message.setPicUrl(img_url);
 					new_message.setThumbUrl(thumb_url);
 					new_message.setSmallThumbUrl(small_thumb_url);

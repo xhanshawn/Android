@@ -76,7 +76,8 @@
         	android:layout_width="50dp"
         	android:layout_height="match_parent"
         	android:background="@color/transparent"
-        	android:src="@drawable/landscape_grey_icon"
+        	android:src="@drawable/clock_icon_grey"
+        	android:padding="2dp"
         	android:scaleType="fitCenter"
     	    />
     </LinearLayout>
@@ -171,4 +172,5 @@
         >
         
     </RelativeLayout>
+    
 </LinearLayout>

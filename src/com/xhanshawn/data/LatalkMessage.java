@@ -13,6 +13,11 @@ import android.graphics.BitmapFactory;
 
 public class LatalkMessage {
 	
+	final public static float NO_LATITUDE = 91.0f;
+	final public static float NO_LONGITUDE = 181.0f;
+	final public static String TIME_CAPSULE = "TimeCapsule";
+	final public static String PUZZLE = "Puzzle";
+
 	private String message_type;
 	private String content;
 	private long hold_time;

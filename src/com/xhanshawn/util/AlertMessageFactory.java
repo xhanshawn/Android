@@ -38,4 +38,14 @@ public class AlertMessageFactory {
 		String message = "Your Android system version is too low. You have to add picture one by one!";
 		return message;
 	}
+	
+	public static String pickHoldTime(){
+		String message = "We will keep your Time Casule until the time you pick.";
+		return message;
+	}
+	
+	public static String postFailed(){
+		String message = "Post message failed. Please check your networks or Server is not available.";
+		return message;
+	}
 }
