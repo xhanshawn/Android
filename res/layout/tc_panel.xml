@@ -2,17 +2,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@drawable/tc_round_panel"
     >
     
     <ImageView 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tc_iv"
-        android:layout_margin="5dp"
         android:layout_alignParentTop="true"
+        android:paddingTop="15dp"
+        />
+	<RelativeLayout 
+    	    android:layout_width="match_parent"
+    	    android:layout_height="match_parent"
+    	    android:layout_below="@+id/tc_iv"
+    	    android:id="@+id/tc_c_panel_rl"
+    	    android:layout_alignParentBottom="true"
+    	    >
+    	    <ImageView
+        android:layout_width="50dp" 
+        android:layout_height="50dp"
+        android:id="@+id/like_iv"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/camera_icon_grey"
         android:adjustViewBounds="true"
         android:background="@color/white"
         />
-	
+    	<TextView 
+        android:layout_width="wrap_content" 
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/white"
+        android:id="@+id/tc_tv"
+        />
+    	<ImageView 
+        android:layout_width="50dp" 
+        android:layout_height="50dp"
+        android:adjustViewBounds="true"
+        android:layout_toLeftOf="@+id/like_iv"
+        android:src="@drawable/camera_icon_grey"
+        android:background="@color/white"
+        />
+    	    
+    	</RelativeLayout>
 </RelativeLayout>

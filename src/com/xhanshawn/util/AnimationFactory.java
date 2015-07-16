@@ -127,4 +127,28 @@ public class AnimationFactory {
 //		animation.setFillAfter(true);
 		v.startAnimation(animation);
 	}
+	
+	public static void scaleImageButtonDown(View v) {
+		AnimationSet set = new AnimationSet(true);
+		ScaleAnimation scale = new ScaleAnimation(
+				1.0f,0.85f,1.0f,0.85f,
+				Animation.RELATIVE_TO_SELF,0.5f,
+				Animation.RELATIVE_TO_SELF,0.5f);
+		scale.setDuration(100);
+		set.addAnimation(scale);
+		set.setFillAfter(true);
+		v.startAnimation(set);
+	}
+	
+	public static void scaleImageButtonUp(View v) {
+		AnimationSet set = new AnimationSet(true);
+		ScaleAnimation scale = new ScaleAnimation(
+				1.0f,1.2f,1.0f,1.2f,
+				Animation.RELATIVE_TO_SELF,0.5f,
+				Animation.RELATIVE_TO_SELF,0.5f);
+		scale.setDuration(100);
+		set.addAnimation(scale);
+//		set.setFillAfter(true);
+		v.startAnimation(set);
+	}
 }

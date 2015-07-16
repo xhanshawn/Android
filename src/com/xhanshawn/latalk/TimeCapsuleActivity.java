@@ -7,6 +7,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.latalk.PuzzleRaceCreateActivity.MessagePoster;
 import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.AnimationFactory;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
@@ -28,6 +29,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -118,7 +120,7 @@ public class TimeCapsuleActivity extends Activity {
 
 		//set basic panel layoutparams
 		LinearLayout.LayoutParams panel_params = (LinearLayout.LayoutParams) radar_panel_rl.getLayoutParams();
-		panel_params.leftMargin =(int) (width * 0.10);
+		panel_params.leftMargin = (int) (width * 0.10);
 		panel_params.width = width - 2 * panel_params.leftMargin;
 		panel_params.height = (int) (panel_params.width * 1.2);
 		radar_panel_rl.setLayoutParams(panel_params);
@@ -131,36 +133,30 @@ public class TimeCapsuleActivity extends Activity {
 		tc_radar2_iv.setLayoutParams(pointer_p);
 		
 		
-		tc_txt_tv = (TextView) findViewById(R.id.time_capsule_txt_tv);
+//		tc_txt_tv = (TextView) findViewById(R.id.time_capsule_txt_tv);
 		
-		//inflate the panel layout for showing time capsules;
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		tc_panel = (RelativeLayout) inflater.inflate(R.layout.tc_panel , null);
-		tc_iv = (ImageView) tc_panel.findViewById(R.id.tc_iv);
-//		RelativeLayout tc_c_panel_rl = (RelativeLayout) tc_panel.findViewById(R.id.tc_c_panel_rl);
 		
-		RelativeLayout.LayoutParams tc_p = (RelativeLayout.LayoutParams) tc_iv.getLayoutParams();
-		tc_p.height = panel_params.width - 2 * (tc_p.topMargin - panel_params.leftMargin);
-//		tc_iv.setLayoutParams(tc_p);
-		tc_txt_tv.setText(tc_p.height + "      " + panel_params.height);
-
-		RelativeLayout.LayoutParams tc_c_p = (RelativeLayout.LayoutParams) tc_iv.getLayoutParams();
-		tc_c_p.height = (int) (tc_p.height * 0.15);
-//		tc_c_panel_rl.setLayoutParams(tc_c_p);
-		
-		Button search_b = (Button) findViewById(R.id.radar_search_b);
-		search_b.setOnClickListener(new View.OnClickListener() {
+		ImageButton tc_like_ib = (ImageButton) findViewById(R.id.tc_like_ib);
+		tc_like_ib.setOnTouchListener(new View.OnTouchListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				updateCurrentTimeCapsule();
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					AnimationFactory.scaleImageButtonDown(v);
+				}
+				
+				if(event.getAction() == MotionEvent.ACTION_UP) {
+					AnimationFactory.scaleImageButtonUp(v);;
+					updateCurrentTimeCapsule();
+				}
+
+				return false;
 			}
 		});
-
 		
 		updateCurrentTimeCapsule();
-		new TimeCapsuleGetter().execute(UPDATE_FIRST);
+//		new TimeCapsuleGetter().execute(UPDATE_FIRST);
 		
 	}
 	
@@ -174,7 +170,7 @@ public class TimeCapsuleActivity extends Activity {
 		read_num--;
 	}
 
-
+	///////////////////////Animations///////////////////
 
 	//search radar animation
 	private void searchRadar(){
@@ -197,7 +193,6 @@ public class TimeCapsuleActivity extends Activity {
 		radar.addAnimation(rotate_p);
 		tc_radar2_iv.setAnimation(radar);
 		radar.setInterpolator(new LinearInterpolator());
-
 		radar.start();
 		
 	}
@@ -207,28 +202,35 @@ public class TimeCapsuleActivity extends Activity {
 		tc_radar2_iv.clearAnimation();
 	}
 	
+	
+	
+	///////////////////////updates capsules///////////////////
+
 	//retrieve time capsules from server
 	private void getTimeCapsules(){
 		
-		searchRadar();
-		new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
+		
 	}
 	
 	//update time capsule
 	private void updateCurrentTimeCapsule() {
 		
 		if(messages.isEmpty() || messages.size() == read_num) {
+			
 			if(request_num <3) {
-				
-				getTimeCapsules();
+				if(request_num > 0) try{
+					Thread.sleep(5000);
+				}catch(Exception ex){}
+				new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
 			} else {
-				
+				clearRotation();
 				Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
 						AlertMessageFactory.noMessagesFound(),
 						Toast.LENGTH_LONG);
 
 				no_tc_toast.show();
 			}
+
 		} else {
 			
 			LatalkMessage new_message = messages.get(read_num);
@@ -243,17 +245,55 @@ public class TimeCapsuleActivity extends Activity {
 				RelativeLayout.LayoutParams tc_params = (RelativeLayout.LayoutParams) tc_panel.getLayoutParams();
 				tc_params.width = LayoutParams.WRAP_CONTENT;
 				tc_params.height = (int) (height * 0.6);
-				tc_panel.setLayoutParams(tc_params);
-				tc_txt_tv.append( "\n" + tc_params.height + "      " );
 
 			}
 			
 			tc_iv.setImageBitmap(img);
-//			tc_txt_tv.setText(new_message.getContent());
+			tc_txt_tv.setText(new_message.getContent());
+			tc_txt_tv.append("\n" + "now " + (read_num + 1)+ "  total:  " + messages.size());
 			read_num++;
 			
 		}
 		
+	}
+	
+	private void showMessage(LatalkMessage message) {
+		if(radar_panel_rl.getChildCount() >= 2) {
+			radar_panel_rl.removeAllViews();
+			radar_panel_rl.removeView(tc_radar2_iv);
+			
+			
+			
+			
+			//inflate the panel layout for showing time capsules;
+			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			tc_panel = (RelativeLayout) inflater.inflate(R.layout.tc_panel , null);
+			
+			radar_panel_rl.addView(tc_panel);
+			RelativeLayout.LayoutParams tc_params = (RelativeLayout.LayoutParams) tc_panel.getLayoutParams();
+			tc_params.width = LayoutParams.MATCH_PARENT;
+			tc_params.height = (int) (height * 0.6);
+			tc_panel.setLayoutParams(tc_params);
+			
+			tc_iv = (ImageView) tc_panel.findViewById(R.id.tc_iv);
+//			RelativeLayout tc_c_panel_rl = (RelativeLayout) tc_panel.findViewById(R.id.tc_c_panel_rl);
+			
+			RelativeLayout.LayoutParams tc_p = (RelativeLayout.LayoutParams) tc_iv.getLayoutParams();
+			tc_p.width = width - 2 * (int) (width * 0.10);
+			tc_p.height = tc_p.width;
+//					panel_params.width - 2 * (tc_p.topMargin - panel_params.leftMargin);
+//			tc_iv.setLayoutParams(tc_p);
+//			RelativeLayout.LayoutParams tc_c_p = (RelativeLayout.LayoutParams) tc_iv.getLayoutParams();
+//			tc_c_p.height = (int) (tc_p.height * 0.15);
+//			tc_c_panel_rl.setLayoutParams(tc_c_p);
+			tc_txt_tv = (TextView) tc_panel.findViewById(R.id.tc_tv);
+			
+			
+			
+		}
+		tc_iv.setImageBitmap(message.getAttahedPic());
+		tc_txt_tv.setText(message.getContent());
+		read_num++;
 	}
 	
 	private void customActionBar(){
@@ -280,7 +320,7 @@ public class TimeCapsuleActivity extends Activity {
 		});
 	    
 	    ImageButton tc_map_switch_b = (ImageButton) v.findViewById(R.id.color_ab_ib);
-	    tc_map_switch_b.setImageResource(R.drawable.map_switch_icon);
+	    tc_map_switch_b.setImageResource(R.drawable.map_switch_white);
 	    tc_map_switch_b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -297,30 +337,74 @@ public class TimeCapsuleActivity extends Activity {
 	}
 	
 	
-	class TimeCapsuleGetter extends AsyncTask<Integer, Void, Integer> {
+	class TimeCapsuleGetter extends AsyncTask<Integer, Void, Boolean> {
 		LatalkMessage first_message = null;
 		
+		
+		
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			searchRadar();
+		}
+
+
+
+		@Override
+		protected Boolean doInBackground(Integer... params) {
+			// TODO Auto-generated method stub
+			
+			while(messages.isEmpty() || messages.size() == read_num){
+				if(request_num > 2) break;
+				else if(request_num > 0) {
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				messages.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location, 1.0f));
+				request_num ++;
+			}
+					
+			return !(messages.isEmpty() || messages.size() == read_num);
+		}
+		
+		
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			
+			if(result) {
+				new TimeCapsuleUpdater().execute(GET_PIC);
+				new TimeCapsuleUpdater().execute(UPDATE_FIRST);
+			}
+			else {
+				clearRotation();
+				Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
+						AlertMessageFactory.noMessagesFound(),
+						Toast.LENGTH_LONG);
+
+				no_tc_toast.show();
+			}
+		}
+		
+	}
+	
+	class TimeCapsuleUpdater extends AsyncTask<Integer, Void, Integer> {
+		LatalkMessage first_message = null;
+
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			
 			switch (params[0]) {
 			
-				case GET_TIMECAPSILE: {
-					runOnUiThread(new Runnable(){
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							
-							}
-					});
-					
-					messages.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location, 1.0f));
-					
-					break;
-				}
-				
 				case GET_PIC: {
 					
 					if(!messages.isEmpty()) {
@@ -339,7 +423,6 @@ public class TimeCapsuleActivity extends Activity {
 							count ++;
 						}
 					}
-					
 					break;
 				}
 				
@@ -392,15 +475,8 @@ public class TimeCapsuleActivity extends Activity {
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			request_num ++ ;
 			
 			switch(result) {
-				
-				case GET_TIMECAPSILE: {
-					
-					new TimeCapsuleGetter().execute(GET_PIC);
-					break;
-				}
 				
 				case UPDATE_FIRST: {
 					
@@ -413,22 +489,9 @@ public class TimeCapsuleActivity extends Activity {
 							// TODO Auto-generated method stub
 							
 							clearRotation();
-							
-							if(radar_panel_rl.getChildCount() >= 2) {
-								radar_panel_rl.removeAllViews();
-								radar_panel_rl.removeView(tc_radar2_iv);
-								radar_panel_rl.addView(tc_panel);
-								RelativeLayout.LayoutParams tc_params = (RelativeLayout.LayoutParams) tc_panel.getLayoutParams();
-								tc_params.width = LayoutParams.MATCH_PARENT;
-								tc_params.height = (int) (height * 0.6);
-								tc_panel.setLayoutParams(tc_params);
-							}
-							tc_iv.setImageBitmap(first_message.getAttahedPic());
-//							tc_txt_tv.setText(first_message.getContent());
+							showMessage(first_message);
 						}
 					});
-					
-					
 					
 //					read_num++;
 					break;

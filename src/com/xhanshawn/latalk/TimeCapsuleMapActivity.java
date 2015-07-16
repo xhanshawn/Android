@@ -105,7 +105,7 @@ public class TimeCapsuleMapActivity extends Activity {
 		});
 	    
 	    ImageButton tc_map_switch_b = (ImageButton) v.findViewById(R.id.color_ab_ib);
-	    tc_map_switch_b.setImageResource(R.drawable.map_switch_icon);
+	    tc_map_switch_b.setImageResource(R.drawable.map_switch_white);
 	    tc_map_switch_b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
