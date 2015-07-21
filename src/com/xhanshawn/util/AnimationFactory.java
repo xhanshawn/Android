@@ -10,8 +10,10 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 public class AnimationFactory {
 	ImageButton mImageButton;
@@ -150,5 +152,33 @@ public class AnimationFactory {
 		set.addAnimation(scale);
 //		set.setFillAfter(true);
 		v.startAnimation(set);
+	}
+	
+	public static AnimationSet likeTimeCapsule() {
+		
+		AnimationSet set = new AnimationSet(true);
+		TranslateAnimation right = new TranslateAnimation(
+				Animation.RELATIVE_TO_SELF, 0.0f, 
+				Animation.RELATIVE_TO_SELF, 1.0f,
+				Animation.RELATIVE_TO_SELF, 0.0f, 
+				Animation.RELATIVE_TO_SELF, -0.3f);
+		right.setDuration(300);
+		set.addAnimation(right);
+//		set.setFillAfter(true);
+		return set;
+	}
+	
+	public static AnimationSet dislikeTimeCapsule() {
+		
+		AnimationSet set = new AnimationSet(true);
+		TranslateAnimation left = new TranslateAnimation(
+				Animation.RELATIVE_TO_SELF, 0.0f, 
+				Animation.RELATIVE_TO_SELF, -1.0f,
+				Animation.RELATIVE_TO_SELF, 0.0f, 
+				Animation.RELATIVE_TO_SELF, -0.3f);
+		left.setDuration(300);
+		set.addAnimation(left);
+//		set.setFillAfter(true);
+		return set;
 	}
 }

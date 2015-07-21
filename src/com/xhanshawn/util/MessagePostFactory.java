@@ -23,7 +23,9 @@ import org.json.JSONObject;
 import sun.misc.BASE64Encoder;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.format.Time;
 import android.util.Base64;
+import android.util.Log;
 
 import com.xhanshawn.data.LatalkMessage;
 
@@ -63,11 +65,14 @@ public class MessagePostFactory {
 				message_json.put("longitude",String.format("%.06f",181.0f));
 				message_json.put("latitude",String.format("%.06f", 91.0f));
 			}
-			
-			message_json.put("hold_time",message.getHold_time());
+			Time now = new Time();
+			now.setToNow();
+			message_json.put("hold_time",message.getHold_time() + now.toMillis(false)/1000);
 			message_json.put("user_name", message.getUserName());
 			if(message.getAttahedPic() != null) {
 				message_json.put("image", "data:image/jpg;base64," + parseToBase64String(message.getAttahedPic()));;
+				Log.v("image", message.getAttahedPic().toString());
+
 			}
 			
 			json.put("message", message_json);
@@ -79,10 +84,12 @@ public class MessagePostFactory {
 			HttpEntity res_entity = response.getEntity();
 			String data = EntityUtils.toString(res_entity);
 			JSONObject attrs = new JSONObject(data);
+			Log.v("server response", attrs.toString());
 			message.setMessageId(attrs.getInt("id"));
 			return true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

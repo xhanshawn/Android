@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.AlertMessageFactory;
+import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
@@ -76,8 +77,8 @@ public class TimeCapsuleMapActivity extends Activity {
 		tc_map.setMyLocationEnabled(true);
 		puzzle_map_settings.setCompassEnabled(true);
 		puzzle_map_settings.setZoomGesturesEnabled(true);
-	
-	    new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_TIMECAPSULE);
+		tcs.addAll(DataPassCache.getTimeCapsules(DataPassCache.ALL));
+	    new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_PIC);
 
 	}
 	
@@ -172,7 +173,7 @@ public class TimeCapsuleMapActivity extends Activity {
 							Bitmap thumb = tc.getSmallThumbPic();
 							BitmapDescriptor bd = null;
 							if(thumb != null) bd = BitmapDescriptorFactory.fromBitmap(tc.getSmallThumbPic());
-							else bd = BitmapDescriptorFactory.fromResource(R.drawable.loading_picture);
+//							else bd = BitmapDescriptorFactory.fromResource(R.drawable.loading_picture);
 							MarkerOptions marker = new MarkerOptions().position(
 			                        new LatLng(lat, lng))
 			                        .title("")

@@ -2,15 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/tc_bottom_rl"
+    android:id="@+id/tc_panel_rl"
     tools:context="${relativePackage}.${activityClass}" >
-    <LinearLayout
-        android:id="@+id/tc_panel_ll"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
         
         
         <RelativeLayout
@@ -42,6 +35,8 @@
         <RelativeLayout 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
             >
             <ImageButton 
            		android:layout_width="50dp"
@@ -71,8 +66,5 @@
         </RelativeLayout>
         
         
-    </LinearLayout>
-	
-
 	
 </RelativeLayout>

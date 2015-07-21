@@ -3,12 +3,16 @@ package com.xhanshawn.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.xhanshawn.data.LatalkMessage;
 
 public class DataPassCache {
+	
+	final public static int ALL = -1;
+	
 	private static ArrayList<byte[]> pic_list = new ArrayList<byte[]>();
 	private static ArrayList<LatalkMessage> time_capsule_list = new ArrayList<LatalkMessage>();
 	private static int time_capsule_read = Integer.MIN_VALUE;
@@ -42,11 +46,12 @@ public class DataPassCache {
 		return time_capsule_list.size() - 1;
 	}
 	
-	public static ArrayList<LatalkMessage> getTimeCapsule(int num) {
+	public static List<LatalkMessage> getTimeCapsules(int num) {
 		
-		if(time_capsule_read == Integer.MIN_VALUE) return null;
+		if(time_capsule_read == Integer.MIN_VALUE) return new ArrayList<LatalkMessage>();
+		if(num == ALL) return  time_capsule_list.subList(time_capsule_read, time_capsule_list.size());
 		int i = 0;
-		 
+		
 		ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage>();
 		
 		while(i <= num - 1) {
@@ -58,12 +63,14 @@ public class DataPassCache {
 	
 	public static LatalkMessage getTimeCapsule() {
 		
-		if(time_capsule_read == Integer.MIN_VALUE) return null;
+		if(time_capsule_read == Integer.MIN_VALUE || time_capsule_read >= time_capsule_list.size()) return null;
 		LatalkMessage message = time_capsule_list.get(time_capsule_read);
 		time_capsule_read ++ ;
 		return message;
 	}
-	
+	public static int getTCSize(){
+		return time_capsule_list.size();
+	}
 	public static int cacheLatalks(ArrayList<LatalkMessage> messages) {
 		
 		lists.add(messages);

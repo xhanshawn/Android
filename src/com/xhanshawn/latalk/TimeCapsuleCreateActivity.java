@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -106,36 +108,6 @@ public class TimeCapsuleCreateActivity extends Activity {
 			}
 		});
 		
-//		post_message_ib.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				
-//				
-//				message_content = message_input.getText().toString();
-//				LatalkMessage message = new LatalkMessage();
-//				message.setContent(message_content);
-//				message.setMessage_type("TimeCapsule");
-//				
-//				if(location_is_enabled){
-//					
-//					message.setLatitude(current_latitude);
-//					message.setLongitude(current_longitude);
-//				}
-//				
-//				
-//				message.setHold_time(86400000000l);
-//				message.setUser_name(UserAccount.getCurrentUserName());
-//				
-//				message.setAttachedPic(taken_pic);
-//				
-////				new MessagePoster().execute(message);
-//			
-//			}
-//			
-//		});
-//		
 		
 		ImageButton add_pic_b = (ImageButton) findViewById(R.id.add_pic_ib);
 		
@@ -356,9 +328,9 @@ public class TimeCapsuleCreateActivity extends Activity {
 	        			// TODO Auto-generated catch block
 	        			e.printStackTrace();
 	        		}
-	        		Bitmap selected_img = BitmapFactory.decodeStream(is);
-	        		tc.setAttachedPic(selected_img);
-	        		attached_pic_iv.setImageBitmap(selected_img);
+	        		taken_pic = BitmapFactory.decodeStream(is);
+	        		tc.setAttachedPic(taken_pic);
+	        		attached_pic_iv.setImageBitmap(taken_pic);
 	        	}
 	        }
 	        break;
@@ -416,11 +388,10 @@ public class TimeCapsuleCreateActivity extends Activity {
 				}
 				message_content = message_input.getText().toString();
 				message.setContent(message_content);
-				message.setHold_time(hold_time);
+				message.setHold_time(hold_time * 60);
 				message.setUserName(UserAccount.getCurrentUserName());
 				message.setMessageType(LatalkMessage.TIME_CAPSULE);
-				if(taken_pic != null) message.setAttachedPic(taken_pic);
-				
+				message.setAttachedPic(taken_pic);
 				new MessagePoster().execute(message);
 			}
 		});

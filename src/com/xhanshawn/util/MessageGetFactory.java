@@ -76,10 +76,10 @@ public class MessageGetFactory {
 			
 			messages = getMessages(url);
 
-			if(offset < 0.000008) offset += 0.000002f;
-			else if(offset < 0.000048) offset += 0.00001f;
-			else if(offset < 0.000148) offset += 0.0001f;
-			else if(offset < 0.001148) offset += 0.001f;
+			if(offset < 0.00008) offset += 0.00002f;
+			else if(offset < 0.00048) offset += 0.0001f;
+			else if(offset < 0.00148) offset += 0.001f;
+			else if(offset < 0.01148) offset += 0.01f;
 			else break;
 		}
 		
