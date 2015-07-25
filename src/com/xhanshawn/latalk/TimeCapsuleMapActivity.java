@@ -7,10 +7,12 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.AlertMessageFactory;
@@ -26,16 +28,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -50,6 +57,10 @@ public class TimeCapsuleMapActivity extends Activity {
 
 	
 	private GoogleMap tc_map;
+	RelativeLayout tc_map_rl;
+	int width;
+	int height;
+	ImageView pic_iv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +68,13 @@ public class TimeCapsuleMapActivity extends Activity {
 		setContentView(R.layout.activity_time_capsule_map);
 		
 		customActionBar();
+		tc_map_rl = (RelativeLayout) findViewById(R.id.tc_map_rl);
+		
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		width = size.x;
+		height = size.y;
 		
 		location_info = new LocationInfoFactory(TimeCapsuleMapActivity.this);
 		Location current_location = location_info.getCurrentLocation();
@@ -78,6 +96,19 @@ public class TimeCapsuleMapActivity extends Activity {
 		puzzle_map_settings.setCompassEnabled(true);
 		puzzle_map_settings.setZoomGesturesEnabled(true);
 		tcs.addAll(DataPassCache.getTimeCapsules(DataPassCache.ALL));
+		
+		tc_map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+			
+			@Override
+			public boolean onMarkerClick(Marker marker) {
+				// TODO Auto-generated method stub
+				
+				Intent full_pic = new Intent("com.xhanshawn.latalk.FULLPICACTIVITY");
+				full_pic.putExtra("id", marker.getTitle());
+				startActivity(full_pic);
+				return false;
+			}
+		});
 	    new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_PIC);
 
 	}
@@ -132,13 +163,14 @@ public class TimeCapsuleMapActivity extends Activity {
 			
 				case IntegerIdentifiers.GET_TIMECAPSULE:
 					Location current_location = location_info.getCurrentLocation();
-					tcs.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location, 1.0f));
+					tcs.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location));
 //					tcs.addAll(MessageGetFactory.getTimeCapsuleMessages());
 					break;
 					
 				case IntegerIdentifiers.GET_PIC:
+					
 					if(sml_thumb_num < tcs.size()) {
-						for(int i = sml_thumb_num; i < sml_thumb_num; i++) {
+						for(int i = sml_thumb_num; i < tcs.size(); i++) {
 							LatalkMessage message = tcs.get(i);
 							message.setSmallThumbPic(
 									MessageGetFactory.getImage(message.getSmallThumbUrl()));
@@ -146,7 +178,6 @@ public class TimeCapsuleMapActivity extends Activity {
 						}
 						sml_thumb_num = tcs.size();
 					}
-					
 					break;
 			
 				default: break;
@@ -176,7 +207,7 @@ public class TimeCapsuleMapActivity extends Activity {
 //							else bd = BitmapDescriptorFactory.fromResource(R.drawable.loading_picture);
 							MarkerOptions marker = new MarkerOptions().position(
 			                        new LatLng(lat, lng))
-			                        .title("")
+			                        .title("" + tc.getMessageId())
 			                        .icon(bd);
 							tc_map.addMarker(marker);
 						}

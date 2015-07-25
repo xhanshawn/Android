@@ -24,7 +24,7 @@
         android:layout_height="50dp"
         android:id="@+id/like_iv"
         android:layout_alignParentRight="true"
-        android:src="@drawable/camera_icon_grey"
+        android:src="@drawable/dislike_icon"
         android:adjustViewBounds="true"
         android:background="@color/white"
         />
@@ -32,6 +32,7 @@
         android:layout_width="wrap_content" 
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
+        android:paddingTop="10dp"
         android:background="@color/white"
         android:id="@+id/tc_tv"
         />
@@ -40,7 +41,7 @@
         android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:layout_toLeftOf="@+id/like_iv"
-        android:src="@drawable/camera_icon_grey"
+        android:src="@drawable/hollow_heart"
         android:background="@color/white"
         />
     	    

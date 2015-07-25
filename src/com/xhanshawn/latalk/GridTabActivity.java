@@ -41,7 +41,7 @@ public class GridTabActivity extends Activity {
     }
 	
 	
-	public class MessageRetriever extends AsyncTask<String, Void, String> {
+	class MessageRetriever extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... params) {

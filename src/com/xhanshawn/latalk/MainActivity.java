@@ -38,6 +38,9 @@ public class MainActivity extends Activity {
 	FrameLayout buttons_panel_fl;
 	RelativeLayout buttons_panel_rl;
 	ImageButton create_message_button;
+	
+	ImageButton race_browser_ib;
+
 	private ArrayList<ImageButton> image_buttons = new ArrayList<ImageButton>();
 	
 	
@@ -188,6 +191,20 @@ public class MainActivity extends Activity {
 				AnimationFactory anim_factory = new AnimationFactory();
 				anim_factory.scaleButtonAndOpenActivity((ImageButton)v, 
 						tc_browser_activity, MainActivity.this);
+			}
+		});
+		
+		race_browser_ib = (ImageButton) findViewById(R.id.race_browser_ib);
+		image_buttons.add(race_browser_ib);
+		race_browser_ib.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent race_browser = new Intent("com.xhanshawn.latalk.RACEBROWSERACTIVITY");
+				AnimationFactory anim_factory = new AnimationFactory();
+				anim_factory.scaleButtonAndOpenActivity((ImageButton)v, 
+						race_browser, MainActivity.this);
 			}
 		});
 		

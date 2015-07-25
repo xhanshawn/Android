@@ -358,7 +358,7 @@ public class PuzzleRaceCreateActivity extends Activity {
 	    banner_tv.setText("Puzzle Race");
 	}
 	
-	public class MessagePoster extends AsyncTask<String, Void, String> {
+	class MessagePoster extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... params) {

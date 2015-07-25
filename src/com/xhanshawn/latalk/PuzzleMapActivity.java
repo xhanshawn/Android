@@ -97,7 +97,7 @@ public class PuzzleMapActivity extends FragmentActivity implements OnMapReadyCal
 		
 	}
 	
-	public class MessageRetriever extends AsyncTask<String, Void, Boolean> {
+	class MessageRetriever extends AsyncTask<String, Void, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(String... params) {

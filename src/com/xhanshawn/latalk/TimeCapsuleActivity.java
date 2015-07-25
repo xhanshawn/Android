@@ -58,33 +58,34 @@ public class TimeCapsuleActivity extends Activity {
 	final static int GET_TIMECAPSILE = 10;
 	final static int GET_PIC = 11;
 	final static int UPDATE_FIRST = 12;
-	
 	final static int LOADING_TIME = 300;
-
 	
 	private ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage> ();
-	private static int read_num = 0 ;
-	private int request_num;
+	
+	//views
 	ImageView tc_radar1_iv;
 	ImageView tc_radar2_iv;
 	RelativeLayout tc_panel;
 	ImageView tc_iv;
-
-	
-	Handler radar_handler1;
-	Handler radar_handler2;
-	Runnable radar_cir_1;
 	TextView tc_txt_tv;
 	RelativeLayout radar_panel_rl;
 	RelativeLayout tc_panel_rl;
-	AnimationSet radar;
 	GoogleMap time_c_map;
 	ActionBar mActionBar;
+	
+	//utilities
+	Handler radar_handler1;
+	Handler radar_handler2;
+	Runnable radar_cir_1;
+	AnimationSet radar;
 	LocationInfoFactory location_info;
 	Location current_location;
 	
+	//parameters
 	int width;
 	int height;
+	private static int read_num = 0 ;
+	private int request_num;
 	
 	boolean radar_started = false;
 	boolean radar_stoped = false;
@@ -120,10 +121,8 @@ public class TimeCapsuleActivity extends Activity {
 		
 		//set the rotation animation for loading
 		radar_panel_rl = (RelativeLayout) findViewById(R.id.radar_panel_rl);
-		
 		tc_panel_rl = (RelativeLayout) findViewById(R.id.tc_panel_rl);
 		
-
 		tc_radar1_iv = (ImageView) findViewById(R.id.tc_radar1_iv);
 		tc_radar2_iv = (ImageView) findViewById(R.id.tc_radar2_iv);
 
@@ -141,20 +140,17 @@ public class TimeCapsuleActivity extends Activity {
 		pointer_p.rightMargin = panel_params.width/2;
 		tc_radar2_iv.setLayoutParams(pointer_p);
 		
-		
-//		tc_txt_tv = (TextView) findViewById(R.id.time_capsule_txt_tv);
-		
-		
+
 		ImageButton tc_like_ib = (ImageButton) findViewById(R.id.tc_like_ib);
 		tc_like_ib.setOnTouchListener(new View.OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				if(event.getAction() == MotionEvent.ACTION_DOWN) {
-					AnimationFactory.scaleImageButtonDown(v);
-				}
+				//down animation
+				if(event.getAction() == MotionEvent.ACTION_DOWN) AnimationFactory.scaleImageButtonDown(v);
 				
+				//up animation and operation
 				if(event.getAction() == MotionEvent.ACTION_UP) {
 					AnimationFactory.scaleImageButtonUp(v);;
 					if(radar_stoped) {
@@ -173,8 +169,6 @@ public class TimeCapsuleActivity extends Activity {
 		});
 		
 		updateCurrentTimeCapsule();
-//		new TimeCapsuleGetter().execute(UPDATE_FIRST);
-		
 	}
 	
 	
@@ -183,7 +177,7 @@ public class TimeCapsuleActivity extends Activity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		
+
 		read_num--;
 	}
 
@@ -222,15 +216,8 @@ public class TimeCapsuleActivity extends Activity {
 	}
 	
 	
-	
 	///////////////////////updates capsules///////////////////
 
-	//retrieve time capsules from server
-	private void getTimeCapsules(){
-		
-		
-	}
-	
 	//update time capsule
 	private void updateCurrentTimeCapsule() {
 		
@@ -241,6 +228,7 @@ public class TimeCapsuleActivity extends Activity {
 					Thread.sleep(5000);
 				}catch(Exception ex){}
 				new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
+				
 			} else {
 				clearRotation();
 				Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
@@ -254,12 +242,11 @@ public class TimeCapsuleActivity extends Activity {
 			
 			if(radar_started) clearRotation();
 			showMessage();
-			
 		}
-		
 	}
 	
 	private void showMessage() {
+		
 		if(message_added) return;
 		if(radar_stoped) tc_panel_rl.removeView(radar_panel_rl);
 		
@@ -277,8 +264,6 @@ public class TimeCapsuleActivity extends Activity {
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		tc_panel = (RelativeLayout) inflater.inflate(R.layout.tc_panel , null);
 			
-//		radar_panel_rl.addView(tc_panel);
-			
 		tc_panel_rl.addView(tc_panel, 0);
 		message_added = true;
 
@@ -290,7 +275,6 @@ public class TimeCapsuleActivity extends Activity {
 		tc_panel.setLayoutParams(tc_params);
 			
 		tc_iv = (ImageView) tc_panel.findViewById(R.id.tc_iv);
-//		RelativeLayout tc_c_panel_rl = (RelativeLayout) tc_panel.findViewById(R.id.tc_c_panel_rl);
 			
 		RelativeLayout.LayoutParams tc_p = (RelativeLayout.LayoutParams) tc_iv.getLayoutParams();
 		tc_p.width = width - 2 * (int) (width * 0.10);
@@ -302,8 +286,6 @@ public class TimeCapsuleActivity extends Activity {
 //		tc_c_panel_rl.setLayoutParams(tc_c_p);
 		tc_txt_tv = (TextView) tc_panel.findViewById(R.id.tc_tv);
 			
-			
-			
 		tc_panel.setOnTouchListener(new View.OnTouchListener() {
 				
 	        private int _xDelta;
@@ -312,9 +294,6 @@ public class TimeCapsuleActivity extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 					// TODO Auto-generated method stub
-				
-//				if(tc_panel_rl.getChildCount() <= 2) updateCurrentTimeCapsule();
-				
 				
 				final int X = (int) event.getRawX();
 				final int Y = (int) event.getRawY();
@@ -326,7 +305,7 @@ public class TimeCapsuleActivity extends Activity {
 			            _yDelta = Y - lParams.topMargin;
 				        break;
 			        case MotionEvent.ACTION_UP:
-			        	showMessage();
+			        	updateCurrentTimeCapsule();
 			            if(layoutParams.leftMargin >= width - layoutParams.width ||
 			            		(layoutParams.topMargin <= 0 && 
 //			            		layoutParams.leftMargin < width - layoutParams.width && 
@@ -348,7 +327,7 @@ public class TimeCapsuleActivity extends Activity {
 				            layoutParams.bottomMargin = -layoutParams.topMargin;
 				            v.setLayoutParams(layoutParams);
 			            }
-			            showMessage();
+			            updateCurrentTimeCapsule();
 			            break;
 			        case MotionEvent.ACTION_POINTER_DOWN:
 			            break;
@@ -363,7 +342,7 @@ public class TimeCapsuleActivity extends Activity {
 			            
 			            break;    
 			    }
-//			    v.invalidate();
+
 			    return true;
 			}
 		});
@@ -373,6 +352,8 @@ public class TimeCapsuleActivity extends Activity {
 		read_num++;
 	}
 	
+	
+	//custom action bar
 	private void customActionBar(){
 		
 		
@@ -415,11 +396,8 @@ public class TimeCapsuleActivity extends Activity {
 	
 	
 	class TimeCapsuleGetter extends AsyncTask<Integer, Void, Boolean> {
-		LatalkMessage first_message = null;
 		
-		
-		
-		
+		//radar
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
@@ -428,8 +406,7 @@ public class TimeCapsuleActivity extends Activity {
 			if(!radar_started) searchRadar();
 		}
 
-
-
+		//retrieve tc
 		@Override
 		protected Boolean doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
@@ -444,15 +421,14 @@ public class TimeCapsuleActivity extends Activity {
 						e.printStackTrace();
 					}
 				}
-				MessageGetFactory.getTimeCapsuleMessagesNearby(current_location, 1.0f);
+				MessageGetFactory.getTimeCapsuleMessagesNearby(current_location);
 				messages.addAll(DataPassCache.getTimeCapsules(DataPassCache.ALL));
 				request_num ++;
 			}
 			return !(messages.isEmpty() || messages.size() == read_num);
 		}
 		
-		
-		
+		//post execution
 		@Override
 		protected void onPostExecute(Boolean result) {
 			// TODO Auto-generated method stub
@@ -471,9 +447,9 @@ public class TimeCapsuleActivity extends Activity {
 				no_tc_toast.show();
 			}
 		}
-		
 	}
 	
+	//Async updating
 	class TimeCapsuleUpdater extends AsyncTask<Integer, Void, Integer> {
 		LatalkMessage first_message = null;
 		LatalkMessage second_message = null;
@@ -522,8 +498,6 @@ public class TimeCapsuleActivity extends Activity {
 						count++;
 					}
 					
-//					radar_handler1.removeCallbacks(radar_cir_1);
-					
 					if(first_message == null) {
 						
 						tc_txt_tv.setText(AlertMessageFactory.loadingMessageFailed());
@@ -543,16 +517,13 @@ public class TimeCapsuleActivity extends Activity {
 				}
 				
 				default: break;
-			
 			}
-			
-			
 			 
 			return params[0];
 		}
 		
 		
-		
+		//update first
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
@@ -561,8 +532,6 @@ public class TimeCapsuleActivity extends Activity {
 			switch(result) {
 				
 				case UPDATE_FIRST: {
-					
-					
 
 					runOnUiThread(new Runnable(){
 
@@ -576,7 +545,7 @@ public class TimeCapsuleActivity extends Activity {
 							message_added = false;
 						}
 					});
-					
+
 					break;
 				}
 				

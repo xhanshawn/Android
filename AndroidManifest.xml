@@ -191,10 +191,30 @@
         </activity>
         <activity
             android:name=".TimeCapsuleMapActivity"
-            android:label="@string/title_activity_time_capsule_map" 
-			android:theme="@style/CustomActionBarTheme" >
+            android:label="@string/title_activity_time_capsule_map"
+            android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.TIMECAPSULEMAPACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FullPicActivity"
+            android:label="@string/title_activity_full_pic"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.FULLPICACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RaceBrowserActivity"
+            android:label="@string/title_activity_race_browser" 
+            android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.RACEBROWSERACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

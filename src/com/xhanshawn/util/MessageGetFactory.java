@@ -20,6 +20,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.xhanshawn.data.LatalkMessage;
@@ -32,31 +34,82 @@ public class MessageGetFactory {
 //	private static String URIBase = "http://10.0.2.2:3000";
 
 	//genymotion
-	private static String URIBase = "http://10.0.3.2:3000";
 	
-	public static ArrayList<LatalkMessage> getPuzzleMessagesNearby(Context context){
+	final public static int[] LEVEL = new int[] {60, 120, 180, 240, 300, 360};
+	
+	final public static int TC_NEAR_BY = 1000;
+	final public static int PR_NEAR_BY = 1001;
+	final public static int TC_AWAY = 1002;
+	final public static int PR_AWAY = 1003;
 
-		return getMessages("");
-		
+	final public static int GET_MESSAGE= -1;
+	
+	
+	private static String URIBase = "http://10.0.3.2:3000";
+	ArrayList<LatalkMessage> messages = null;
+	private static int radius_level = 0;
+
+	
+	public static boolean extendRadius(){
+		if(radius_level < LEVEL.length - 1) {
+			radius_level++;
+			return true;
+		} else return false;
 	}
+	
+	public static void resetRadius(){
+		radius_level = 0;
+	}
+	public ArrayList<LatalkMessage> getPuzzleMessagesNearby(Location current_location){
+		
+		float offset = 0.0002f * radius_level;
+		
+		while(messages == null || messages.isEmpty()){
+			
+			float longitude = 181.000000f;
+			float latitude = 91.000000f;
+			
+			String url = ServerAccessFactory.queryMessage() + "&message_type=Puzzle";
+
+			//if current location is available we need to add search offset
+			if(current_location != null) {
+				
+				longitude = (float) current_location.getLongitude();
+				latitude = (float) current_location.getLatitude();
+				url += "&offset=" + String.format("%.06f", offset);
+			}
+			
+			url += "&longitude=" + String.format("%.06f", longitude)
+					+ "&latitude=" + String.format("%.06f", latitude);
+			
+			new MessageGetter().execute(url);
+			
+			if(offset < 0.00008) offset += 0.00002f;
+			else if(offset < 0.00048) offset += 0.0001f;
+			else if(offset < 0.00148) offset += 0.001f;
+			else if(offset < 0.01148) offset += 0.01f;
+			else break;
+		}
+			
+		return messages;
+	}
+	
+	
 	
 	public static ArrayList<LatalkMessage> getPuzzleMessages(){
 		
 		String url = ServerAccessFactory.queryMessage() + "&message_type=Puzzle";
-
 		return getMessages(url);
 	}
 	
-	public static ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location, float radius_level){
+	public static ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location){
 	
 		
 		ArrayList<LatalkMessage> messages = null;
-		float offset = 0.000002f * radius_level;
+		float offset = 0.0002f * radius_level;
 		
 		while(messages == null || messages.isEmpty()){
-			
-				
-				
+
 			float longitude = 181.000000f;
 			float latitude = 91.000000f;
 			
@@ -66,13 +119,11 @@ public class MessageGetFactory {
 				
 				longitude = (float) current_location.getLongitude();
 				latitude = (float) current_location.getLatitude();
-				
 				url += "&offset=" + String.format("%.06f", offset);
 			}
 			
 			url += "&longitude=" + String.format("%.06f", longitude)
 					+ "&latitude=" + String.format("%.06f", latitude);
-			
 			
 			messages = getMessages(url);
 
@@ -101,10 +152,6 @@ public class MessageGetFactory {
 		
 		ArrayList<LatalkMessage> message_list = new ArrayList<LatalkMessage>();
 		
-				
-		
-		
-		
 		HttpGet get_request = new HttpGet(url);
 		get_request.setHeader("Content-Type", "application/json");
 		try {
@@ -125,16 +172,14 @@ public class MessageGetFactory {
 					String thumb_url = message_json.getString("thumb_url");
 					String small_thumb_url = message_json.getString("small_thumb_url");
 					
-//					Bitmap attached_pic = null;
-//					if(img_url != null && img_url != "") attached_pic = getImage(img_url);
 					LatalkMessage new_message = LatalkMessage.parseJSON(message_json);
 					new_message.setPicUrl(img_url);
 					new_message.setThumbUrl(thumb_url);
 					new_message.setSmallThumbUrl(small_thumb_url);
-//					new_message.setAttachedPic(attached_pic);
-					
-					DataPassCache.cacheTimeCapsule(new_message);
-					
+					new_message.setMessageId(id);
+					String type = message_json.getString("message_type");
+					if(type.equals("TimeCapsule")) DataPassCache.cacheTimeCapsule(new_message);
+					else DataPassCache.cachePuzzleRace(new_message);
 					message_list.add(new_message);
 				}
 				
@@ -156,44 +201,44 @@ public class MessageGetFactory {
 	}
 	
 	
-	public static String getImageUrl(int id){
-		
-		HttpClient client = new DefaultHttpClient();
-		HttpGet get = new HttpGet(URIBase + "/messages/" + id + ".json");
-		
-		get.setHeader("Content-Type", "application/json");
-		JSONObject message_json = null;
-		
-		String img_url = null;
-		try {
-			
-			
-			HttpResponse response = client.execute(get);
-			int status = response.getStatusLine().getStatusCode();
-			
-			if(status >= 200 && status <= 400){
-				HttpEntity entity = response.getEntity();
-				String data = EntityUtils.toString(entity);
-				message_json = new JSONObject(data);
-				
-				img_url = message_json.getString("image_url");
-				
-			}	
-			
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		return img_url;
-	}
-	
+//	public static String getImageUrl(int id){
+//		
+//		HttpClient client = new DefaultHttpClient();
+//		HttpGet get = new HttpGet(URIBase + "/messages/" + id + ".json");
+//		
+//		get.setHeader("Content-Type", "application/json");
+//		JSONObject message_json = null;
+//		
+//		String img_url = null;
+//		try {
+//			
+//			
+//			HttpResponse response = client.execute(get);
+//			int status = response.getStatusLine().getStatusCode();
+//			
+//			if(status >= 200 && status <= 400){
+//				HttpEntity entity = response.getEntity();
+//				String data = EntityUtils.toString(entity);
+//				message_json = new JSONObject(data);
+//				
+//				img_url = message_json.getString("image_url");
+//				
+//			}	
+//			
+//		} catch (ClientProtocolException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		
+//		return img_url;
+//	}
+
 	public static Bitmap getImage(String image_url){
 		
 		if(image_url == null || image_url == "" || image_url.equals("null")) return null;
@@ -214,17 +259,41 @@ public class MessageGetFactory {
 				HttpEntity entity = response.getEntity();
 				InputStream img_stream = entity.getContent();
 				output_bmp = BitmapFactory.decodeStream(img_stream);
-			}
+			} 
 				
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Log.e("get_pic_err", e.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
 		return output_bmp;
+	}
+	
+	class MessageGetter extends AsyncTask<String, Void, Integer> {
+
+		@Override
+		protected Integer doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			
+			messages = MessageGetFactory.getMessages(params[0]);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
 	}
 	
 }

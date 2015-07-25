@@ -53,7 +53,7 @@ public class PuzzleTabActivity extends Activity {
 
 
 
-	public class MessageRetriever extends AsyncTask<String, Void, Boolean> {
+	class MessageRetriever extends AsyncTask<String, Void, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(String... params) {

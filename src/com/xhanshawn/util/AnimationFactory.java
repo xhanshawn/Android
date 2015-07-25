@@ -1,11 +1,14 @@
 package com.xhanshawn.util;
 
+import com.google.android.gms.maps.model.Marker;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
@@ -64,12 +67,18 @@ public class AnimationFactory {
 				Animation.RELATIVE_TO_SELF,0.5f,
 				Animation.RELATIVE_TO_SELF,0.5f);
 		
+		AlphaAnimation alpha = new AlphaAnimation(1.0f, 0.50f);
+		
+		
 		scale1.setDuration(80);
 		scale2.setDuration(500);
 		scale2.setStartOffset(80);
+		
+		alpha.setDuration(580);
+		animation.addAnimation(alpha);
+
 		animation.addAnimation(scale1);
 		animation.addAnimation(scale2);
-		
 		animation.setAnimationListener(new AnimationListener(){
 			
 			@SuppressLint("NewApi")
@@ -179,6 +188,19 @@ public class AnimationFactory {
 		left.setDuration(300);
 		set.addAnimation(left);
 //		set.setFillAfter(true);
+		return set;
+	}
+	
+	
+	
+	public static AnimationSet ZoomFromThumb(Marker marder){
+		AnimationSet set = new AnimationSet(true);
+		ScaleAnimation scale = new ScaleAnimation(
+				1.0f,3.0f,1.0f,3.0f,
+				Animation.RELATIVE_TO_SELF,0.5f,
+				Animation.RELATIVE_TO_SELF,0.5f);
+		scale.setDuration(300);
+		set.addAnimation(scale);
 		return set;
 	}
 }

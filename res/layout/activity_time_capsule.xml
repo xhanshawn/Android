@@ -39,12 +39,13 @@
             android:layout_marginBottom="50dp"
             >
             <ImageButton 
-           		android:layout_width="50dp"
-            	android:layout_height="50dp"
+           		android:layout_width="60dp"
+            	android:layout_height="60dp"
             	android:background="@drawable/round_b_background"
-            	android:src="@drawable/purple_heart"
+            	android:src="@drawable/dislike_icon"
             	android:scaleType="fitXY"
             	android:adjustViewBounds="true"
+            	android:padding="10dp"
             	android:layout_marginRight="30dp"
             	android:layout_toLeftOf="@+id/tc_like_ib"
             	android:layout_centerVertical="true"

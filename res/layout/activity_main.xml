@@ -36,13 +36,13 @@
 			    android:layout_width="100dp"
 			    android:layout_height="100dp"
 			    android:layout_below="@+id/create_message_button"
-			    android:layout_toRightOf="@+id/r3_ib"
+			    android:layout_toRightOf="@+id/race_browser_ib"
 			    android:background="@drawable/yellow_round_b"
 			    android:text="R6"
 			    android:textColor="@color/white"
 			    android:textSize="20dp" />
 	    	<ImageButton
-	    	    android:id="@+id/r3_ib"
+	    	    android:id="@+id/race_browser_ib"
 	    	    android:layout_width="100dp"
 	    	    android:layout_height="100dp"
 	    	    android:layout_below="@+id/latalk_label_b"

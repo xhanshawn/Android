@@ -31,5 +31,7 @@
     <string name="pic_puzzle_hint">Touch to add caption for this photo</string>
     <string name="puzzle_race_hint">Add some description for your race</string>
     <string name="title_activity_time_capsule_map">TimeCapsuleMapActivity</string>
+    <string name="title_activity_full_pic">FullPicActivity</string>
+    <string name="title_activity_race_browser">RaceBrowserActivity</string>
 
 </resources>

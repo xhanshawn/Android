@@ -113,7 +113,7 @@ public class MessageBrowserActivity extends Activity {
 		
 	}
 	
-	public class MessageRetriever extends AsyncTask<String, Void, Boolean> {
+	class MessageRetriever extends AsyncTask<String, Void, Boolean> {
 		
 		InputStream img_stream;
 		String image_url;
