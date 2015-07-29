@@ -2,7 +2,6 @@ package com.xhanshawn.util;
 
 import com.xhanshawn.latalk.MainActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,10 +16,10 @@ import android.provider.Settings;
 
 public class LocationInfoFactory {
 	
-	LocationManager service;
-	Location current_location;
+	private static LocationManager service;
+	private static Location current_location;
 	public static boolean isEnabled = false;
-	
+	private static String provider = "";
 	public LocationInfoFactory(final Context context){
 		
 		//check gps
@@ -62,45 +61,57 @@ public class LocationInfoFactory {
 		    		ex.printStackTrace();
 		    	}
 	    	}
+	    } else {
+	    	
+	    	
+	    	Criteria criteria = new Criteria();
+			provider = service.getBestProvider(criteria, true);
+			
+			current_location = service.getLastKnownLocation(provider);
+			service.requestLocationUpdates(provider, 400, 1, new LocationListener(){
+
+				@Override
+				public void onLocationChanged(Location location) {
+					// TODO Auto-generated method stub
+					current_location = location;
+				}
+
+				@Override
+				public void onStatusChanged(String provider, int status,
+						Bundle extras) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onProviderEnabled(String provider) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onProviderDisabled(String provider) {
+					// TODO Auto-generated method stub
+					current_location = new Location(provider);
+					current_location.setLatitude(91.0d);
+					current_location.setLongitude(181.0d);
+				}
+				
+			}, Looper.getMainLooper());
 	    }
 	}
 	
-	public Location getCurrentLocation(){
+	public static boolean isEnabled(){
+	    isEnabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	    return isEnabled;
+	}
+	public static Location getCurrentLocation(){
 		
-		Criteria criteria = new Criteria();
-		String provider = service.getBestProvider(criteria, true);
-		
-		current_location = service.getLastKnownLocation(provider);
-		
-		service.requestLocationUpdates(provider, 400, 1, new LocationListener(){
-
-			@Override
-			public void onLocationChanged(Location location) {
-				// TODO Auto-generated method stub
-				current_location = location;
-			}
-
-			@Override
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}, Looper.getMainLooper());
-		
+		if(!isEnabled || current_location == null) {
+			current_location = new Location(provider);
+			current_location.setLatitude(91.0d);
+			current_location.setLongitude(181.0d);
+		}
 		return current_location;
 	}
 }

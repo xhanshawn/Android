@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import android.location.Location;
+import android.os.AsyncTask;
 import android.util.SparseIntArray;
 
 import com.xhanshawn.data.LatalkMessage;
@@ -17,16 +19,18 @@ public class DataPassCache {
 	final public static int UNREAD_ALL = -2;
 	final public static boolean NEAR_BY = true;
 	final public static boolean AWAY = false;
-
+	final public static int TIME_OUT = 10;
 	
 	private static ArrayList<byte[]> pic_list = new ArrayList<byte[]>();
 	private static ArrayList<LatalkMessage> time_capsule_list = new ArrayList<LatalkMessage>();
 	private static int time_capsule_read = Integer.MIN_VALUE;
-	private static Set<Integer> time_capsule_id_hash = new HashSet<Integer>();
+	private static SparseIntArray time_capsule_id_hash = new SparseIntArray();
 	private static ArrayList<ArrayList<LatalkMessage>> lists = new ArrayList<ArrayList<LatalkMessage>>();
-	private static ArrayList<LatalkMessage> puzzle_race_list = new ArrayList<LatalkMessage>();
+	private static NotiArrayList<LatalkMessage> puzzle_race_list = new NotiArrayList<LatalkMessage>();
 	private static SparseIntArray race_id_map = new SparseIntArray();
 	private static int race_read = 0;
+	private static boolean got_all = false;
+	
 	public static byte[] getPicByKey(int key) {
 		return pic_list.get(key);
 	}
@@ -38,21 +42,35 @@ public class DataPassCache {
 		return key;
 	}
 	
+	public static int cacheLatalks(ArrayList<LatalkMessage> messages) {
+		
+		lists.add(messages);
+		return lists.size() - 1;
+	}
+	
+	public static ArrayList<LatalkMessage> getLatalks(int key) {
+		return lists.get(key);
+	}
+	
+	
+	
+	
 	public static int cacheTimeCapsule(LatalkMessage new_time_capsule) {
 		
 		if(time_capsule_read == Integer.MIN_VALUE) time_capsule_read = 0;
 		int tc_id = new_time_capsule.getMessageId();
 		
-		if(time_capsule_id_hash.contains(tc_id)) return -1;
+		if(time_capsule_id_hash.get(tc_id, -1) == -1) return -1;
 		else {
-			
-			time_capsule_id_hash.add(tc_id);
 			time_capsule_list.add(new_time_capsule);
+			time_capsule_id_hash.put(tc_id, time_capsule_list.size() - 1);
 		}
 		
 		
 		return time_capsule_list.size() - 1;
 	}
+	
+	
 	
 	public static List<LatalkMessage> getTimeCapsules(int num) {
 		
@@ -69,6 +87,8 @@ public class DataPassCache {
 		return messages;
 	}
 	
+	
+	
 	public static LatalkMessage getTimeCapsule() {
 		
 		if(time_capsule_read == Integer.MIN_VALUE || time_capsule_read >= time_capsule_list.size()) return null;
@@ -78,23 +98,19 @@ public class DataPassCache {
 	}
 	
 	public static LatalkMessage getTCById(int id){
-		for(LatalkMessage m : time_capsule_list) if(m.getMessageId() == id) return m;
-		return null;
+		int key = time_capsule_id_hash.get(id, -1);
+		return time_capsule_list.get(key);
 	}
 	
 	public static int getTCSize(){
 		return time_capsule_list.size();
 	}
-	public static int cacheLatalks(ArrayList<LatalkMessage> messages) {
-		
-		lists.add(messages);
-		
-		return lists.size() - 1;
-	}
 	
-	public static ArrayList<LatalkMessage> getLatalks(int key) {
-		return lists.get(key);
-	}
+	
+	
+	
+	
+	
 	
 	public static int cachePuzzleRace(LatalkMessage message) {
 		
@@ -103,7 +119,9 @@ public class DataPassCache {
 		race_id_map.put(message.getMessageId(), key);
 		return key;
 	}
-	
+	public static NotiArrayList<LatalkMessage> getRaceCache(){
+		return puzzle_race_list;
+	}
 	
 	
 	public static LatalkMessage getPuzzleRaceById(int id) {
@@ -111,28 +129,32 @@ public class DataPassCache {
 		return puzzle_race_list.get(race_id_map.get(id, -1));
 	}
 	
-	public static List<LatalkMessage> getPuzzleRaces(int num, boolean nearby){
+	public static LatalkMessage getPuzzleRace(){
+		if(1 + race_read <= puzzle_race_list.size()) {
+			race_read ++;
+			return puzzle_race_list.get(race_read - 1);
+		} else return null;
+	}
+	public static List<LatalkMessage> getPuzzleRaces(int num){
 		
 		if(num == ALL) return puzzle_race_list;
 		
-		while(!DataPassCache.gotRaces()){ 
-			if(MessageGetFactory.extendRadius()) {
-				if(nearby) retrieveMessage(MessageGetFactory.TC_NEAR_BY);
-				else retrieveMessage(MessageGetFactory.TC_AWAY);
-			} else {
-				
-				MessageGetFactory.resetRadius();
-				return null;
-			}
-		}	
+		if(!hasRaces()) {
+			return new ArrayList<LatalkMessage>();
+		}
 		
 		if(num == UNREAD_ALL) {
+			int time_out = TIME_OUT;
+			while(!got_all && time_out > 0) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) { e.printStackTrace(); }
+				time_out--;
+			}
 			int start = race_read;
 			race_read = puzzle_race_list.size();
 			return puzzle_race_list.subList(start, puzzle_race_list.size());
 		}
-		
-		
 		
 		if(num + race_read <= puzzle_race_list.size()) {
 			race_read += num;
@@ -144,25 +166,64 @@ public class DataPassCache {
 		}
 	}
 	
-	public static void retrieveMessage(int type){
+	public static void retrieveMessage(int type) {
 		
-		MessageGetFactory mgf = new MessageGetFactory();
-		switch(type) {
-			case MessageGetFactory.PR_NEAR_BY: 
-				mgf.getPuzzleMessagesNearby(null);
-				break;
-			case MessageGetFactory.TC_NEAR_BY:
-				break;
-			case MessageGetFactory.PR_AWAY:
-				mgf.getPuzzleMessagesNearby(null);
-				break;
-			case MessageGetFactory.TC_AWAY:
-				break;
-			default: break;
-		}
+		new MessageGetter().execute(type);
+	}
+	public static boolean hasRaces() {
+		return puzzle_race_list.size() > 0 && race_read < puzzle_race_list.size();
 	}
 	
-	public static boolean gotRaces() {
-		return puzzle_race_list.size() > 0 && race_read < puzzle_race_list.size();
+	public static boolean gotAll(){
+		return got_all;
+	}
+	
+	
+	
+	
+	
+	
+	static class MessageGetter extends AsyncTask<Integer, Void, Boolean> {
+		int type;
+		@Override
+		protected Boolean doInBackground(Integer... params) {
+			// TODO Auto-generated method stub
+			got_all = false;
+			type = params[0];
+			MessageGetFactory mgf = new MessageGetFactory();
+			
+			List<LatalkMessage> messages = null;
+			Location current_location = LocationInfoFactory.getCurrentLocation();
+			switch(params[0]) {
+			case MessageGetFactory.PR_NEAR_BY: 
+				messages = mgf.getPuzzleMessagesNearby(current_location);
+				break;
+			case MessageGetFactory.TC_NEAR_BY:
+				
+				messages = mgf.getTimeCapsuleMessagesNearby(current_location);
+				break;
+			case MessageGetFactory.PR_AWAY:
+				messages = mgf.getPuzzleMessagesNearby(current_location);
+				break;
+			case MessageGetFactory.TC_AWAY:
+				messages = mgf.getTimeCapsuleMessages();
+				break;
+			default: break;
+			}
+			return messages != null && !messages.isEmpty();
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if(result && DataPassCache.hasRaces()) got_all = true;
+			else {
+				if(MessageGetFactory.extendRadius()){
+					new MessageGetter().execute(type);
+				}
+			}
+		}
+
 	}
 }

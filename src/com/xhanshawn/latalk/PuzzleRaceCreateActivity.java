@@ -105,8 +105,7 @@ public class PuzzleRaceCreateActivity extends Activity {
 		p_r_c_map_fl = (FrameLayout) findViewById(R.id.p_r_c_map_fl);
 		
 		
-		LocationInfoFactory location_info_f = new LocationInfoFactory(PuzzleRaceCreateActivity.this);
-		Location current_location = location_info_f.getCurrentLocation();
+		Location current_location = LocationInfoFactory.getCurrentLocation();
 		MapFragment map_frag = (MapFragment) getFragmentManager().findFragmentById(R.id.puzzle_race_c_map);
 		
 		puzzle_race_map = map_frag.getMap();

@@ -45,6 +45,7 @@ public class MessageGetFactory {
 	final public static int GET_MESSAGE= -1;
 	
 	
+	
 	private static String URIBase = "http://10.0.3.2:3000";
 	ArrayList<LatalkMessage> messages = null;
 	private static int radius_level = 0;
@@ -60,9 +61,11 @@ public class MessageGetFactory {
 	public static void resetRadius(){
 		radius_level = 0;
 	}
+	
+	
 	public ArrayList<LatalkMessage> getPuzzleMessagesNearby(Location current_location){
 		
-		float offset = 0.0002f * radius_level;
+		float offset = 0.0002f * LEVEL[radius_level];
 		
 		while(messages == null || messages.isEmpty()){
 			
@@ -82,7 +85,7 @@ public class MessageGetFactory {
 			url += "&longitude=" + String.format("%.06f", longitude)
 					+ "&latitude=" + String.format("%.06f", latitude);
 			
-			new MessageGetter().execute(url);
+			messages = getMessages(url);
 			
 			if(offset < 0.00008) offset += 0.00002f;
 			else if(offset < 0.00048) offset += 0.0001f;
@@ -95,10 +98,11 @@ public class MessageGetFactory {
 	}
 	
 	
-	
 	public static ArrayList<LatalkMessage> getPuzzleMessages(){
 		
 		String url = ServerAccessFactory.queryMessage() + "&message_type=Puzzle";
+		url += "&longitude=" + String.format("%.06f", 181.0f)
+				+ "&latitude=" + String.format("%.06f", 91.0f);
 		return getMessages(url);
 	}
 	
@@ -106,7 +110,7 @@ public class MessageGetFactory {
 	
 		
 		ArrayList<LatalkMessage> messages = null;
-		float offset = 0.0002f * radius_level;
+		float offset = 0.0002f * LEVEL[radius_level];
 		
 		while(messages == null || messages.isEmpty()){
 
@@ -125,7 +129,7 @@ public class MessageGetFactory {
 			url += "&longitude=" + String.format("%.06f", longitude)
 					+ "&latitude=" + String.format("%.06f", latitude);
 			
-			messages = getMessages(url);
+			getMessages(url);
 
 			if(offset < 0.00008) offset += 0.00002f;
 			else if(offset < 0.00048) offset += 0.0001f;
@@ -137,13 +141,18 @@ public class MessageGetFactory {
 		return messages;
 	}
 	
+	
 	public static ArrayList<LatalkMessage> getTimeCapsuleMessages(){
 		
 		String url = ServerAccessFactory.queryMessage() + "&message_type=TimeCapsule";
 		
-		
+		url += "&longitude=" + String.format("%.06f", 181.0f)
+				+ "&latitude=" + String.format("%.06f", 91.0f);
 		return getMessages(url);
 	}
+	
+	
+	
 	
 	private static ArrayList<LatalkMessage> getMessages(String url){
 		HttpClient client = new DefaultHttpClient();
@@ -273,27 +282,5 @@ public class MessageGetFactory {
 		return output_bmp;
 	}
 	
-	class MessageGetter extends AsyncTask<String, Void, Integer> {
-
-		@Override
-		protected Integer doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			
-			messages = MessageGetFactory.getMessages(params[0]);
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			// TODO Auto-generated method stub
-			super.onProgressUpdate(values);
-		}
-	}
 	
 }
