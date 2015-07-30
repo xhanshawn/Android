@@ -132,7 +132,7 @@ public class TimeCapsuleCreateActivity extends Activity {
 					
 					ib.setImageResource(R.drawable.camera_icon_grey);
 					Intent puzzle_create_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
-					startActivityForResult(puzzle_create_activity, IntegerIdentifiers.ATTACH_PIC_IDENTIFIER); 
+					startActivityForResult(puzzle_create_activity, IntegerIdentifiers.ATTACH_IMG_FROM_CAM); 
 				}
 				
 				return false;
@@ -338,7 +338,7 @@ public class TimeCapsuleCreateActivity extends Activity {
 	        	}
 	        }
 	        break;
-		case IntegerIdentifiers.ATTACH_PIC_IDENTIFIER:
+		case IntegerIdentifiers.ATTACH_IMG_FROM_CAM:
 			Bundle extras = data.getExtras();
 			
 			int key = extras.getInt("pic_key");

@@ -7,19 +7,23 @@
     
     <ImageButton 
         android:id="@+id/options_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:background="@color/grey"
+        android:src="@drawable/settings_icon"
+        android:scaleType="fitXY"
+        android:background="@color/transparent"
         />
     <ImageButton
         android:id="@+id/user_account_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:background="@color/grey"
+        android:scaleType="fitXY"
+        android:background="@color/transparent"
+        android:src="@drawable/user_icon"
        />
 </RelativeLayout>
 

@@ -22,6 +22,7 @@
             	android:layout_width="match_parent"
             	android:layout_height="match_parent"
             	android:id="@+id/puzzle_r_c_panel_rl"
+            	android:background="@color/white"
             	>
             
         		<EditText 
@@ -47,17 +48,19 @@
     	
        		</RelativeLayout>
     	</LinearLayout>
-    	<ImageView 
+    	<!-- <ImageView 
 	    		android:layout_width="match_parent"
 	    		android:layout_height="1.5dp"
 	    		android:background="@color/grey"
-	    		/>
+	    		/> -->
     	<LinearLayout 
        			android:layout_width="match_parent"
         		android:layout_height="match_parent"
         		android:minHeight="100dp"
         		android:id="@+id/p_r_buttons_ll"
         		android:orientation="horizontal"
+        		android:background="@drawable/border_layout"
+        		android:layout_marginBottom="0.1dp"
         		>
         		<ImageButton
         			android:id="@+id/post_message_ib"
@@ -98,11 +101,11 @@
         			/>
     			
     	</LinearLayout>
-    	<ImageView 
+    	<!-- <ImageView 
 	    			android:layout_width="match_parent"
 	   				android:layout_height="1.5dp"
 	    			android:background="@color/grey"
-	    			/>
+	    			/> -->
     	<FrameLayout 
     	    android:id="@+id/p_r_c_map_fl"
     	    android:layout_width="match_parent"

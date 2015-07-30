@@ -25,7 +25,7 @@ public class DataPassCache {
 	private static ArrayList<LatalkMessage> time_capsule_list = new ArrayList<LatalkMessage>();
 	private static int time_capsule_read = Integer.MIN_VALUE;
 	private static SparseIntArray time_capsule_id_hash = new SparseIntArray();
-	private static ArrayList<ArrayList<LatalkMessage>> lists = new ArrayList<ArrayList<LatalkMessage>>();
+	private static List<ArrayList<LatalkMessage>> lists = new ArrayList<ArrayList<LatalkMessage>>();
 	private static NotiArrayList<LatalkMessage> puzzle_race_list = new NotiArrayList<LatalkMessage>();
 	private static SparseIntArray race_id_map = new SparseIntArray();
 	private static int race_read = 0;
@@ -42,6 +42,8 @@ public class DataPassCache {
 		return key;
 	}
 	
+	
+	
 	public static int cacheLatalks(ArrayList<LatalkMessage> messages) {
 		
 		lists.add(messages);
@@ -52,7 +54,9 @@ public class DataPassCache {
 		return lists.get(key);
 	}
 	
-	
+	public static void clearLatalks(){
+		lists = new ArrayList<ArrayList<LatalkMessage>>();
+	}
 	
 	
 	public static int cacheTimeCapsule(LatalkMessage new_time_capsule) {

@@ -1,8 +1,5 @@
 package com.xhanshawn.latalk;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,6 +9,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.xhanshawn.data.LatalkMessage;
+import com.xhanshawn.latalk.PuzzleRaceCreateActivity.MessagePoster;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
@@ -19,39 +17,92 @@ import com.xhanshawn.util.NotiArrayList;
 import com.xhanshawn.util.NotiArrayList.OnSizeChangeListener;
 import com.xhanshawn.util.NotiArrayList.SizeChangeEvent;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
-import android.os.AsyncTask;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Looper;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class RaceBrowserActivity extends Activity {
-	Location location;
+	Location current_location;
+	LocationManager manager;
 	GoogleMap puzzle_race_map;
 	NotiArrayList<LatalkMessage> messages;
 	int add_num = 0;
+	ActionBar mActionBar;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_race_browser);
 		
-		location = LocationInfoFactory.getCurrentLocation();
+		customActionBar();
 		
-		if(!LocationInfoFactory.isEnabled()) DataPassCache.retrieveMessage(MessageGetFactory.PR_AWAY);
-		else DataPassCache.retrieveMessage(MessageGetFactory.PR_NEAR_BY);
+		current_location = LocationInfoFactory.getCurrentLocation();
+		
+		manager = LocationInfoFactory.getLocationManager();
+		
+		manager.requestLocationUpdates(manager.getBestProvider(new Criteria(), true), 
+				LocationInfoFactory.UPDATE_TIME[3], 
+				LocationInfoFactory.UPDATE_DIS[0], 
+				new LocationListener() {
+
+					@Override
+					public void onLocationChanged(Location location) {
+						// TODO Auto-generated method stub
+						if(Math.abs(LocationInfoFactory.calculateLatLngToDis(location, current_location)) > 0.5) {
+							Log.v("nlocation", location.getLatitude() + "   " + location.getLongitude());
+							Log.v("olocation", current_location.getLatitude() + "   " + current_location.getLongitude());
+							current_location = location;
+							askPRS();
+						}
+						
+						LatLng current_lat_lng = new LatLng(location.getLatitude() ,
+								location.getLongitude());
+						CameraUpdate current_update = CameraUpdateFactory.newLatLngZoom(current_lat_lng, 16);
+						puzzle_race_map.animateCamera(current_update);
+					}
+
+					@Override
+					public void onStatusChanged(String provider, int status,
+							Bundle extras) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onProviderEnabled(String provider) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onProviderDisabled(String provider) {
+						// TODO Auto-generated method stub
+						
+					}
+			
+		}, Looper.getMainLooper());
+		
+		askPRS();
 		
 		MapFragment map_frag = (MapFragment) getFragmentManager().findFragmentById(R.id.puzzle_map);
 		
 		puzzle_race_map = map_frag.getMap();
 		
-		if(location !=null) {
+		if(current_location !=null) {
 			
-			LatLng current_lat_lng = new LatLng(location.getLatitude() ,
-					location.getLongitude());
+			LatLng current_lat_lng = new LatLng(current_location.getLatitude() ,
+					current_location.getLongitude());
 			
 			CameraUpdate current_update = CameraUpdateFactory.newLatLngZoom(current_lat_lng, 16);
 			puzzle_race_map.animateCamera(current_update);
@@ -65,7 +116,7 @@ public class RaceBrowserActivity extends Activity {
 		
 		messages = DataPassCache.getRaceCache();
 		messages.setOnSizeChangeListener(new OnSizeChangeListener(){
-			List<LatalkMessage> prs = new ArrayList<LatalkMessage>();
+
 			@Override
 			public void sizeChange(SizeChangeEvent event) {
 				// TODO Auto-generated method stub
@@ -76,6 +127,7 @@ public class RaceBrowserActivity extends Activity {
 				}
 			}
 		});
+		
 		
 		messages.setOnSizeChangeListener(new OnSizeChangeListener(){
 
@@ -105,46 +157,49 @@ public class RaceBrowserActivity extends Activity {
 		
 	}
 	
-	private void askMore(){
+	
+	private void askPRS(){
 		if(!LocationInfoFactory.isEnabled()) DataPassCache.retrieveMessage(MessageGetFactory.PR_AWAY);
 		else DataPassCache.retrieveMessage(MessageGetFactory.PR_NEAR_BY);
 		
 	}
 	
-	private void addMarker(){
-		if(add_num >= messages.size()) {
-			askMore();
-			return;
-		}
+	private void customActionBar(){
 		
-		for(int i = add_num; i < messages.size(); i++) {
-			LatalkMessage m = messages.get(i);
-			String marker_str = " " + m.getMessageId();
-			MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(m.getLatitude(), m.getLongitude()))
-                    .title(marker_str)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+		
+		mActionBar = getActionBar();
+		mActionBar.show();
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.actionbar_color_with_text,null);
+		
+		mActionBar.setDisplayShowCustomEnabled(true);
 
-			puzzle_race_map.addMarker(marker);
-			add_num++;
-		}
-	}
-	
-	class Updater extends AsyncTask<String, Void, String> {
+		mActionBar.setCustomView(v);
+	    mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.green));
 
-		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			askMore();
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
+		Button back_to_main_b = (Button) v.findViewById(R.id.c_p_r_to_main_b);
+	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
 			
-		}
-		
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				RaceBrowserActivity.this.finish();
+			}
+		});
+	    
+	    Button puzzle_r_ok_b = (Button) v.findViewById(R.id.puzzle_r_create_ok_b);
+	    puzzle_r_ok_b.setText("Post");
+	    puzzle_r_ok_b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				RaceBrowserActivity.this.finish();
+			}
+		});
+	    
+	    TextView banner_tv = (TextView) findViewById(R.id.actionbar_color_banner);
+	    banner_tv.setText("Puzzle Race");
 	}
 }

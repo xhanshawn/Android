@@ -48,4 +48,14 @@ public class AlertMessageFactory {
 		String message = "Post message failed. Please check your networks or Server is not available.";
 		return message;
 	}
+	
+	public static String noContentLatalk(){
+		String message = "This puzzle doesn't have description";
+		return message;
+	}
+	
+	public static String chooseAttachSources(){
+		String message = "Pick a image source";
+		return message;
+	}
 }

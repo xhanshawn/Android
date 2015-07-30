@@ -1,14 +1,10 @@
 package com.xhanshawn.latalk;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.MessageGetFactory;
-import com.xhanshawn.util.MessagePostFactory;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,8 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,7 +21,6 @@ public class MessageBrowserActivity extends Activity {
 	
 	private ArrayList<LatalkMessage> messages = null;
 	private TextView message_textview = null;
-	private String current_message_type = null;
 	ImageView message_img_iv;
 	
 	@Override

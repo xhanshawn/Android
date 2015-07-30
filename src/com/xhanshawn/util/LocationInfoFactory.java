@@ -1,7 +1,5 @@
 package com.xhanshawn.util;
 
-import com.xhanshawn.latalk.MainActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,15 +14,22 @@ import android.provider.Settings;
 
 public class LocationInfoFactory {
 	
-	private static LocationManager service;
+	final public static long[] UPDATE_TIME = new long[] {
+		1000l, 2000l, 3000l, 5000l
+	};
+	final public static float[] UPDATE_DIS = new float[] {
+		100f, 300f
+	};
+	
+	private static LocationManager manager;
 	private static Location current_location;
 	public static boolean isEnabled = false;
 	private static String provider = "";
-	public LocationInfoFactory(final Context context){
+	public static void initialize(final Context context){
 		
 		//check gps
-		service = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-	    isEnabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+	    isEnabled = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	    
 	    if(!isEnabled){
 	    	
@@ -65,10 +70,10 @@ public class LocationInfoFactory {
 	    	
 	    	
 	    	Criteria criteria = new Criteria();
-			provider = service.getBestProvider(criteria, true);
+			provider = manager.getBestProvider(criteria, true);
 			
-			current_location = service.getLastKnownLocation(provider);
-			service.requestLocationUpdates(provider, 400, 1, new LocationListener(){
+			current_location = manager.getLastKnownLocation(provider);
+			manager.requestLocationUpdates(provider, 400, 1, new LocationListener(){
 
 				@Override
 				public void onLocationChanged(Location location) {
@@ -100,9 +105,13 @@ public class LocationInfoFactory {
 			}, Looper.getMainLooper());
 	    }
 	}
+	public static LocationManager getLocationManager(){
+		
+		return manager;
+	}
 	
 	public static boolean isEnabled(){
-	    isEnabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	    isEnabled = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	    return isEnabled;
 	}
 	public static Location getCurrentLocation(){
@@ -113,5 +122,14 @@ public class LocationInfoFactory {
 			current_location.setLongitude(181.0d);
 		}
 		return current_location;
+	}
+	
+	public static double calculateLatLngToDis(Location l1, Location l2){
+		double theta = l1.getLongitude() - l2.getLongitude();
+		double dis = Math.acos((Math.sin(Math.PI * l1.getLatitude()/180) * Math.sin(Math.PI * l2.getLatitude()/180) + 
+				Math.cos(Math.PI * l1.getLatitude()/180) * Math.cos(Math.PI * l2.getLatitude()/180) * Math.cos(Math.PI * theta/180)
+				));
+		dis = dis * 180/Math.PI * 60 * 1.1515;
+		return dis * 1.609344;
 	}
 }

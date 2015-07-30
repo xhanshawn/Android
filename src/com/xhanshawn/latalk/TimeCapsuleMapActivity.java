@@ -50,7 +50,6 @@ public class TimeCapsuleMapActivity extends Activity {
 	
 	ActionBar mActionBar;
 	private ArrayList<LatalkMessage> tcs = new ArrayList<LatalkMessage> ();
-	LocationInfoFactory location_info;
 	private int tc_got_num = 0;
 	private int thumb_got_num = 0;
 	private int sml_thumb_num = 0;
@@ -76,8 +75,7 @@ public class TimeCapsuleMapActivity extends Activity {
 		width = size.x;
 		height = size.y;
 		
-		location_info = new LocationInfoFactory(TimeCapsuleMapActivity.this);
-		Location current_location = location_info.getCurrentLocation();
+		Location current_location = LocationInfoFactory.getCurrentLocation();
 		MapFragment map_frag = (MapFragment) getFragmentManager().findFragmentById(R.id.tc_map);
 		
 		tc_map = map_frag.getMap();
@@ -162,7 +160,7 @@ public class TimeCapsuleMapActivity extends Activity {
 			switch (params[0]) {
 			
 				case IntegerIdentifiers.GET_TIMECAPSULE:
-					Location current_location = location_info.getCurrentLocation();
+					Location current_location = LocationInfoFactory.getCurrentLocation();
 					tcs.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location));
 //					tcs.addAll(MessageGetFactory.getTimeCapsuleMessages());
 					break;

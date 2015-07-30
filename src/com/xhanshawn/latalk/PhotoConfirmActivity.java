@@ -44,7 +44,7 @@ public class PhotoConfirmActivity extends Activity {
 				
 				Intent resultIntent = new Intent();
 				resultIntent.putExtra("pic_key", pic_key);
-				setResult(IntegerIdentifiers.ATTACH_PIC_IDENTIFIER, resultIntent);
+				setResult(IntegerIdentifiers.ATTACH_IMG_FROM_CAM, resultIntent);
 				PhotoConfirmActivity.this.finish();
 			}
 		});

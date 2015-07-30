@@ -78,7 +78,6 @@ public class TimeCapsuleActivity extends Activity {
 	Handler radar_handler2;
 	Runnable radar_cir_1;
 	AnimationSet radar;
-	LocationInfoFactory location_info;
 	Location current_location;
 	
 	//parameters
@@ -100,8 +99,7 @@ public class TimeCapsuleActivity extends Activity {
 		customActionBar();
 		
 		//get location info
-		location_info = new LocationInfoFactory(TimeCapsuleActivity.this);
-		current_location = location_info.getCurrentLocation();
+		current_location = LocationInfoFactory.getCurrentLocation();
 		if(current_location == null) {
 
 			Toast location_closed_toast = Toast.makeText(TimeCapsuleActivity.this,

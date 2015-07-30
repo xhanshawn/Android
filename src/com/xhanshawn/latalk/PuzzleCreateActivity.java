@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PuzzleCreateActivity extends Activity {
@@ -37,11 +38,7 @@ public class PuzzleCreateActivity extends Activity {
 
 	private ActionBar mActionBar;
 	private MyListView puzzle_create_mlv;
-	ImageView iv1;
-	ImageView iv2;
 	private ArrayList<LatalkMessage> puzzles = new ArrayList<LatalkMessage>();
-	
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +52,8 @@ public class PuzzleCreateActivity extends Activity {
 		int img_src = getIntent().getExtras().getInt("Img_src");
 		
 		switch(img_src) {
+		
+			//attach picture from gallery
 			case IntegerIdentifiers.ATTACH_IMG_FROM_GAL :
 				
 				Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -72,18 +71,17 @@ public class PuzzleCreateActivity extends Activity {
 				startActivityForResult(photoPickerIntent, IntegerIdentifiers.SELECT_PHOTO); 
 				
 				break;
+			
+			//attach picture from camera
 			case IntegerIdentifiers.ATTACH_IMG_FROM_CAM:
 				
-				Intent puzzle_create_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
-				startActivityForResult(puzzle_create_activity, IntegerIdentifiers.ATTACH_PIC_IDENTIFIER); 
+				Intent camera_activity = new Intent("com.xhanshawn.latalk.CAMERAACTIVITY");
+				startActivityForResult(camera_activity, IntegerIdentifiers.ATTACH_IMG_FROM_CAM); 
 				break;
 				
 			default: break;
 				
 		}
-		
-		
-		
 		
 	}
 	
@@ -96,9 +94,7 @@ public class PuzzleCreateActivity extends Activity {
 		super.onResume();
 		
 		PicPuzzleAdapter pp_adapter = new PicPuzzleAdapter(PuzzleCreateActivity.this, puzzles);
-		
 		puzzle_create_mlv.setAdapter(pp_adapter);
-		
 	}
 
 
@@ -115,6 +111,8 @@ public class PuzzleCreateActivity extends Activity {
 	    
 	    case IntegerIdentifiers.SELECT_PHOTO:
 	        if(resultCode == RESULT_OK){
+	        	
+	        	//check API level
 	        	if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2 || data.getData() != null) {
 	        		
 	        		
@@ -150,7 +148,8 @@ public class PuzzleCreateActivity extends Activity {
 	        	}
 	        }
 	        break;
-	    case IntegerIdentifiers.ATTACH_PIC_IDENTIFIER:
+	    //attach pic from camera
+	    case IntegerIdentifiers.ATTACH_IMG_FROM_CAM:
 	    	if(data == null) break;
 	    	int key = data.getExtras().getInt("pic_key");
 	    	byte[] img_byte_array = DataPassCache.getPicByKey(key);
@@ -172,13 +171,14 @@ public class PuzzleCreateActivity extends Activity {
 		mActionBar = getActionBar();
 		mActionBar.show();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflater.inflate(R.layout.actionbar_color_with_text,null);
+		View v = inflater.inflate(R.layout.actionbar_color_with_text, null);
 		
 		mActionBar.setDisplayShowCustomEnabled(true);
 
 		mActionBar.setCustomView(v);
-	    
-	    Button back_to_main_b = (Button) v.findViewById(R.id.c_p_r_to_main_b);
+	    mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue));
+
+		Button back_to_main_b = (Button) v.findViewById(R.id.c_p_r_to_main_b);
 	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -202,6 +202,9 @@ public class PuzzleCreateActivity extends Activity {
 				PuzzleCreateActivity.this.finish();
 			}
 		});
+	    
+	    TextView banner_tv = (TextView) findViewById(R.id.actionbar_color_banner);
+	    banner_tv.setText("Puzzle Create");
 	}
 	
 	

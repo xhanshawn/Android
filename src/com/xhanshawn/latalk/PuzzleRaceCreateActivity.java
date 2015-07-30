@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.data.UserAccount;
+import com.xhanshawn.util.AlertMessageFactory;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.util.LocationInfoFactory;
@@ -25,8 +26,10 @@ import com.xhanshawn.view.ResizeAnimation;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -60,24 +63,33 @@ public class PuzzleRaceCreateActivity extends Activity {
 	final static double BUTTONS_PANEL_RATIO = 1.0/18.0;
 	final static double RACE_PANEL_RATIO = 3.5/9.0;
 
+	/*
+	 * views
+	 */
 	private ActionBar mActionBar;
 	private GridView attached_pic_pr_gv;
-	private ArrayList<LatalkMessage> race_puzzles = new ArrayList<LatalkMessage>();
-	private ArrayList<LatalkMessage> pined_puzzles = new ArrayList<LatalkMessage>();
 	private GoogleMap puzzle_race_map;
 	private PuzzleGridAdapter pg_adapter;
-	private boolean add_marker_enabled;
-	private int current_img_position;
 	private ImageView current_iv = null;
 	private RelativeLayout puzzle_r_c_panel_rl;
 	private LinearLayout puzzle_r_c_panel_ll;
 	private LinearLayout p_r_buttons_ll;
-	private int screen_height;
-	private FrameLayout p_r_c_map_fl;
+	
+	/*
+	 * data caches
+	 */
+	private ArrayList<LatalkMessage> race_puzzles = new ArrayList<LatalkMessage>();
+	private ArrayList<LatalkMessage> pined_puzzles = new ArrayList<LatalkMessage>();
+
+	/*
+	 * parameters
+	 */
+	private boolean add_marker_enabled;
 	private LatLng last_pin;
+	private int current_img_position;
+	private int screen_height;
 	private int puzzle_num = 0;;
 	
-//	private Routing routing;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -87,24 +99,24 @@ public class PuzzleRaceCreateActivity extends Activity {
 		
 		attached_pic_pr_gv = (GridView) findViewById(R.id.attached_pic_pr_gv);
 		
-//		if(race_puzzles.isEmpty()) openPuzzleCreateActivity();
-		
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		screen_height = size.y;
 		int screen_width = size.x;
 		
+		
 		puzzle_r_c_panel_ll = (LinearLayout) findViewById(R.id.puzzle_r_c_panel_ll);
 		puzzle_r_c_panel_ll.setLayoutParams(
 				new LinearLayout.LayoutParams(screen_width, (int) (screen_height * RACE_PANEL_RATIO)));
         p_r_buttons_ll = (LinearLayout) findViewById(R.id.p_r_buttons_ll);
-        p_r_buttons_ll.setLayoutParams(
-        		new LinearLayout.LayoutParams(screen_width, (int) (screen_height * BUTTONS_PANEL_RATIO)));
+        LinearLayout.LayoutParams buttons_param = (LinearLayout.LayoutParams) p_r_buttons_ll.getLayoutParams();
+        buttons_param.width = screen_width;
+        buttons_param.height = (int) (screen_height * BUTTONS_PANEL_RATIO);
+//        		new LinearLayout.LayoutParams(screen_width, (int) (screen_height * BUTTONS_PANEL_RATIO));
+//        buttons_param.bottomMargin = 3;
+        p_r_buttons_ll.setLayoutParams(buttons_param);
 
-		p_r_c_map_fl = (FrameLayout) findViewById(R.id.p_r_c_map_fl);
-		
-		
 		Location current_location = LocationInfoFactory.getCurrentLocation();
 		MapFragment map_frag = (MapFragment) getFragmentManager().findFragmentById(R.id.puzzle_race_c_map);
 		
@@ -299,6 +311,8 @@ public class PuzzleRaceCreateActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		pg_adapter = new PuzzleGridAdapter(PuzzleRaceCreateActivity.this, race_puzzles);
+		attached_pic_pr_gv.setAdapter(pg_adapter);
 	}
 
 	@Override
@@ -310,7 +324,6 @@ public class PuzzleRaceCreateActivity extends Activity {
 			int key = extras.getInt("puzzles_key");
 			race_puzzles.addAll(DataPassCache.getLatalks(key));
 		}
-		
 		pg_adapter = new PuzzleGridAdapter(PuzzleRaceCreateActivity.this, race_puzzles);
 		attached_pic_pr_gv.setAdapter(pg_adapter);
 	}
@@ -486,15 +499,34 @@ public class PuzzleRaceCreateActivity extends Activity {
 				
 				if(holder.close_icon != null) holder.close_icon.setBackgroundResource(R.color.transparent);
 				
-				holder.puzzle_iv.setImageResource(R.drawable.loading_picture);
+				holder.puzzle_iv.setImageResource(R.drawable.add_icon_blue);
 				holder.puzzle_iv.setOnClickListener(new View.OnClickListener() {
-					
+					final static int CAMERA = 0;
+					final static int GALLERY = 1;
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						Intent puzzle_create_activity = new Intent("com.xhanshawn.latalk.PUZZLECREATEACTIVITY");
-						puzzle_create_activity.putExtra("Img_src", IntegerIdentifiers.ATTACH_IMG_FROM_GAL);
-						startActivityForResult(puzzle_create_activity, IntegerIdentifiers.PASS_PUZZLES);
+						CharSequence sources[] = new CharSequence[] {"Camera", "Gallery"};
+
+						AlertDialog.Builder picker = new AlertDialog.Builder(PuzzleRaceCreateActivity.this);
+						picker.setTitle(AlertMessageFactory.chooseAttachSources());
+						picker.setItems(sources, new DialogInterface.OnClickListener() {
+						    @Override
+						    public void onClick(DialogInterface dialog, int which) {
+						    	switch(which) {
+						    	case CAMERA:
+									openPuzzleCreateActivity(IntegerIdentifiers.ATTACH_IMG_FROM_CAM);
+
+						    		break;
+						    	case GALLERY:
+									openPuzzleCreateActivity(IntegerIdentifiers.ATTACH_IMG_FROM_GAL);
+						    		break;
+						    	default : break;
+						    	}
+						    }
+						});
+						picker.show();
 					}
 				});
 			}

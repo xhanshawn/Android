@@ -36,8 +36,7 @@ public class UserLatalkMapActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_latalk_map);
 		
-		LocationInfoFactory location_info_f = new LocationInfoFactory(UserLatalkMapActivity.this);
-		Location current_location = location_info_f.getCurrentLocation();
+		Location current_location = LocationInfoFactory.getCurrentLocation();
 		
 		
 		

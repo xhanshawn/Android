@@ -65,18 +65,20 @@ public class PicPuzzleAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder holder = null;
-//		current_position = position;
+		
 		if(convertView == null) {
 			
 			LayoutInflater inflater = ((Activity)context).getLayoutInflater();
 			holder = new ViewHolder();
 			if(position < data.size()) {
+				
 				convertView = inflater.inflate(R.layout.pic_puzzle_item, parent, false);
 			}else{
 				convertView = inflater.inflate(R.layout.add_item, parent, false);
 			}
 				
 			holder.pic = (ImageView) convertView.findViewById(R.id.pic_puzzle_iv);
+			
 			if(position < data.size()) {
 				holder.pic_description = (EditText) convertView.findViewById(R.id.pic_puzzle_et);
 				holder.pic_description.setTag(data.get(position));
@@ -92,7 +94,7 @@ public class PicPuzzleAdapter extends BaseAdapter {
 			holder.pic.setImageBitmap(message.getAttahedPic());
 		}
 		if(position == data.size() && position < 8) {
-			holder.pic.setImageResource(R.drawable.loading_picture);
+			holder.pic.setImageResource(R.drawable.tiny_add_icon_blue);
 		}
 		
 		holder.pic.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +124,11 @@ public class PicPuzzleAdapter extends BaseAdapter {
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
 				EditText et = (EditText) v;
-				if(!hasFocus) ((LatalkMessage) v.getTag()).setContent(et.getEditableText().toString());
+				String content = et.getEditableText().toString();
+				if(!hasFocus) {
+					if(content == null || content.length() == 0) content = AlertMessageFactory.noContentLatalk();
+					((LatalkMessage) v.getTag()).setContent(content);
+				}
 			}
 		});
 		
