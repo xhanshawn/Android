@@ -360,8 +360,8 @@ public class PuzzleRaceCreateActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
-				new MessagePoster().execute("PostRace");
+				MessagePostFactory.postLatalks(pined_puzzles);
+//				new MessagePoster().execute("PostRace");
 				PuzzleRaceCreateActivity.this.finish();
 			}
 		});
@@ -370,31 +370,30 @@ public class PuzzleRaceCreateActivity extends Activity {
 	    banner_tv.setText("Puzzle Race");
 	}
 	
-	class MessagePoster extends AsyncTask<String, Void, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			if(params[0].equals("PostRace")){
-				if(pined_puzzles.size() > 0) {
-					LatalkMessage start = pined_puzzles.get(0);
-					start.setStart(start);
-					MessagePostFactory.postLatalkMessage(start);
-					if(pined_puzzles.size() > 1) {
-						for(int i = 1; i < pined_puzzles.size(); i++) {
-							LatalkMessage message = pined_puzzles.get(i);
-							message.setStart(start);
-							MessagePostFactory.postLatalkMessage(message);
-						}
-					}
-				}
-			}
-			
-			
-			return null;
-		}
-		
-	}
+//	class MessagePoster extends AsyncTask<String, Void, String> {
+//
+//		@Override
+//		protected String doInBackground(String... params) {
+//			// TODO Auto-generated method stub
+//			if(params[0].equals("PostRace")){
+//				if(pined_puzzles.size() > 0) {
+//					LatalkMessage start = pined_puzzles.get(0);
+//					start.setStart(start);
+//					MessagePostFactory.postLatalkMessage(start);
+//					if(pined_puzzles.size() > 1) {
+//						for(int i = 1; i < pined_puzzles.size(); i++) {
+//							LatalkMessage message = pined_puzzles.get(i);
+//							message.setStart(start);
+//							MessagePostFactory.postLatalkMessage(message);
+//						}
+//					}
+//				}
+//			}
+//			
+//			return null;
+//		}
+//		
+//	}
 	
 	
 	class PuzzleGridAdapter extends BaseAdapter{

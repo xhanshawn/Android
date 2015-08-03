@@ -44,10 +44,10 @@ public class AlertMessageFactory {
 		return message;
 	}
 	
-	public static String postFailed(){
-		String message = "Post message failed. Please check your networks or Server is not available.";
-		return message;
-	}
+//	public static String postFailed(){
+//		String message = "Post message failed. Please check your networks or Server is not available.";
+//		return message;
+//	}
 	
 	public static String noContentLatalk(){
 		String message = "This puzzle doesn't have description";
@@ -56,6 +56,21 @@ public class AlertMessageFactory {
 	
 	public static String chooseAttachSources(){
 		String message = "Pick a image source";
+		return message;
+	}
+	
+	public static String tcInputHint(){
+		String message = "Anything you want to keep in a Time Capsule";
+		return message;
+	}
+	
+	public static String postSucceeded(){
+		String message = "Your messages were posted successfully";
+		return message;
+	}
+	
+	public static String postFailed(){
+		String message = "Post failed. Messages will be kept utill network is available and then post all";
 		return message;
 	}
 }

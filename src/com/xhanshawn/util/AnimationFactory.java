@@ -203,4 +203,11 @@ public class AnimationFactory {
 		set.addAnimation(scale);
 		return set;
 	}
+	
+	public static void switchVisibility(View v) {
+		if(v != null){
+			if(v.getVisibility() == View.INVISIBLE) v.setVisibility(View.VISIBLE);
+			else v.setVisibility(View.INVISIBLE);
+		}
+	}
 }

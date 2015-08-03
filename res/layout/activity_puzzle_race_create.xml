@@ -60,7 +60,6 @@
         		android:id="@+id/p_r_buttons_ll"
         		android:orientation="horizontal"
         		android:background="@drawable/border_layout"
-        		android:layout_marginBottom="0.1dp"
         		>
         		<ImageButton
         			android:id="@+id/post_message_ib"

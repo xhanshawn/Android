@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -21,13 +23,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import sun.misc.BASE64Encoder;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.xhanshawn.data.LatalkMessage;
+import com.xhanshawn.latalk.CameraActivity;
+import com.xhanshawn.latalk.Latalk;
 
 public class MessagePostFactory {
 	
@@ -191,5 +198,51 @@ public class MessagePostFactory {
 		img_str = Base64.encodeToString(byte_array, Base64.DEFAULT);
 		
 		return img_str;
+	}
+	
+	public static void postLatalks(ArrayList<LatalkMessage> list){
+		
+		if(list != null) new Poster().execute(list);
+	}
+	
+	
+	static class Poster extends AsyncTask<ArrayList<LatalkMessage>, Void, Boolean> {
+		
+		List<LatalkMessage> failed = new ArrayList<LatalkMessage>();
+		@Override
+		protected Boolean doInBackground(ArrayList<LatalkMessage>... params) {
+			// TODO Auto-generated method stub
+			boolean result = true;
+			for(LatalkMessage mess : params[0]){
+				boolean succeed = postLatalkMessage(mess);
+				if(!succeed) {
+					result = false;
+					failed.add(mess);
+				}
+			}
+				
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			Context current_context = Latalk.getAppContext();
+			if(result){
+				Toast post_suc_toast = Toast.makeText(current_context,
+						AlertMessageFactory.postSucceeded(),
+						Toast.LENGTH_LONG);
+
+				post_suc_toast.show();
+			} else {
+				Toast post_fail_toast = Toast.makeText(current_context,
+						AlertMessageFactory.postFailed(),
+						Toast.LENGTH_LONG);
+
+				post_fail_toast.show();
+			}
+			super.onPostExecute(result);
+		}
 	}
 }

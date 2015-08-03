@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.xhanshawn.data.LatalkMessage;
-import com.xhanshawn.latalk.PuzzleRaceCreateActivity.MessagePoster;
 import com.xhanshawn.util.AlertMessageFactory;
 import com.xhanshawn.util.AnimationFactory;
 import com.xhanshawn.util.DataPassCache;

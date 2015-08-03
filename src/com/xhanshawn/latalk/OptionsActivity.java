@@ -68,7 +68,7 @@ public class OptionsActivity extends Activity {
 		for(int i=0; i< OTHERS_OPTIONS.length; i++){
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			
-			map.put("menu_icon", R.id.menu_icon);
+			map.put("menu_icon", R.drawable.capsule_pink);
 			map.put("menu_text", OTHERS_OPTIONS[i]);
 		
 			

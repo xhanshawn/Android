@@ -8,18 +8,18 @@ package com.fedorvlasov.lazylist;
 
 public final class R {
 	public static final class drawable {
-		public static final int icon = 0x7f02003a;
-		public static final int stub = 0x7f020054;
+		public static final int icon = 0x7f02003b;
+		public static final int stub = 0x7f020055;
 	}
 	public static final class id {
-		public static final int button1 = 0x7f08007e;
-		public static final int image = 0x7f080071;
-		public static final int list = 0x7f08007d;
-		public static final int text = 0x7f080072;
+		public static final int button1 = 0x7f080081;
+		public static final int image = 0x7f080072;
+		public static final int list = 0x7f080080;
+		public static final int text = 0x7f080073;
 	}
 	public static final class layout {
-		public static final int item = 0x7f03001d;
-		public static final int main = 0x7f030020;
+		public static final int item = 0x7f03001e;
+		public static final int main = 0x7f030022;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f060001;
