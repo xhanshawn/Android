@@ -24,10 +24,10 @@ public class DataPassCache {
 	private static ArrayList<byte[]> pic_list = new ArrayList<byte[]>();
 	private static ArrayList<LatalkMessage> time_capsule_list = new ArrayList<LatalkMessage>();
 	private static int time_capsule_read = Integer.MIN_VALUE;
-	private static SparseIntArray time_capsule_id_hash = new SparseIntArray();
+	private static HashMap<Long, Integer> time_capsule_id_hash = new HashMap<Long, Integer>();
 	private static List<ArrayList<LatalkMessage>> lists = new ArrayList<ArrayList<LatalkMessage>>();
 	private static NotiArrayList<LatalkMessage> puzzle_race_list = new NotiArrayList<LatalkMessage>();
-	private static SparseIntArray race_id_map = new SparseIntArray();
+	private static HashMap<Long, Integer> race_id_map = new HashMap<Long, Integer>();
 	private static int race_read = 0;
 	private static boolean got_all = false;
 	
@@ -62,9 +62,9 @@ public class DataPassCache {
 	public static int cacheTimeCapsule(LatalkMessage new_time_capsule) {
 		
 		if(time_capsule_read == Integer.MIN_VALUE) time_capsule_read = 0;
-		int tc_id = new_time_capsule.getMessageId();
+		long tc_id = new_time_capsule.getMessageId();
 		
-		if(time_capsule_id_hash.get(tc_id, -1) == -1) return -1;
+		if(time_capsule_id_hash.get(tc_id) == null) return -1;
 		else {
 			time_capsule_list.add(new_time_capsule);
 			time_capsule_id_hash.put(tc_id, time_capsule_list.size() - 1);
@@ -101,9 +101,10 @@ public class DataPassCache {
 		return message;
 	}
 	
-	public static LatalkMessage getTCById(int id){
-		int key = time_capsule_id_hash.get(id, -1);
-		return time_capsule_list.get(key);
+	public static LatalkMessage getTCById(long id){
+		
+		if(time_capsule_id_hash.containsKey(id)) return time_capsule_list.get(time_capsule_id_hash.get(id));
+		else return new LatalkMessage();
 	}
 	
 	public static int getTCSize(){
@@ -130,7 +131,8 @@ public class DataPassCache {
 	
 	public static LatalkMessage getPuzzleRaceById(int id) {
 		
-		return puzzle_race_list.get(race_id_map.get(id, -1));
+		if(time_capsule_id_hash.containsKey(id)) return puzzle_race_list.get(race_id_map.get(id));
+		else return new LatalkMessage();
 	}
 	
 	public static LatalkMessage getPuzzleRace(){

@@ -92,7 +92,7 @@ public class MessagePostFactory {
 			String data = EntityUtils.toString(res_entity);
 			JSONObject attrs = new JSONObject(data);
 			Log.v("server response", attrs.toString());
-			message.setMessageId(attrs.getInt("id"));
+			message.setMessageId(attrs.getLong("id"));
 			return true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -207,21 +207,17 @@ public class MessagePostFactory {
 	
 	
 	static class Poster extends AsyncTask<ArrayList<LatalkMessage>, Void, Boolean> {
-		
-		List<LatalkMessage> failed = new ArrayList<LatalkMessage>();
+		List<LatalkMessage> list = new ArrayList<LatalkMessage>();
 		@Override
 		protected Boolean doInBackground(ArrayList<LatalkMessage>... params) {
 			// TODO Auto-generated method stub
 			boolean result = true;
 			for(LatalkMessage mess : params[0]){
 				boolean succeed = postLatalkMessage(mess);
-				if(!succeed) {
-					result = false;
-					failed.add(mess);
-				}
+				if(!succeed) result = false;
 			}
 				
-			
+			list = params[0];
 			return result;
 		}
 
@@ -233,15 +229,25 @@ public class MessagePostFactory {
 				Toast post_suc_toast = Toast.makeText(current_context,
 						AlertMessageFactory.postSucceeded(),
 						Toast.LENGTH_LONG);
-
 				post_suc_toast.show();
 			} else {
+				
+
 				Toast post_fail_toast = Toast.makeText(current_context,
 						AlertMessageFactory.postFailed(),
 						Toast.LENGTH_LONG);
 
 				post_fail_toast.show();
 			}
+			
+			for (LatalkMessage mess : list) {
+				
+				
+				LatalkDbFactory ldbf = new LatalkDbFactory(current_context);
+				ldbf.insert(mess);
+			}
+			
+			
 			super.onPostExecute(result);
 		}
 	}

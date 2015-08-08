@@ -16,6 +16,8 @@ import com.xhanshawn.util.AlertMessageFactory;
 import com.xhanshawn.util.AnimationFactory;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.IntegerIdentifiers;
+import com.xhanshawn.util.LatalkDbFactory;
+import com.xhanshawn.util.LatalkDbHelper;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessagePostFactory;
 import com.xhanshawn.util.ParamsFactory;
@@ -177,7 +179,7 @@ public class TimeCapsuleCreateActivity extends Activity {
 		default: break;
 		}
 		attached_pic_iv.setImageBitmap(taken_pic);
-		if(tp_panel.getVisibility() == View.VISIBLE) AnimationFactory.switchVisibility(tp_panel);
+		if(tp_panel.getVisibility() == View.VISIBLE && taken_pic != null) AnimationFactory.switchVisibility(tp_panel);
 	}
 
 	
@@ -224,12 +226,19 @@ public class TimeCapsuleCreateActivity extends Activity {
 				message.setUserName(UserAccount.getCurrentUserName());
 				message.setMessageType(LatalkMessage.TIME_CAPSULE);
 				message.setAttachedPic(taken_pic);
+				
+				
+//				LatalkDbFactory ldbf = new LatalkDbFactory(TimeCapsuleCreateActivity.this);
+//				
+//				long item_id = ldbf.insert(message);
+//				
+//				LatalkMessage mdb = ldbf.readByDbId(item_id);
+//				Log.v("tc in db", mdb.getMessageType() + "    " + mdb.getContent());
+				
 				ArrayList<LatalkMessage> list = new ArrayList<LatalkMessage>();
 				list.add(message);
 				MessagePostFactory.postLatalks(list);
 				TimeCapsuleCreateActivity.this.finish();
-
-//				new MessagePoster().execute(message);
 			}
 		});
 	    

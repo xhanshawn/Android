@@ -176,7 +176,7 @@ public class MessageGetFactory {
 				
 				for(int i=0; i<messages.length(); i++){
 					message_json = messages.getJSONObject(i);
-					int id = message_json.getInt("id");
+					long id = message_json.getLong("id");
 					String img_url = message_json.getString("image_url");
 					String thumb_url = message_json.getString("thumb_url");
 					String small_thumb_url = message_json.getString("small_thumb_url");

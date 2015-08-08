@@ -132,4 +132,23 @@ public class LocationInfoFactory {
 		dis = dis * 180/Math.PI * 60 * 1.1515;
 		return dis * 1.609344;
 	}
+	
+	public static double calLatByDis(Location origin, double dis) {
+		
+		double rad_lat = Math.asin(Math.cos(dis * Math.PI * 1.1515 / 3) / (Math.sin(Math.PI * origin.getLatitude()/180) + 
+				Math.cos(Math.PI * origin.getLatitude()/180))); 
+		double lat = rad_lat * 180 / Math.PI;
+		
+		return Math.abs(lat - origin.getLatitude());
+	}
+	
+	public static double calLngByDis(Location origin, double dis) {
+		
+		
+		double rad_theta = Math.asin(Math.cos(dis * Math.PI * 1.1515 / 3) / (Math.pow(Math.sin(Math.PI * origin.getLatitude()/180), 2) + 
+				Math.pow(Math.cos(Math.PI * origin.getLatitude()/180), 2)) - 1); 
+		double theta = rad_theta * 180 / Math.PI;
+		
+		return theta;
+	}
 }

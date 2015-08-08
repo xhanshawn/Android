@@ -27,18 +27,19 @@ public class LatalkMessage {
 	private Bitmap attached_pic = null;
 	private boolean isLocationSet;
 	private String pic_url;
-	private int message_id;
+	private Long message_id = 0l;
 	private int race_num;
 	private LatalkMessage start;
 	private String thumb_url;
 	private String small_thumb_url;
 	private Bitmap thumb_pic = null;
 	private Bitmap small_thumb_pic = null;
-
+	private long created_at = 0l;
 	
 	public LatalkMessage(){
 		
 		isLocationSet = false;
+		created_at = new Date().getTime();
 	}
 
 	public String getMessageType() {
@@ -116,11 +117,11 @@ public class LatalkMessage {
 	}
 	
 	
-	public int getMessageId() {
+	public long getMessageId() {
 		return message_id;
 	}
 
-	public void setMessageId(int message_id) {
+	public void setMessageId(long message_id) {
 		this.message_id = message_id;
 	}
 
@@ -182,6 +183,14 @@ public class LatalkMessage {
 		this.small_thumb_pic = small_thumb_pic;
 	}
 
+	public void setCreatedAt(long server_time) {
+		this.created_at = server_time;
+	}
+	
+	public long getCreatedAt(){
+		return this.created_at;
+	}
+	
 	public static LatalkMessage parseJSON(JSONObject obj){
 		
 		if(obj == null) return null;
@@ -195,7 +204,7 @@ public class LatalkMessage {
 			message.setLongitude(Float.valueOf(obj.getString("longitude")));
 			message.setHold_time(obj.getLong("hold_time"));
 			message.setUserName(obj.getString("user_name"));
-			message.setMessageId(obj.getInt("id"));
+			message.setMessageId(obj.getLong("id"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
