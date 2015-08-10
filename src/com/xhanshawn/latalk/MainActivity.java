@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -164,6 +165,9 @@ public class MainActivity extends Activity {
 		
 		//sequentially scale buttons 
 		scaleButtons();
+		
+		Intent background_location = new Intent(this, BackgroundLocationService.class);
+		startService(background_location);
 	}
 	
 	

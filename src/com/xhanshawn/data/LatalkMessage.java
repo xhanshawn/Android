@@ -130,9 +130,12 @@ public class LatalkMessage {
 		return isLocationSet;
 	}
 	
+	public boolean isValidPicUrl(){
+		return !(pic_url == null || pic_url == "" || pic_url == "null");
+	}
 	public boolean hasPic(){
 		
-		return !(pic_url == null || pic_url == "" || pic_url == "null");
+		return this.attached_pic != null;
 	}
 	
 	public void setRaceNum(int num) {

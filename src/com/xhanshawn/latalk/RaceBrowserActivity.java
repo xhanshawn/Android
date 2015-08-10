@@ -1,5 +1,7 @@
 package com.xhanshawn.latalk;
 
+import java.util.ArrayList;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,7 +37,7 @@ public class RaceBrowserActivity extends Activity {
 	Location current_location;
 	LocationManager manager;
 	GoogleMap puzzle_race_map;
-	NotiArrayList<LatalkMessage> messages;
+	NotiArrayList<LatalkMessage> messages = new NotiArrayList<LatalkMessage>();
 	int add_num = 0;
 	ActionBar mActionBar;
 	
@@ -112,16 +114,14 @@ public class RaceBrowserActivity extends Activity {
 		puzzle_race_map.setMyLocationEnabled(true);
 		puzzle_map_settings.setCompassEnabled(true);
 		puzzle_map_settings.setZoomGesturesEnabled(true);
-		
-		messages = DataPassCache.getRaceCache();
-		messages.setOnSizeChangeListener(new OnSizeChangeListener(){
+		NotiArrayList<LatalkMessage> pr_cache = DataPassCache.getRaceCache();
+		pr_cache.setOnSizeChangeListener(new OnSizeChangeListener(){
 
 			@Override
 			public void sizeChange(SizeChangeEvent event) {
 				// TODO Auto-generated method stub
 				
 				if(event.getEvent() == SizeChangeEvent.ADD) {
-					
 					messages.add(DataPassCache.getPuzzleRace());
 				}
 			}
@@ -140,6 +140,11 @@ public class RaceBrowserActivity extends Activity {
 						@Override
 						public void run() {
 							LatalkMessage pr = messages.get(add_num);
+							if(pr == null) {
+								add_num ++;
+								return;
+							}
+							
 							String marker_str = " " + pr.getMessageId();
 							MarkerOptions marker = new MarkerOptions().position(
 			                    new LatLng(pr.getLatitude(), pr.getLongitude()))

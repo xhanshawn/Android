@@ -47,6 +47,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service 
+            android:name=".BackgroundLocationService"
+            android:icon="@drawable/icon"
+            android:label="background_location_service" 
+            >
+        </service>
         <activity
             android:name=".TimeCapsuleCreateActivity"
             android:label="@string/app_name"

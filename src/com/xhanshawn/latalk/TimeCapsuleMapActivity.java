@@ -161,8 +161,7 @@ public class TimeCapsuleMapActivity extends Activity {
 			
 				case IntegerIdentifiers.GET_TIMECAPSULE:
 					Location current_location = LocationInfoFactory.getCurrentLocation();
-					tcs.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location));
-//					tcs.addAll(MessageGetFactory.getTimeCapsuleMessages());
+//					tcs.addAll(MessageGetFactory.getTimeCapsuleMessagesNearby(current_location));
 					break;
 					
 				case IntegerIdentifiers.GET_PIC:

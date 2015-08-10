@@ -2,6 +2,7 @@ package com.xhanshawn.latalk;
 
 import java.util.ArrayList;
 
+import com.fedorvlasov.lazylist.ImageLoader;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.xhanshawn.data.LatalkMessage;
@@ -10,6 +11,9 @@ import com.xhanshawn.util.AnimationFactory;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
+import com.xhanshawn.util.NotiArrayList;
+import com.xhanshawn.util.NotiArrayList.OnSizeChangeListener;
+import com.xhanshawn.util.NotiArrayList.SizeChangeEvent;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -24,6 +28,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -58,8 +63,9 @@ public class TimeCapsuleActivity extends Activity {
 	final static int GET_PIC = 11;
 	final static int UPDATE_FIRST = 12;
 	final static int LOADING_TIME = 300;
+	ImageLoader loader;
 	
-	private ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage> ();
+	private NotiArrayList<LatalkMessage> messages = new NotiArrayList<LatalkMessage> ();
 	
 	//views
 	ImageView tc_radar1_iv;
@@ -88,6 +94,7 @@ public class TimeCapsuleActivity extends Activity {
 	boolean radar_started = false;
 	boolean radar_stoped = false;
 	boolean message_added = false;
+	NotiArrayList<LatalkMessage> tc_cache;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -219,12 +226,52 @@ public class TimeCapsuleActivity extends Activity {
 	private void updateCurrentTimeCapsule() {
 		
 		if(messages.isEmpty() || messages.size() == read_num) {
-			
+			Log.v("ask", "sssss" + messages.size() + "read" + read_num);
 			if(request_num <3) {
 				if(request_num > 0) try{
 					Thread.sleep(5000);
 				}catch(Exception ex){}
-				new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
+//				new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
+				
+				if(!radar_started) searchRadar();
+				if(!LocationInfoFactory.isEnabled()) DataPassCache.retrieveMessage(MessageGetFactory.TC_AWAY);
+				else DataPassCache.retrieveMessage(MessageGetFactory.TC_NEAR_BY);
+				
+				tc_cache = DataPassCache.getTCCache();
+				if(tc_cache != null && !tc_cache.isEmpty()) messages.addAll(tc_cache);
+				tc_cache.setOnSizeChangeListener(new OnSizeChangeListener(){
+
+					@Override
+					public void sizeChange(SizeChangeEvent event) {
+						// TODO Auto-generated method stub
+						Log.v("size",messages.size() + "   ");
+						if(event.getEvent() == SizeChangeEvent.ADD) {
+							LatalkMessage tc = DataPassCache.getTimeCapsule();
+							if(tc == null) return;
+							messages.add(tc);
+
+							if(radar_started) {
+								runOnUiThread(new Runnable(){
+									
+									@Override
+									public void run() {
+										showMessage();
+									}
+								});
+							}
+						}
+					}
+				});
+				messages.setOnSizeChangeListener(new OnSizeChangeListener(){
+
+					@Override
+					public void sizeChange(SizeChangeEvent event) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				});
+				if(! messages.isEmpty()) showMessage();
 				
 			} else {
 				clearRotation();
@@ -245,6 +292,7 @@ public class TimeCapsuleActivity extends Activity {
 	private void showMessage() {
 		
 		if(message_added) return;
+		if(radar_started) clearRotation();
 		if(radar_stoped) tc_panel_rl.removeView(radar_panel_rl);
 		
 		if(messages.size() == read_num) {
@@ -276,11 +324,7 @@ public class TimeCapsuleActivity extends Activity {
 		RelativeLayout.LayoutParams tc_p = (RelativeLayout.LayoutParams) tc_iv.getLayoutParams();
 		tc_p.width = width - 2 * (int) (width * 0.10);
 		tc_p.height = tc_p.width;
-//		panel_params.width - 2 * (tc_p.topMargin - panel_params.leftMargin);
-//		tc_iv.setLayoutParams(tc_p);
-//		RelativeLayout.LayoutParams tc_c_p = (RelativeLayout.LayoutParams) tc_iv.getLayoutParams();
-//		tc_c_p.height = (int) (tc_p.height * 0.15);
-//		tc_c_panel_rl.setLayoutParams(tc_c_p);
+//		
 		tc_txt_tv = (TextView) tc_panel.findViewById(R.id.tc_tv);
 			
 		tc_panel.setOnTouchListener(new View.OnTouchListener() {
@@ -343,8 +387,12 @@ public class TimeCapsuleActivity extends Activity {
 			    return true;
 			}
 		});
-			
-		tc_iv.setImageBitmap(message.getAttahedPic());
+		
+		if(message.hasPic()) tc_iv.setImageBitmap(message.getAttahedPic());
+		else{
+			loader = new ImageLoader(TimeCapsuleActivity.this);
+			loader.DisplayImage(message.getFullPicUrl(), tc_iv, R.drawable.loading_picture);
+		}
 		tc_txt_tv.setText(message.getContent());
 		read_num++;
 	}
@@ -390,167 +438,4 @@ public class TimeCapsuleActivity extends Activity {
 	    TextView banner_tv = (TextView) findViewById(R.id.actionbar_color_banner);
 	    banner_tv.setText("Time Capsule");
 	}
-	
-	
-	class TimeCapsuleGetter extends AsyncTask<Integer, Void, Boolean> {
-		
-		//radar
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-
-			if(!radar_started) searchRadar();
-		}
-
-		//retrieve tc
-		@Override
-		protected Boolean doInBackground(Integer... params) {
-			// TODO Auto-generated method stub
-			
-			while(messages.isEmpty() || messages.size() == read_num){
-				if(request_num > 2) break;
-				else if(request_num > 0) {
-					try {
-						Thread.sleep(5000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				MessageGetFactory.getTimeCapsuleMessagesNearby(current_location);
-				messages.addAll(DataPassCache.getTimeCapsules(DataPassCache.ALL));
-				request_num ++;
-			}
-			return !(messages.isEmpty() || messages.size() == read_num);
-		}
-		
-		//post execution
-		@Override
-		protected void onPostExecute(Boolean result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			
-			if(result) {
-				new TimeCapsuleUpdater().execute(GET_PIC);
-				new TimeCapsuleUpdater().execute(UPDATE_FIRST);
-			}
-			else {
-				clearRotation();
-				Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
-						AlertMessageFactory.noMessagesFound(),
-						Toast.LENGTH_LONG);
-
-				no_tc_toast.show();
-			}
-		}
-	}
-	
-	//Async updating
-	class TimeCapsuleUpdater extends AsyncTask<Integer, Void, Integer> {
-		LatalkMessage first_message = null;
-		LatalkMessage second_message = null;
-		@Override
-		protected Integer doInBackground(Integer... params) {
-			// TODO Auto-generated method stub
-			
-			switch (params[0]) {
-			
-				case GET_PIC: {
-					
-					if(!messages.isEmpty()) {
-						
-						int count = read_num;
-						while(count < messages.size()) {
-							
-							if(messages.get(count).getAttahedPic() == null) {
-								String url = messages.get(count).getPicUrl();
-								if(url != null && !url.equals("")) {
-									Bitmap pic = MessageGetFactory.getImage(url);
-									messages.get(count).setAttachedPic(pic);
-								}
-							}
-							
-							count ++;
-						}
-					}
-					break;
-				}
-				
-				case UPDATE_FIRST: {
-					
-					int count = 0;
-					boolean second  = false;
-					while(count < 100) {
-						
-						if(!second) {
-							first_message = DataPassCache.getTimeCapsule();
-							second = true;
-						}
-						if(second) second_message = DataPassCache.getTimeCapsule();
-						if(second_message != null || count >= 1 && DataPassCache.getTCSize() == 1) break;
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {}
-						count++;
-					}
-					
-					if(first_message == null) {
-						
-						tc_txt_tv.setText(AlertMessageFactory.loadingMessageFailed());
-					} else {
-						
-						messages.add(first_message);
-						if(second_message != null) messages.add(second_message);
-					}
-					
-					Bitmap img = first_message.getAttahedPic();
-					if(img == null) {
-						String url = first_message.getPicUrl();
-						img = MessageGetFactory.getImage(url);
-					}
-					first_message.setAttachedPic(img);
-					break;
-				}
-				
-				default: break;
-			}
-			 
-			return params[0];
-		}
-		
-		
-		//update first
-		@Override
-		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			
-			switch(result) {
-				
-				case UPDATE_FIRST: {
-
-					runOnUiThread(new Runnable(){
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							
-							clearRotation();
-							
-							showMessage();
-							message_added = false;
-						}
-					});
-
-					break;
-				}
-				
-				default: break;
-			}
-			
-		}
-		
-	}
-	
 }

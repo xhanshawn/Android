@@ -766,6 +766,7 @@ containing a value of this type.
         /**  Brand name for Google [DO NOT TRANSLATE] 
          */
         public static final int auth_google_play_services_client_google_display_name=0x7f060008;
+        public static final int background_location_service=0x7f06004d;
         /**  Message of the notification to indicate an active cast display connection.  [CHAR LIMIT=80] NOTE: Same text as msgid="794424023757290105" 
          */
         public static final int cast_notification_connected_message=0x7f06000b;
@@ -897,27 +898,27 @@ containing a value of this type.
         public static final int login_message=0x7f060039;
         public static final int password_hint=0x7f060038;
         public static final int pic_puzzle_hint=0x7f060048;
-        public static final int pref_default_display_name=0x7f060052;
-        public static final int pref_description_social_recommendations=0x7f060050;
+        public static final int pref_default_display_name=0x7f060053;
+        public static final int pref_description_social_recommendations=0x7f060051;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f060054;
+        public static final int pref_header_data_sync=0x7f060055;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f06004e;
+        public static final int pref_header_general=0x7f06004f;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f060057;
-        public static final int pref_ringtone_silent=0x7f06005a;
-        public static final int pref_title_add_friends_to_messages=0x7f060053;
-        public static final int pref_title_display_name=0x7f060051;
-        public static final int pref_title_new_message_notifications=0x7f060058;
-        public static final int pref_title_ringtone=0x7f060059;
-        public static final int pref_title_social_recommendations=0x7f06004f;
-        public static final int pref_title_sync_frequency=0x7f060055;
-        public static final int pref_title_system_sync_settings=0x7f060056;
-        public static final int pref_title_vibrate=0x7f06005b;
+        public static final int pref_header_notifications=0x7f060058;
+        public static final int pref_ringtone_silent=0x7f06005b;
+        public static final int pref_title_add_friends_to_messages=0x7f060054;
+        public static final int pref_title_display_name=0x7f060052;
+        public static final int pref_title_new_message_notifications=0x7f060059;
+        public static final int pref_title_ringtone=0x7f06005a;
+        public static final int pref_title_social_recommendations=0x7f060050;
+        public static final int pref_title_sync_frequency=0x7f060056;
+        public static final int pref_title_system_sync_settings=0x7f060057;
+        public static final int pref_title_vibrate=0x7f06005c;
         public static final int puzzle_race_hint=0x7f060049;
         public static final int signup=0x7f060036;
         public static final int store_picture_message=0x7f060003;
@@ -939,7 +940,7 @@ containing a value of this type.
         public static final int title_activity_puzzle_race_create=0x7f060045;
         public static final int title_activity_puzzle_tab=0x7f06003d;
         public static final int title_activity_race_browser=0x7f06004c;
-        public static final int title_activity_settings=0x7f06004d;
+        public static final int title_activity_settings=0x7f06004e;
         public static final int title_activity_time_capsule=0x7f060041;
         public static final int title_activity_time_capsule_map=0x7f06004a;
         public static final int title_activity_time_capsule_tab=0x7f06003e;

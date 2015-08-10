@@ -9,6 +9,7 @@ import java.util.Set;
 
 import android.location.Location;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.xhanshawn.data.LatalkMessage;
@@ -22,7 +23,7 @@ public class DataPassCache {
 	final public static int TIME_OUT = 10;
 	
 	private static ArrayList<byte[]> pic_list = new ArrayList<byte[]>();
-	private static ArrayList<LatalkMessage> time_capsule_list = new ArrayList<LatalkMessage>();
+	private static NotiArrayList<LatalkMessage> time_capsule_list = new NotiArrayList<LatalkMessage>();
 	private static int time_capsule_read = Integer.MIN_VALUE;
 	private static HashMap<Long, Integer> time_capsule_id_hash = new HashMap<Long, Integer>();
 	private static List<ArrayList<LatalkMessage>> lists = new ArrayList<ArrayList<LatalkMessage>>();
@@ -60,11 +61,12 @@ public class DataPassCache {
 	
 	
 	public static int cacheTimeCapsule(LatalkMessage new_time_capsule) {
-		
 		if(time_capsule_read == Integer.MIN_VALUE) time_capsule_read = 0;
+		
+		
 		long tc_id = new_time_capsule.getMessageId();
 		
-		if(time_capsule_id_hash.get(tc_id) == null) return -1;
+		if(time_capsule_id_hash.get(tc_id) != null) return -1;
 		else {
 			time_capsule_list.add(new_time_capsule);
 			time_capsule_id_hash.put(tc_id, time_capsule_list.size() - 1);
@@ -111,14 +113,16 @@ public class DataPassCache {
 		return time_capsule_list.size();
 	}
 	
-	
+	public static NotiArrayList<LatalkMessage> getTCCache(){
+		return time_capsule_list;
+	}
 	
 	
 	
 	
 	
 	public static int cachePuzzleRace(LatalkMessage message) {
-		
+		if(message == null) return 0;
 		puzzle_race_list.add(message);
 		int key = puzzle_race_list.size() - 1;
 		race_id_map.put(message.getMessageId(), key);
@@ -223,7 +227,7 @@ public class DataPassCache {
 		protected void onPostExecute(Boolean result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			if(result && DataPassCache.hasRaces()) got_all = true;
+			if(result) got_all = true;
 			else {
 				if(MessageGetFactory.extendRadius()){
 					new MessageGetter().execute(type);

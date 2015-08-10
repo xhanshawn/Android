@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -26,6 +27,8 @@ import android.widget.Toast;
 
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.latalk.CameraActivity;
+import com.xhanshawn.latalk.Latalk;
+import com.xhanshawn.latalk.R;
 import com.xhanshawn.latalk.TimeCapsuleCreateActivity;
 import com.xhanshawn.latalk.TimeCapsuleActivity;
 
@@ -106,10 +109,9 @@ public class MessageGetFactory {
 		return getMessages(url);
 	}
 	
-	public static ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location){
+	public ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location){
 	
 		
-		ArrayList<LatalkMessage> messages = null;
 		float offset = 0.0002f * LEVEL[radius_level];
 		
 		while(messages == null || messages.isEmpty()){
@@ -129,7 +131,7 @@ public class MessageGetFactory {
 			url += "&longitude=" + String.format("%.06f", longitude)
 					+ "&latitude=" + String.format("%.06f", latitude);
 			
-			getMessages(url);
+			messages = getMessages(url);
 
 			if(offset < 0.00008) offset += 0.00002f;
 			else if(offset < 0.00048) offset += 0.0001f;
@@ -189,6 +191,7 @@ public class MessageGetFactory {
 					String type = message_json.getString("message_type");
 					if(type.equals("TimeCapsule")) DataPassCache.cacheTimeCapsule(new_message);
 					else DataPassCache.cachePuzzleRace(new_message);
+					new ImageDownloader().execute(new_message);
 					message_list.add(new_message);
 				}
 				
@@ -282,5 +285,26 @@ public class MessageGetFactory {
 		return output_bmp;
 	}
 	
-	
+	static class ImageDownloader extends AsyncTask<LatalkMessage, Void, Boolean> {
+		LatalkMessage m;
+		@Override
+		protected Boolean doInBackground(LatalkMessage... params) {
+			// TODO Auto-generated method stub
+			m = params[0];
+			Log.v("thre", "ccc");
+			if(m == null || m.getPicUrl() == null || m.hasPic()) return false;
+			m.setAttachedPic(MessageGetFactory.getImage(m.getPicUrl()));
+			Log.v("thre", "ddd");
+			return m.hasPic();
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			
+			if(!result && m != null) 
+				m.setAttachedPic(BitmapFactory.decodeResource(Latalk.getAppContext().getResources(),
+						R.drawable.loading_picture));
+		}
+	}
 }
