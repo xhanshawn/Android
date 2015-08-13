@@ -65,7 +65,7 @@ public class TimeCapsuleActivity extends Activity {
 	final static int LOADING_TIME = 300;
 	ImageLoader loader;
 	
-	private NotiArrayList<LatalkMessage> messages = new NotiArrayList<LatalkMessage> ();
+	private static NotiArrayList<LatalkMessage> messages = new NotiArrayList<LatalkMessage> ();
 	
 	//views
 	ImageView tc_radar1_iv;
@@ -90,7 +90,7 @@ public class TimeCapsuleActivity extends Activity {
 	int height;
 	private static int read_num = 0 ;
 	private int request_num;
-	
+
 	boolean radar_started = false;
 	boolean radar_stoped = false;
 	boolean message_added = false;
@@ -110,8 +110,7 @@ public class TimeCapsuleActivity extends Activity {
 
 			Toast location_closed_toast = Toast.makeText(TimeCapsuleActivity.this,
 					AlertMessageFactory.locationClosedAlert(),
-					Toast.LENGTH_LONG);
-
+					Toast.LENGTH_SHORT);
 			location_closed_toast.show();
 		}
 		
@@ -121,12 +120,11 @@ public class TimeCapsuleActivity extends Activity {
 		display.getSize(size);
 		width = size.x;
 		height = size.y;
-		
+
 		
 		//set the rotation animation for loading
 		radar_panel_rl = (RelativeLayout) findViewById(R.id.radar_panel_rl);
 		tc_panel_rl = (RelativeLayout) findViewById(R.id.tc_panel_rl);
-		
 		tc_radar1_iv = (ImageView) findViewById(R.id.tc_radar1_iv);
 		tc_radar2_iv = (ImageView) findViewById(R.id.tc_radar2_iv);
 
@@ -158,12 +156,13 @@ public class TimeCapsuleActivity extends Activity {
 				if(event.getAction() == MotionEvent.ACTION_UP) {
 					AnimationFactory.scaleImageButtonUp(v);;
 					if(radar_stoped) {
+						message_added = false;
 						updateCurrentTimeCapsule();
 						if(tc_panel_rl.getChildCount() > 2 && tc_panel_rl.getChildAt(1) != v) {
+							Log.v("hree", tc_panel_rl.getChildCount() + "");
 							AnimationSet set = AnimationFactory.likeTimeCapsule();
 							tc_panel_rl.getChildAt(1).startAnimation(set);
 	                    	tc_panel_rl.removeViewAt(1);
-	                    	message_added = false;
 						}
 					}
 				}
@@ -172,6 +171,7 @@ public class TimeCapsuleActivity extends Activity {
 			}
 		});
 		
+		messages.addAll(DataPassCache.getTimeCapsules(DataPassCache.ALL));
 		updateCurrentTimeCapsule();
 	}
 	
@@ -182,7 +182,7 @@ public class TimeCapsuleActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 
-		read_num--;
+		if(read_num > 0) read_num--;
 	}
 
 	///////////////////////Animations///////////////////
@@ -204,8 +204,31 @@ public class TimeCapsuleActivity extends Activity {
 				1.0f);
 		
 		rotate_p.setDuration(1800);
-		rotate_p.setRepeatCount(-1);
+		rotate_p.setRepeatCount(10);
 		radar.addAnimation(rotate_p);
+		radar.setAnimationListener(new AnimationListener(){
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+				Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
+					AlertMessageFactory.noMessagesFound(),
+					Toast.LENGTH_SHORT);
+				no_tc_toast.show();
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		tc_radar2_iv.setAnimation(radar);
 		radar.setInterpolator(new LinearInterpolator());
 		radar.start();
@@ -226,17 +249,21 @@ public class TimeCapsuleActivity extends Activity {
 	private void updateCurrentTimeCapsule() {
 		
 		if(messages.isEmpty() || messages.size() == read_num) {
+			
 			Log.v("ask", "sssss" + messages.size() + "read" + read_num);
-			if(request_num <3) {
-				if(request_num > 0) try{
-					Thread.sleep(5000);
-				}catch(Exception ex){}
-//				new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
+
+//					new TimeCapsuleGetter().execute(GET_TIMECAPSILE);
+			if(!radar_started) searchRadar();
+			if(!LocationInfoFactory.isEnabled()) DataPassCache.retrieveMessage(MessageGetFactory.TC_AWAY);
+			else DataPassCache.retrieveMessage(MessageGetFactory.TC_NEAR_BY);
 				
-				if(!radar_started) searchRadar();
-				if(!LocationInfoFactory.isEnabled()) DataPassCache.retrieveMessage(MessageGetFactory.TC_AWAY);
-				else DataPassCache.retrieveMessage(MessageGetFactory.TC_NEAR_BY);
-				
+			
+			
+			
+			if(! messages.isEmpty()) showMessage();
+			
+			if(tc_cache == null){
+
 				tc_cache = DataPassCache.getTCCache();
 				if(tc_cache != null && !tc_cache.isEmpty()) messages.addAll(tc_cache);
 				tc_cache.setOnSizeChangeListener(new OnSizeChangeListener(){
@@ -271,35 +298,27 @@ public class TimeCapsuleActivity extends Activity {
 					}
 					
 				});
-				if(! messages.isEmpty()) showMessage();
-				
-			} else {
-				clearRotation();
-				Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
-						AlertMessageFactory.noMessagesFound(),
-						Toast.LENGTH_LONG);
-
-				no_tc_toast.show();
 			}
-
-		} else {
 			
-			if(radar_started) clearRotation();
+		} else {
+
 			showMessage();
 		}
+		
+		
 	}
 	
 	private void showMessage() {
 		
 		if(message_added) return;
-		if(radar_started) clearRotation();
-		if(radar_stoped) tc_panel_rl.removeView(radar_panel_rl);
 		
-		if(messages.size() == read_num) {
+		if(radar_started) clearRotation();
+		if(radar_stoped || !radar_started) tc_panel_rl.removeView(radar_panel_rl);
+		
+		if(messages.size() <= read_num) {
 			Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
 					AlertMessageFactory.noMessagesFound(),
-					Toast.LENGTH_LONG);
-
+					Toast.LENGTH_SHORT);
 			no_tc_toast.show();
 			return;
 		}
@@ -311,7 +330,7 @@ public class TimeCapsuleActivity extends Activity {
 			
 		tc_panel_rl.addView(tc_panel, 0);
 		message_added = true;
-
+		
 		RelativeLayout.LayoutParams tc_params = (RelativeLayout.LayoutParams) tc_panel.getLayoutParams();
 		tc_params.leftMargin = (int) (width * 0.1);
 		tc_params.width = (int) (width - 2 * tc_params.leftMargin);

@@ -18,7 +18,7 @@ public class LocationInfoFactory {
 		1000l, 2000l, 3000l, 5000l
 	};
 	final public static float[] UPDATE_DIS = new float[] {
-		100f, 300f
+		100f, 300f, 500f, 1000f, 1500f, 2000f
 	};
 	
 	private static LocationManager manager;

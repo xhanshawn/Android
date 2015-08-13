@@ -11,8 +11,11 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.widget.Toast;
 
 import com.xhanshawn.data.LatalkMessage;
+import com.xhanshawn.latalk.Latalk;
+import com.xhanshawn.latalk.TimeCapsuleActivity;
 
 public class DataPassCache {
 	
@@ -231,6 +234,15 @@ public class DataPassCache {
 			else {
 				if(MessageGetFactory.extendRadius()){
 					new MessageGetter().execute(type);
+				} else {
+					if(type == MessageGetFactory.PR_AWAY || type == MessageGetFactory.TC_AWAY) return;
+					Toast no_tc_toast = Toast.makeText(Latalk.getAppContext(),
+							AlertMessageFactory.noMessagesFound(),
+							Toast.LENGTH_SHORT);
+					no_tc_toast.show();
+					MessageGetFactory.resetRadius();
+					if(type == MessageGetFactory.PR_NEAR_BY) new MessageGetter().execute(MessageGetFactory.PR_AWAY);
+					else if(type == MessageGetFactory.TC_NEAR_BY) new MessageGetter().execute(MessageGetFactory.TC_AWAY);
 				}
 			}
 		}

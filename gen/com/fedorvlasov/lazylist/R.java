@@ -12,10 +12,10 @@ public final class R {
 		public static final int stub = 0x7f020055;
 	}
 	public static final class id {
-		public static final int button1 = 0x7f080081;
-		public static final int image = 0x7f080072;
-		public static final int list = 0x7f080080;
-		public static final int text = 0x7f080073;
+		public static final int button1 = 0x7f080082;
+		public static final int image = 0x7f080073;
+		public static final int list = 0x7f080081;
+		public static final int text = 0x7f080074;
 	}
 	public static final class layout {
 		public static final int item = 0x7f03001e;

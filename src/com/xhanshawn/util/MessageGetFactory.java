@@ -291,7 +291,6 @@ public class MessageGetFactory {
 		protected Boolean doInBackground(LatalkMessage... params) {
 			// TODO Auto-generated method stub
 			m = params[0];
-			Log.v("thre", "ccc");
 			if(m == null || m.getPicUrl() == null || m.hasPic()) return false;
 			m.setAttachedPic(MessageGetFactory.getImage(m.getPicUrl()));
 			Log.v("thre", "ddd");

@@ -20,6 +20,9 @@ import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.IntegerIdentifiers;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
+import com.xhanshawn.util.NotiArrayList;
+import com.xhanshawn.util.NotiArrayList.OnSizeChangeListener;
+import com.xhanshawn.util.NotiArrayList.SizeChangeEvent;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -49,8 +52,11 @@ import android.widget.TextView;
 public class TimeCapsuleMapActivity extends Activity {
 	
 	ActionBar mActionBar;
-	private ArrayList<LatalkMessage> tcs = new ArrayList<LatalkMessage> ();
+	private NotiArrayList<LatalkMessage> tcs = new NotiArrayList<LatalkMessage> ();
+	private NotiArrayList<LatalkMessage> tc_cache = new NotiArrayList<LatalkMessage> ();
+
 	private int tc_got_num = 0;
+
 	private int thumb_got_num = 0;
 	private int sml_thumb_num = 0;
 
@@ -93,7 +99,6 @@ public class TimeCapsuleMapActivity extends Activity {
 		tc_map.setMyLocationEnabled(true);
 		puzzle_map_settings.setCompassEnabled(true);
 		puzzle_map_settings.setZoomGesturesEnabled(true);
-		tcs.addAll(DataPassCache.getTimeCapsules(DataPassCache.ALL));
 		
 		tc_map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 			
@@ -107,8 +112,34 @@ public class TimeCapsuleMapActivity extends Activity {
 				return false;
 			}
 		});
-	    new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_PIC);
+//	    new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_PIC);
+		
+		tcs.addAll(DataPassCache.getTimeCapsules(DataPassCache.ALL));
+		for(LatalkMessage tc : tcs){
+			
+		}
+		tc_cache = DataPassCache.getTCCache();
+		tc_cache.setOnSizeChangeListener(new OnSizeChangeListener(){
 
+			@Override
+			public void sizeChange(SizeChangeEvent event) {
+				// TODO Auto-generated method stub
+				if(event.getEvent() == SizeChangeEvent.ADD){
+					LatalkMessage tc = DataPassCache.getTimeCapsule();
+					if(tc != null) tcs.add(tc);
+				}
+			}
+		});
+		DataPassCache.retrieveMessage(MessageGetFactory.TC_NEAR_BY);
+		new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_PIC);
+		tcs.setOnSizeChangeListener(new OnSizeChangeListener(){
+
+			@Override
+			public void sizeChange(SizeChangeEvent event) {
+				// TODO Auto-generated method stub
+				new TimeCapsuleGetter().execute(IntegerIdentifiers.GET_PIC);
+			}
+		});
 	}
 	
 	private void customActionBar(){
@@ -171,9 +202,8 @@ public class TimeCapsuleMapActivity extends Activity {
 							LatalkMessage message = tcs.get(i);
 							message.setSmallThumbPic(
 									MessageGetFactory.getImage(message.getSmallThumbUrl()));
-							
+							sml_thumb_num ++;
 						}
-						sml_thumb_num = tcs.size();
 					}
 					break;
 			
@@ -195,20 +225,21 @@ public class TimeCapsuleMapActivity extends Activity {
 					if(tc_got_num < tcs.size()) {
 						
 						for(int i=tc_got_num; i<tcs.size();i++) {
+							Log.v("thumb_marker", i +"");
 							LatalkMessage tc = tcs.get(i);
 							float lng = tc.getLongitude();
 							float lat = tc.getLatitude();
 							Bitmap thumb = tc.getSmallThumbPic();
 							BitmapDescriptor bd = null;
 							if(thumb != null) bd = BitmapDescriptorFactory.fromBitmap(tc.getSmallThumbPic());
-//							else bd = BitmapDescriptorFactory.fromResource(R.drawable.loading_picture);
+							else bd = BitmapDescriptorFactory.fromResource(R.drawable.loading_picture);
 							MarkerOptions marker = new MarkerOptions().position(
 			                        new LatLng(lat, lng))
 			                        .title("" + tc.getMessageId())
 			                        .icon(bd);
 							tc_map.addMarker(marker);
+							tc_got_num++;
 						}
-						tc_got_num = tcs.size();
 					}
 					
 					break;
