@@ -14,22 +14,21 @@ import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
 
-import android.app.Activity;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 public class UserLatalkMapFragment extends Fragment {
-	ArrayList<LatalkMessage> puzzles = new ArrayList<LatalkMessage>();
-	ArrayList<LatalkMessage> time_capsules = new ArrayList<LatalkMessage>();
+	ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage>();
 	GoogleMap user_messages_map;
-	
+	private View view;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +38,10 @@ public class UserLatalkMapFragment extends Fragment {
 		Location current_location = LocationInfoFactory.getCurrentLocation();
 
 		FragmentActivity fa = super.getActivity();
-		RelativeLayout user_latalk_map = (RelativeLayout) inflater.inflate(R.layout.activity_user_latalk_map, container, false);
+		
+		if(view == null){
+			view = (RelativeLayout) inflater.inflate(R.layout.activity_user_latalk_map, container, false);
+		} 
 		//child fragment Manager is very tricky
 		SupportMapFragment map_frag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.user_latalk_map);
 
@@ -47,7 +49,7 @@ public class UserLatalkMapFragment extends Fragment {
 		
 		//update together, not separately
 		
-//		map.moveCamera(CameraUpdateFactory.newLatLng(current_lat_lng));
+		//		map.moveCamera(CameraUpdateFactory.newLatLng(current_lat_lng));
 		
 		if(current_location !=null) {
 			
@@ -67,10 +69,10 @@ public class UserLatalkMapFragment extends Fragment {
 		user_messages_map.setMyLocationEnabled(true);
 		puzzle_map_settings.setCompassEnabled(true);
 		puzzle_map_settings.setZoomGesturesEnabled(true);
-		new MessageRetriever().execute("");
+		if(messages.isEmpty()) new MessageRetriever().execute("");
 
 		
-		return user_latalk_map;
+		return view;
 	}
 
 	class MessageRetriever extends AsyncTask<String, Void, Boolean> {
@@ -78,17 +80,9 @@ public class UserLatalkMapFragment extends Fragment {
 		@Override
 		protected Boolean doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			puzzles = MessageGetFactory.getPuzzleMessages();
-			
-			time_capsules = MessageGetFactory.getTimeCapsuleMessages();
+			messages.addAll(MessageGetFactory.getUserMessages());
 
-			if(puzzles == null || time_capsules == null) {
-
-				return false;
-			}else{
-				
-				return true;
-			}
+			return !(messages.size() == 0);
 		}
 
 		@Override
@@ -97,10 +91,9 @@ public class UserLatalkMapFragment extends Fragment {
 			super.onPostExecute(result);
 			
 			if(result) {
-				
-				for(int i=0; i<puzzles.size(); i++) {
+				for(int i=0; i < messages.size(); i++) {
 					
-					LatalkMessage new_puzzle = puzzles.get(i);
+					LatalkMessage new_puzzle = messages.get(i);
 					
 					Marker puzzle_marker = user_messages_map.addMarker(new MarkerOptions()
 			        .position(new LatLng(new_puzzle.getLatitude()
@@ -108,18 +101,6 @@ public class UserLatalkMapFragment extends Fragment {
 			        .title("P " + (i+1)));
 					
 					puzzle_marker.showInfoWindow();
-				}
-				
-				for(int i=0; i<time_capsules.size(); i++) {
-					
-					LatalkMessage new_time_capsule = time_capsules.get(i);
-					
-					Marker tc_marker = user_messages_map.addMarker(new MarkerOptions()
-			        .position(new LatLng(new_time_capsule.getLatitude()
-			        		, new_time_capsule.getLongitude()))
-			        .title("tc " + (i+1)));
-					
-					tc_marker.showInfoWindow();
 				}
 				
 			}

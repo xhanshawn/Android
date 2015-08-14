@@ -1,5 +1,8 @@
 package com.xhanshawn.latalk;
 
+import java.util.ArrayList;
+
+import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.data.UserAccount;
 
 import android.app.Activity;
@@ -11,8 +14,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TabHost;
@@ -25,6 +32,7 @@ public class UserMessagesActivity extends FragmentActivity{
 	ScrollView m_scroll_view;
 	LinearLayout header;
 	TabHost messages_tab;
+	private ArrayList<LatalkMessage> messages = new ArrayList<LatalkMessage>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +41,26 @@ public class UserMessagesActivity extends FragmentActivity{
 		FragmentTabHost mTabHost;
 		mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+        
+        ImageView[] tab_ivs = new ImageView[4];
+        for(int i = 0; i < 4; i ++) {
+        	tab_ivs[i] = new ImageView(this);
+        }
+      
+        tab_ivs[0].setImageResource(R.drawable.selector_map);
+        tab_ivs[1].setImageResource(R.drawable.selector_grid);
+        tab_ivs[2].setImageResource(R.drawable.selector_pr);
+        tab_ivs[3].setImageResource(R.drawable.selector_tc);
 
-        mTabHost.addTab(mTabHost.newTabSpec("simple").setIndicator("Simple"),
+
+        mTabHost.addTab(mTabHost.newTabSpec("simple").setIndicator(tab_ivs[0]),
         		UserLatalkMapFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("contacts").setIndicator("Contacts"),
-        		GridTabActivity.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("custom").setIndicator("Custom"),
-        		PuzzleTabActivity.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("throttle").setIndicator("Throttle"),
-        		TimeCapsuleTabActivity.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("contacts").setIndicator(tab_ivs[1]),
+        		GridTabFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("custom").setIndicator(tab_ivs[2]),
+        		PuzzleTabFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("throttle").setIndicator(tab_ivs[3]),
+        		TimeCapsuleTabFragment.class, null);
         
         
         
@@ -77,10 +96,6 @@ public class UserMessagesActivity extends FragmentActivity{
 //        list_tab.setContent(new Intent(this,PuzzleTabActivity.class));
 //        
 //        
-//        ImageView[] tab_ivs = new ImageView[4];
-//        for(int i = 0; i < 4; i ++) {
-//        	tab_ivs[i] = new ImageView(this);
-//        }
 //        
 //        tab_ivs[2].setImageResource(R.drawable.ic_launcher);
 //       
@@ -111,10 +126,5 @@ public class UserMessagesActivity extends FragmentActivity{
 //        	
 //        });
 	}
-	
-	
-	
-	
-	
 	
 }

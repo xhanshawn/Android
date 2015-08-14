@@ -88,7 +88,7 @@ public class MessageGetFactory {
 			url += "&longitude=" + String.format("%.06f", longitude)
 					+ "&latitude=" + String.format("%.06f", latitude);
 			
-			messages = getMessages(url);
+			messages = getMessages(url, true);
 			
 			if(offset < 0.00008) offset += 0.00002f;
 			else if(offset < 0.00048) offset += 0.0001f;
@@ -106,7 +106,7 @@ public class MessageGetFactory {
 		String url = ServerAccessFactory.queryMessage() + "&message_type=Puzzle";
 		url += "&longitude=" + String.format("%.06f", 181.0f)
 				+ "&latitude=" + String.format("%.06f", 91.0f);
-		return getMessages(url);
+		return getMessages(url, true);
 	}
 	
 	public ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location){
@@ -131,7 +131,7 @@ public class MessageGetFactory {
 			url += "&longitude=" + String.format("%.06f", longitude)
 					+ "&latitude=" + String.format("%.06f", latitude);
 			
-			messages = getMessages(url);
+			messages = getMessages(url, true);
 
 			if(offset < 0.00008) offset += 0.00002f;
 			else if(offset < 0.00048) offset += 0.0001f;
@@ -150,13 +150,16 @@ public class MessageGetFactory {
 		
 		url += "&longitude=" + String.format("%.06f", 181.0f)
 				+ "&latitude=" + String.format("%.06f", 91.0f);
-		return getMessages(url);
+		return getMessages(url, true);
+	}
+	
+	public static ArrayList<LatalkMessage> getUserMessages(){
+		String url = ServerAccessFactory.queryMessage();
+		return getMessages(url, false);
 	}
 	
 	
-	
-	
-	private static ArrayList<LatalkMessage> getMessages(String url){
+	private static ArrayList<LatalkMessage> getMessages(String url, boolean load_pic){
 		HttpClient client = new DefaultHttpClient();
 		
 		JSONObject message_json = null;
@@ -191,7 +194,7 @@ public class MessageGetFactory {
 					String type = message_json.getString("message_type");
 					if(type.equals("TimeCapsule")) DataPassCache.cacheTimeCapsule(new_message);
 					else DataPassCache.cachePuzzleRace(new_message);
-					new ImageDownloader().execute(new_message);
+					if(load_pic) new ImageDownloader().execute(new_message);
 					message_list.add(new_message);
 				}
 				

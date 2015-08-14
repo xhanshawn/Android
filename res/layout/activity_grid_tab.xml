@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" 
     android:orientation="vertical"
-    
+    android:background="@color/grey"
     >
 	
     <GridView 
@@ -13,11 +13,5 @@
     	android:layout_height="match_parent"
         android:numColumns="3"
         >
-        
     </GridView>
-       
-        
-        
-    
-
 </LinearLayout>

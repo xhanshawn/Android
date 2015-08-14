@@ -154,7 +154,7 @@ public class LatalkMessage {
 		return this.start;
 	}
 	
-	public String getThumbRrl() {
+	public String getThumbUrl() {
 		return thumb_url;
 	}
 

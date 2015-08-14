@@ -52,16 +52,19 @@ public class ImageGridAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
+		ViewHolder holder = null;
 		
-		View row = convertView;
-		if(row == null) {
-			
+		if(convertView == null) {
+			holder = new ViewHolder();
 			LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-			row = inflater.inflate(R.layout.image_item_layout, null);
+			convertView = inflater.inflate(R.layout.image_item_layout, parent, false);
+			holder.latalk_iv = (ImageView) convertView.findViewById(R.id.img_grid_iv);
+			convertView.setTag(holder);
+		}else {
+			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		ImageView img_item_iv = (ImageView) row.findViewById(R.id.img_grid_iv);
-		img_item_iv.setOnClickListener(new View.OnClickListener() {
+		holder.latalk_iv.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -70,18 +73,26 @@ public class ImageGridAdapter extends BaseAdapter{
 				//to test listener
 				//should be replaced by other action
 				v.setRotation(180);
-				
 			}
 		});
 		
-		LatalkMessage message = messages.get(position);
-		img_loader.DisplayImage(message.getFullPicUrl(), img_item_iv, R.drawable.loading_picture);
 		
-		return row;
+		if(holder.latalk_iv.getDrawable() == null) {
+			
+			LatalkMessage message = messages.get(position);
+			img_loader.DisplayImage(message.getFullPicUrl(), holder.latalk_iv, R.drawable.loading_picture);
+		}
+		
+		return convertView;
 	}
 	
 	public void clearImageCache() {
 		
 		img_loader.clearCache();
+	}
+	
+	
+	class ViewHolder{
+		ImageView latalk_iv;
 	}
 }

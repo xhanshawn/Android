@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    
+    <item android:state_selected="false" android:state_pressed="false">
+      <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:drawable="@drawable/running_man_grey">
+       	</item>
+      </layer-list>
+  </item>
+  <!-- SELECTED TAB STATE -->
+  <item android:state_selected="true" android:state_pressed="false">
+    <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+       <!-- Tab background color for the SELECTED tab state -->
+       <item android:drawable="@drawable/running_man_deep_pink">
+       </item>
+       <!-- Bottom indicator color for the SELECTED tab state -->
+    </layer-list>
+  </item>
+</selector>
