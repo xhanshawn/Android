@@ -20,7 +20,7 @@
 	    		android:adjustViewBounds="true"
 	    		android:src="@drawable/tc_radar"
 	    		android:padding="50dp"
-	    			    		/>
+	    		/>
             <ImageView
 	    		android:id="@+id/tc_radar2_iv"
 	    		android:layout_height="wrap_content"

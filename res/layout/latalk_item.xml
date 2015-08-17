@@ -16,11 +16,6 @@
             android:layout_width="wrap_content"
             />
 
-        <ImageButton
-            android:id="@+id/message_more_ops_ib"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true" />
 
         <TextView
             android:id="@+id/user_name_tv"
@@ -33,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/message_more_ops_ib"
+            android:layout_alignParentRight="true" 
             />
        
     </RelativeLayout>
@@ -55,13 +50,15 @@
 	    <ImageButton 
 	        android:id="@+id/like_button"
 	        android:layout_height="match_parent"
-	        android:layout_width="wrap_content"
+	        android:layout_width="30dp"
+	        android:background="@drawable/purple_heart"
 	        />
 	    <ImageButton 
 	        android:id="@+id/comment_button"
 	        android:layout_height="match_parent"
-	        android:layout_width="wrap_content"
+	        android:layout_width="30dp"
 	        android:layout_toRightOf="@+id/like_button"
+	        android:background="@drawable/purple_heart"
 	        />
 	</RelativeLayout>
 	

@@ -1,6 +1,7 @@
 package com.xhanshawn.view;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.fedorvlasov.lazylist.ImageLoader;
 import com.xhanshawn.data.LatalkMessage;
@@ -97,9 +98,11 @@ public class LatalkItemAdapter extends BaseAdapter {
 		
 		holder.tv_content.setText(message.getContent());
 		holder.tv_user_name.setText(message.getUserName());
-		holder.tv_hold_time.setText(String.valueOf(message.getHold_time()));
+		Calendar c = Calendar.getInstance();
+		long hold_time = message.getHold_time() - c.getTimeInMillis()/1000;
+		hold_time /= (3600 * 24);
+		holder.tv_hold_time.setText(hold_time + ((hold_time>1) ? " days" : " day"));
 		if(type == 1 && holder.pic_iv != null && holder.pic_iv.getDrawable() == null) {
-			
 			img_loader.DisplayImage(message.getFullPicUrl(), holder.pic_iv, R.drawable.loading_picture);
 		}
 		

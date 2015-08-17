@@ -1,5 +1,10 @@
 package com.xhanshawn.latalk;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.xhanshawn.data.UserAccount;
 import com.xhanshawn.util.UserSessionManager;
 import com.xhanshawn.util.UsersController;
@@ -9,6 +14,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -102,6 +108,30 @@ public class LoginActivity extends Activity {
 				
 			}
 		});
+		LoginButton fb_login_b = (LoginButton) findViewById(R.id.fb_login_ib);
+		CallbackManager callbackManager = CallbackManager.Factory.create();
+		fb_login_b.registerCallback(callbackManager, new FacebookCallback<LoginResult>(){
+
+			@Override
+			public void onSuccess(LoginResult result) {
+				// TODO Auto-generated method stub
+				Log.v("success", "suc");
+			}
+
+			@Override
+			public void onCancel() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onError(FacebookException error) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 	}
 	
 	public class UserCreater extends AsyncTask<UserAccount, Void, String> {

@@ -2,6 +2,8 @@ package com.xhanshawn.latalk;
 
 import java.util.ArrayList;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.xhanshawn.data.UserAccount;
 import com.xhanshawn.util.AnimationFactory;
 import com.xhanshawn.util.LocationInfoFactory;
@@ -43,6 +45,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		//initialize facebook sdk
+		FacebookSdk.sdkInitialize(getApplicationContext());
+		
 		setContentView(R.layout.activity_main);
 		
 		verifyLoginSession();
@@ -181,6 +186,23 @@ public class MainActivity extends Activity {
 		scaleButtons();
 		resetButtons();
 		checkSettings();
+		
+		
+		// Logs 'install' and 'app activate' App Events.
+		// Facebook
+		AppEventsLogger.activateApp(this, Latalk.FACEBOOK_APPID);
+	}
+	
+	
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		
+		// Logs 'app deactivate' App Event.
+		// Facebook
+		AppEventsLogger.deactivateApp(this, Latalk.FACEBOOK_APPID);
 	}
 
 	@SuppressLint("NewApi")

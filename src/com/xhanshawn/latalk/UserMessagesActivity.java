@@ -2,16 +2,21 @@ package com.xhanshawn.latalk;
 
 import java.util.ArrayList;
 
+import com.facebook.login.LoginManager;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.data.UserAccount;
+import com.xhanshawn.util.MessagePostFactory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -20,6 +25,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TabHost;
@@ -38,6 +45,8 @@ public class UserMessagesActivity extends FragmentActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_messages);
+		customActionBar();
+		
 		FragmentTabHost mTabHost;
 		mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -52,7 +61,6 @@ public class UserMessagesActivity extends FragmentActivity{
         tab_ivs[2].setImageResource(R.drawable.selector_pr);
         tab_ivs[3].setImageResource(R.drawable.selector_tc);
 
-
         mTabHost.addTab(mTabHost.newTabSpec("simple").setIndicator(tab_ivs[0]),
         		UserLatalkMapFragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("contacts").setIndicator(tab_ivs[1]),
@@ -63,16 +71,8 @@ public class UserMessagesActivity extends FragmentActivity{
         		TimeCapsuleTabFragment.class, null);
         
         
-        
-        
-//		m_scroll_view = (ScrollView) findViewById(R.id.user_message_sv);
-		
-//		
-//		header = (LinearLayout) findViewById(R.id.user_message_header);
-//		
-//		TextView user_name_tv = (TextView) findViewById(R.id.user_name_tv);
-//		
-//		user_name_tv.setText(UserAccount.getCurrentUserName());
+		TextView user_name_tv = (TextView) findViewById(R.id.user_name_tv);
+		user_name_tv.setText(UserAccount.getCurrentUserName());
 //		
 //		
 //		
@@ -125,6 +125,43 @@ public class UserMessagesActivity extends FragmentActivity{
 //			}
 //        	
 //        });
+	}
+	
+	private void customActionBar(){
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.show();
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.actionbar_color_with_img, null);
+		
+	    actionBar.setDisplayShowCustomEnabled(true);
+
+	    actionBar.setCustomView(v);
+	    actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.deep_pink));
+	    
+	    Button back_to_main_b = (Button) v.findViewById(R.id.color_ab_back_b);
+	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				UserMessagesActivity.this.finish();
+			}
+		});
+	    
+	    ImageButton post_ib = (ImageButton) v.findViewById(R.id.color_ab_ib);
+	    post_ib.setImageResource(R.drawable.capsule_white);
+	    post_ib.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				UserMessagesActivity.this.finish();
+			}
+		});
+	    
+	    TextView banner_tv = (TextView) findViewById(R.id.actionbar_color_banner);
+	    banner_tv.setText("Latalk");
 	}
 	
 }

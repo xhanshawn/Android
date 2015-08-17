@@ -34,4 +34,5 @@
     <string name="title_activity_full_pic">FullPicActivity</string>
     <string name="title_activity_race_browser">RaceBrowserActivity</string>
 	<string name="background_location_service">Background location monitoring service</string>
+	<string name="facebook_app_id">1673127742921347</string>
 </resources>
