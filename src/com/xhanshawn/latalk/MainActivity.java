@@ -2,6 +2,7 @@ package com.xhanshawn.latalk;
 
 import java.util.ArrayList;
 
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.xhanshawn.data.UserAccount;
@@ -173,6 +174,7 @@ public class MainActivity extends Activity {
 		
 		Intent background_location = new Intent(this, BackgroundLocationService.class);
 		startService(background_location);
+		
 	}
 	
 	

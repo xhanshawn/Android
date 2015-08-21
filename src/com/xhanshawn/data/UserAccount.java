@@ -1,5 +1,7 @@
 package com.xhanshawn.data;
 
+import com.xhanshawn.util.UserSessionManager;
+
 public class UserAccount {
 	private String user_name;
 	private String password;
@@ -41,5 +43,20 @@ public class UserAccount {
 	
 	public static String getCurrentUserName(){
 		return current_user_name;
+	}
+	
+	public static UserAccount createSNSUser(int type, String id){
+		UserAccount user = new UserAccount();
+		switch(type){
+		case UserSessionManager.FACEBOOK:
+			user.setUser_name("FB" + id);
+			break;
+		default:
+			return null;
+		}
+		user.setPassword("password");
+		user.setConfirm_password("password");
+		
+		return user;
 	}
 }

@@ -172,7 +172,7 @@ public class CameraActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		
+		if(data == null) return;
 		if(requestCode == IntegerIdentifiers.ATTACH_IMG_FROM_CAM) {
 			Intent resultIntent = new Intent();
 			Bundle extras = data.getExtras();

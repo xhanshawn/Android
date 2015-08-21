@@ -33,6 +33,11 @@
     <string name="title_activity_time_capsule_map">TimeCapsuleMapActivity</string>
     <string name="title_activity_full_pic">FullPicActivity</string>
     <string name="title_activity_race_browser">RaceBrowserActivity</string>
-	<string name="background_location_service">Background location monitoring service</string>
-	<string name="facebook_app_id">1673127742921347</string>
+    <string name="background_location_service">Background location monitoring service</string>
+    <string name="facebook_app_id">1673127742921347</string>
+    <string name="title_activity_import_sns">ImportSNSActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_account_settings">AccountSettingsActivity</string>
+
 </resources>

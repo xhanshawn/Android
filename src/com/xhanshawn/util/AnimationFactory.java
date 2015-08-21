@@ -1,12 +1,15 @@
 package com.xhanshawn.util;
 
 import com.google.android.gms.maps.model.Marker;
+import com.xhanshawn.latalk.R;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -210,4 +213,5 @@ public class AnimationFactory {
 			else v.setVisibility(View.INVISIBLE);
 		}
 	}
+	
 }

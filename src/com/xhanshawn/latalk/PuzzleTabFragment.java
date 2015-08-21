@@ -3,7 +3,6 @@ package com.xhanshawn.latalk;
 import java.util.ArrayList;
 
 import com.xhanshawn.data.LatalkMessage;
-import com.xhanshawn.latalk.PuzzleTabActivity.MessageRetriever;
 import com.xhanshawn.util.MessageGetFactory;
 import com.xhanshawn.view.LatalkItemAdapter;
 import com.xhanshawn.view.MyListView;

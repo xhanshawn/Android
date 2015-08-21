@@ -25,8 +25,15 @@ public class UserSessionManager {
 	private static final String IS_USER_LOGIN = "IsUserLoggedIn";
 	
 	public static final String KEY_NAME = "name";
-	
 	public static final String KEY_EMAIL = "email";
+	public static final String KEY_SNS = "sns";
+	public static final String KEY_SNS_ID = "sns_id";
+
+	
+	public static final int LATALK = 10000;
+	public static final int FACEBOOK = 10001;
+
+	private static int current_SNS = 0;
 	
 	public UserSessionManager(Context context){
 		
@@ -41,6 +48,13 @@ public class UserSessionManager {
 		editor.putBoolean(IS_USER_LOGIN, true);
 		editor.putString(KEY_NAME, name);
 		editor.putString(KEY_EMAIL, email);
+		editor.commit();
+	}
+	
+	public void loginSNS(int sns_type, String sns_id){
+		editor.putInt(KEY_SNS, sns_type);
+		if(sns_id == null) editor.putString(KEY_SNS_ID, "");
+		else editor.putString(KEY_SNS_ID, sns_id);
 		editor.commit();
 	}
 	
@@ -66,6 +80,11 @@ public class UserSessionManager {
 	public String getCurrentUserName(){
 		
 		return pref.getString(KEY_NAME,null);
+	}
+	
+	public int getUserLoginType(){
+		
+		return pref.getInt(KEY_SNS, 0);
 	}
 	
 	public class UserLogoutAsync extends AsyncTask<UserAccount, Void, String> {

@@ -167,6 +167,7 @@ public class TimeCapsuleCreateActivity extends Activity {
 	        }
 	        break;
 		case IntegerIdentifiers.ATTACH_IMG_FROM_CAM:
+			if(data == null) break;
 			Bundle extras = data.getExtras();
 			
 			int key = extras.getInt("pic_key");

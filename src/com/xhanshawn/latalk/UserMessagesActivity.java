@@ -132,7 +132,7 @@ public class UserMessagesActivity extends FragmentActivity{
 		ActionBar actionBar = getActionBar();
 		actionBar.show();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflater.inflate(R.layout.actionbar_color_with_img, null);
+		View v = inflater.inflate(R.layout.actionbar_color_only_back_b, null);
 		
 	    actionBar.setDisplayShowCustomEnabled(true);
 
@@ -141,17 +141,6 @@ public class UserMessagesActivity extends FragmentActivity{
 	    
 	    Button back_to_main_b = (Button) v.findViewById(R.id.color_ab_back_b);
 	    back_to_main_b.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				UserMessagesActivity.this.finish();
-			}
-		});
-	    
-	    ImageButton post_ib = (ImageButton) v.findViewById(R.id.color_ab_ib);
-	    post_ib.setImageResource(R.drawable.capsule_white);
-	    post_ib.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

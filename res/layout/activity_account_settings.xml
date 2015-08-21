@@ -1,0 +1,15 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <com.xhanshawn.view.MyListView 
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:id="@+id/account_mlv"
+ 	    android:paddingTop="10dp"
+ 	    >   
+ 	</com.xhanshawn.view.MyListView >
+
+</RelativeLayout>

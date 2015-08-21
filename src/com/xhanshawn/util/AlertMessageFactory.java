@@ -73,4 +73,9 @@ public class AlertMessageFactory {
 		String message = "Post failed. Messages will be kept utill network is available and then post all";
 		return message;
 	}
+	
+	public static String alreadyLogin(){
+		String message = "You've already loged in";
+		return message;
+	}
 }
