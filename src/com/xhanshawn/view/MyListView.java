@@ -21,6 +21,7 @@ public class MyListView extends ListView{
 	}
 	
 	
+	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub

@@ -137,7 +137,6 @@ public class OptionsActivity extends Activity {
 				
 				TextView menu_tv = (TextView) convertView.findViewById(R.id.menu_text);
 				menu_tv.setText(GENERAL_OPTIONS[position]);
-				
 				return convertView;
 			}
 			
@@ -185,7 +184,6 @@ public class OptionsActivity extends Activity {
 				
 				TextView menu_tv = (TextView) convertView.findViewById(R.id.menu_text);
 				menu_tv.setText(OTHERS_OPTIONS[position]);
-				
 				return convertView;
 			}
 			
@@ -205,7 +203,6 @@ public class OptionsActivity extends Activity {
 						startActivity(account_activity);
 						break;
 					case LOGIN_SNS:
-						OptionsActivity.this.finish();
 						Intent login_activity = new Intent("com.xhanshawn.latalk.LOGINACTIVITY");
 						startActivity(login_activity);
 						break;
@@ -223,9 +220,11 @@ public class OptionsActivity extends Activity {
 				// TODO Auto-generated method stub
 				switch(position){
 				case QUERY_SETTINGS:
-					
+					Intent query_activity = new Intent("com.xhanshawn.latalk.QUERYSETTINGSACTIVITY");
+					startActivity(query_activity);
 					break;
 				case GENERAL_SETTINGS:
+					
 					break;
 				default: break;
 				}

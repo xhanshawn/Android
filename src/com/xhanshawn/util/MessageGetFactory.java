@@ -38,7 +38,7 @@ public class MessageGetFactory {
 
 	//genymotion
 	
-	final public static int[] LEVEL = new int[] {60, 120, 180, 240, 300, 360};
+	final public static int[] LEVEL = new int[] {40, 80, 120, 160, 200, 240};
 	
 	final public static int TC_NEAR_BY = 1000;
 	final public static int PR_NEAR_BY = 1001;
@@ -47,7 +47,9 @@ public class MessageGetFactory {
 
 	final public static int GET_MESSAGE= -1;
 	
-	
+	final public static int MIN_OFFSET = 500;
+	final public static int SLOPE = 500;
+
 	
 	private static String URIBase = "http://10.0.3.2:3000";
 	ArrayList<LatalkMessage> messages = null;
@@ -67,7 +69,6 @@ public class MessageGetFactory {
 	
 	
 	public ArrayList<LatalkMessage> getPuzzleMessagesNearby(Location current_location){
-		
 		float offset = 0.0002f * LEVEL[radius_level];
 		
 		while(messages == null || messages.isEmpty()){

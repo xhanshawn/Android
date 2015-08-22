@@ -258,10 +258,20 @@
         </activity>
         <activity
             android:name=".AccountSettingsActivity"
-            android:label="@string/title_activity_account_settings" 
+            android:label="@string/title_activity_account_settings"
             android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="com.xhanshawn.latalk.ACCOUNTSETTINGSACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".QuerySettingsActivity"
+            android:label="@string/title_activity_query_settings" 
+			android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="com.xhanshawn.latalk.QUERYSETTINGSACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

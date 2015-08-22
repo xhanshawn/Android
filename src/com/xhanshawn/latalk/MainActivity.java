@@ -15,9 +15,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -172,9 +174,6 @@ public class MainActivity extends Activity {
 		//sequentially scale buttons 
 		scaleButtons();
 		
-		Intent background_location = new Intent(this, BackgroundLocationService.class);
-		startService(background_location);
-		
 	}
 	
 	
@@ -189,6 +188,13 @@ public class MainActivity extends Activity {
 		resetButtons();
 		checkSettings();
 		
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean update_enabled =  sharedPref.getBoolean(QuerySettingsFragment.KEY_PREF_BE_UPDATE, true);
+		
+		if(update_enabled){
+			Intent background_location = new Intent(this, BackgroundLocationService.class);
+			startService(background_location);
+		}
 		
 		// Logs 'install' and 'app activate' App Events.
 		// Facebook

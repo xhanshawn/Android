@@ -16,12 +16,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -35,6 +37,11 @@ public class BackgroundLocationService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		super.onStartCommand(intent, flags, startId);
+		
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		String interval =  sharedPref.getString(QuerySettingsFragment.KEY_PREF_UPDATE_INTERVAL, "10");
+		UPDATE_INTERVAL = Integer.valueOf(interval);
+		Log.v("interval", "" + UPDATE_INTERVAL);
 		LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		isEnabled = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		Criteria criteria = new Criteria();
