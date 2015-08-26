@@ -20,7 +20,7 @@ public class UserSessionManager {
 	
 	int PRIVATE_MODE = 0;
 	
-	private static final String PREFER_NAME = "AndroidExamplePref";
+	private static final String PREFER_NAME = "UserSession";
 	
 	private static final String IS_USER_LOGIN = "IsUserLoggedIn";
 	
@@ -39,6 +39,7 @@ public class UserSessionManager {
 		
 		this._context = context;
 		pref = _context.getSharedPreferences(PREFER_NAME, PRIVATE_MODE);
+		
 		editor = pref.edit();
 	}
 	

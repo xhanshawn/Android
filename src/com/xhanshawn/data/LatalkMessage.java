@@ -35,11 +35,15 @@ public class LatalkMessage {
 	private Bitmap thumb_pic = null;
 	private Bitmap small_thumb_pic = null;
 	private long created_at = 0l;
+	private int like;
+	private int dislike;
 	
 	public LatalkMessage(){
 		
 		isLocationSet = false;
 		created_at = new Date().getTime();
+		like = 0;
+		dislike = 0;
 	}
 
 	public String getMessageType() {
@@ -192,6 +196,22 @@ public class LatalkMessage {
 	
 	public long getCreatedAt(){
 		return this.created_at;
+	}
+	
+	public void setLike(int like){
+		this.like = like;
+	}
+	
+	public int getLike(){
+		return this.like;
+	}
+	
+	public void setDislike(int dislike){
+		this.dislike = dislike;
+	}
+	
+	public int getDislike(){
+		return this.dislike;
 	}
 	
 	public static LatalkMessage parseJSON(JSONObject obj){

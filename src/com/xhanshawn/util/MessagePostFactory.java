@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -42,7 +44,11 @@ public class MessagePostFactory {
 //	private static String URIBase = "http://10.0.2.2:3000";
 
 	//genymotion
-	private static String URIBase = "http://10.0.3.2:3000";
+	private static String URIBase = ServerAccessFactory.getUrlBase();
+	
+	
+	public final static int LIKE = 0;
+	public final static int DISLIKE = 1;
 	
 	public static boolean postLatalkMessage(LatalkMessage message){
 		
@@ -205,7 +211,104 @@ public class MessagePostFactory {
 		if(list != null) new Poster().execute(list);
 	}
 	
+	public static void likeLatalk(LatalkMessage message){
+		Map<Integer, LatalkMessage> map = new HashMap<Integer, LatalkMessage>();
+		map.put(LIKE, message);
+		new Updater().execute(map);
+	}
 	
+	public static void dislikeLatalk(LatalkMessage message){
+		Map<Integer, LatalkMessage> map = new HashMap<Integer, LatalkMessage>();
+		map.put(DISLIKE, message);
+		new Updater().execute(map);
+	}
+	
+	public static boolean updateLatalk(LatalkMessage message, int action){
+		if(message == null) return true;
+		
+		String action_str;
+		if(action == LIKE){
+			action_str = "like/";
+		}else if(action == DISLIKE){
+			action_str = "dislike/";
+		}else{
+			return false;
+		}
+		HttpClient client = new DefaultHttpClient(); 
+		long id = message.getMessageId();
+		HttpPost post = new HttpPost(URIBase + "/messages/" + action_str + id +".json");
+		post.addHeader("Content-Type", "application/json");
+		
+		JSONObject json = new JSONObject();
+		try {
+			JSONObject message_json = new JSONObject();
+			message_json.put("message_type",message.getMessageType());
+			message_json.put("user_name", message.getUserName());
+			
+			if(action == LIKE) {
+				message_json.put("like", message.getLike() + 1);
+				message_json.put("dislike", message.getDislike());
+			}else if(action == DISLIKE){
+				message_json.put("like", message.getLike());
+				message_json.put("dislike", message.getDislike() + 1);
+			}else{
+				return false;
+			}
+			
+			
+			
+			json.put("message", message_json);
+			json.put("commit", "Update Message");
+			
+			StringEntity entity = new StringEntity(json.toString(), "UTF-8");
+			post.setEntity(entity);
+			HttpResponse response = client.execute(post);
+			HttpEntity res_entity = response.getEntity();
+			String data = EntityUtils.toString(res_entity);
+			JSONObject attrs = new JSONObject(data);
+			Log.v("server response", attrs.toString());
+			return true;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			client.getConnectionManager().shutdown();
+		}
+			
+			
+	
+		return false;
+		
+		
+	}
+	
+	
+	static class Updater extends AsyncTask<Map<Integer, LatalkMessage>, Void, Boolean>{
+		
+				
+		@Override
+		protected Boolean doInBackground(Map<Integer, LatalkMessage>... params) {
+			// TODO Auto-generated method stub
+			
+			if(params[0].get(LIKE) != null){
+				MessagePostFactory.updateLatalk(params[0].get(LIKE), LIKE);
+			}else if(params[0].get(DISLIKE) != null){
+				MessagePostFactory.updateLatalk(params[0].get(DISLIKE), DISLIKE);
+			}
+			return null;
+		}
+		
+	}
 	static class Poster extends AsyncTask<ArrayList<LatalkMessage>, Void, Boolean> {
 		List<LatalkMessage> list = new ArrayList<LatalkMessage>();
 		@Override

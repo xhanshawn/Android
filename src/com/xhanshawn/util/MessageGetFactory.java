@@ -17,17 +17,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.latalk.CameraActivity;
 import com.xhanshawn.latalk.Latalk;
+import com.xhanshawn.latalk.QuerySettingsFragment;
 import com.xhanshawn.latalk.R;
 import com.xhanshawn.latalk.TimeCapsuleCreateActivity;
 import com.xhanshawn.latalk.TimeCapsuleActivity;
@@ -51,7 +54,7 @@ public class MessageGetFactory {
 	final public static int SLOPE = 500;
 
 	
-	private static String URIBase = "http://10.0.3.2:3000";
+	private static String URIBase = ServerAccessFactory.getUrlBase();
 	ArrayList<LatalkMessage> messages = null;
 	private static int radius_level = 0;
 
@@ -67,9 +70,16 @@ public class MessageGetFactory {
 		radius_level = 0;
 	}
 	
+	public static int getRadiusLevel(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Latalk.getAppContext());
+        radius_level = prefs.getInt(QuerySettingsFragment.KEY_PREF_DISTANCE, 0);
+        Log.v("radius_lv", radius_level + "");
+//		Latalk.getAppContext().getSharedPreferences(name, mode)
+		return radius_level;
+	}
 	
 	public ArrayList<LatalkMessage> getPuzzleMessagesNearby(Location current_location){
-		float offset = 0.0002f * LEVEL[radius_level];
+		float offset = 0.0002f * LEVEL[getRadiusLevel()];
 		
 		while(messages == null || messages.isEmpty()){
 			
@@ -113,7 +123,7 @@ public class MessageGetFactory {
 	public ArrayList<LatalkMessage> getTimeCapsuleMessagesNearby(Location current_location){
 	
 		
-		float offset = 0.0002f * LEVEL[radius_level];
+		float offset = 0.0002f * LEVEL[getRadiusLevel()];
 		
 		while(messages == null || messages.isEmpty()){
 
@@ -186,12 +196,24 @@ public class MessageGetFactory {
 					String img_url = message_json.getString("image_url");
 					String thumb_url = message_json.getString("thumb_url");
 					String small_thumb_url = message_json.getString("small_thumb_url");
+					int like = 0;
+					int dislike = 0;
+					try{
+						like =  message_json.getInt("like");
+						dislike = message_json.getInt("dislike");
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
 					
 					LatalkMessage new_message = LatalkMessage.parseJSON(message_json);
 					new_message.setPicUrl(img_url);
 					new_message.setThumbUrl(thumb_url);
 					new_message.setSmallThumbUrl(small_thumb_url);
 					new_message.setMessageId(id);
+					new_message.setLike(like);
+					new_message.setDislike(dislike);
+					
 					String type = message_json.getString("message_type");
 					if(type.equals("TimeCapsule")) DataPassCache.cacheTimeCapsule(new_message);
 					else DataPassCache.cachePuzzleRace(new_message);

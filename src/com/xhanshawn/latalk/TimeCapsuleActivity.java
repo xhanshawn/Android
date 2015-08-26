@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import com.fedorvlasov.lazylist.ImageLoader;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.sun.xml.internal.ws.api.message.Message;
 import com.xhanshawn.data.LatalkMessage;
 import com.xhanshawn.util.AlertMessageFactory;
 import com.xhanshawn.util.AnimationFactory;
 import com.xhanshawn.util.DataPassCache;
 import com.xhanshawn.util.LocationInfoFactory;
 import com.xhanshawn.util.MessageGetFactory;
+import com.xhanshawn.util.MessagePostFactory;
 import com.xhanshawn.util.NotiArrayList;
 import com.xhanshawn.util.NotiArrayList.OnSizeChangeListener;
 import com.xhanshawn.util.NotiArrayList.SizeChangeEvent;
@@ -150,7 +152,11 @@ public class TimeCapsuleActivity extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				//down animation
-				if(event.getAction() == MotionEvent.ACTION_DOWN) AnimationFactory.scaleImageButtonDown(v);
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					AnimationFactory.scaleImageButtonDown(v);
+					Log.v("like_message_content",messages.get(read_num - 1).getContent());
+					MessagePostFactory.likeLatalk(messages.get(read_num - 1));
+				}
 				
 				//up animation and operation
 				if(event.getAction() == MotionEvent.ACTION_UP) {

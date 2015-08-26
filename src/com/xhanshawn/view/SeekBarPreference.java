@@ -3,6 +3,7 @@ package com.xhanshawn.view;
 import com.xhanshawn.latalk.R;
 
 import android.content.Context;
+import android.content.SharedPreferences.Editor;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -24,11 +25,12 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 	private String pattern = "";
 	private int pattern_pos = 0;
 	private String title_str;
-	
-	
+	Editor editor;
+	String key;
 	public SeekBarPreference(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
+		this(context, attrs);
 		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public SeekBarPreference(Context context, AttributeSet attrs) {
@@ -37,6 +39,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		title_str = (String) this.getTitle();
 		min = 0;
 		slope = 1;
+		
+		key = this.getKey();
 	}
 
 	public SeekBarPreference(Context context) {
@@ -69,6 +73,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		seek_bar = (SeekBar) pref_view.findViewById(R.id.pref_seekbar);
 		seek_bar.setOnSeekBarChangeListener(this);
 		seek_bar.setMax(max);
+		seek_bar.setProgress(this.getSharedPreferences().getInt(key, 0));
 		title.setText(title_str);
 		
 		return pref_view;
@@ -91,7 +96,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		// TODO Auto-generated method stub
 		String val_str = pattern.substring(0, pattern_pos) + (min + progress * slope) + pattern.substring(pattern_pos);
 		val.setText(val_str);
-		SeekBarPreference.this.getSharedPreferences().
+		if(editor == null) editor = getPreferenceManager().getSharedPreferences().edit();
+		editor.putInt(key, progress);
 	}
 
 	@Override
@@ -103,5 +109,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		// TODO Auto-generated method stub
+		if(editor != null) editor.commit();
 	}
 }

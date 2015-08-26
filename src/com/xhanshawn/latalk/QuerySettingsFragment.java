@@ -24,15 +24,14 @@ public class QuerySettingsFragment extends PreferenceFragment implements OnShare
 		addPreferencesFromResource(R.xml.query_preference);
 		Preference interval = findPreference(KEY_PREF_UPDATE_INTERVAL);
         interval.setSummary("Query Interval: " + getPreferenceScreen().getSharedPreferences().getString(KEY_PREF_UPDATE_INTERVAL, "") + "s");
-        
-		SeekBarPreference distance = (SeekBarPreference) findPreference(KEY_PREF_DISTANCE);
+
+        SeekBarPreference distance = (SeekBarPreference) findPreference(KEY_PREF_DISTANCE);
 		distance.setMinOffset(MessageGetFactory.MIN_OFFSET);
 		distance.setValuePattern("m", 0);
 		distance.setMax(MessageGetFactory.LEVEL.length - 1);
 		int slope = MessageGetFactory.SLOPE;
 //				(MessageGetFactory.LEVEL[MessageGetFactory.LEVEL.length - 1] - MessageGetFactory.LEVEL[0])/(MessageGetFactory.LEVEL.length - 1);
 		distance.setSlope(slope);
-		
 		
 	}
 
