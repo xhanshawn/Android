@@ -14,36 +14,52 @@
         />
 	<RelativeLayout 
     	    android:layout_width="match_parent"
-    	    android:layout_height="match_parent"
-    	    android:layout_below="@+id/tc_iv"
+    	    android:layout_height="40dp"
     	    android:id="@+id/tc_c_panel_rl"
     	    android:layout_alignParentBottom="true"
     	    >
     	    <ImageView
-        android:layout_width="50dp" 
-        android:layout_height="50dp"
-        android:id="@+id/like_iv"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/dislike_icon"
-        android:adjustViewBounds="true"
-        android:background="@color/white"
-        />
-    	<TextView 
-        android:layout_width="wrap_content" 
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:paddingTop="10dp"
-        android:background="@color/white"
-        android:id="@+id/tc_tv"
-        />
-    	<ImageView 
-        android:layout_width="50dp" 
-        android:layout_height="50dp"
-        android:adjustViewBounds="true"
-        android:layout_toLeftOf="@+id/like_iv"
-        android:src="@drawable/hollow_heart"
-        android:background="@color/white"
-        />
-    	    
+        		android:layout_width="40dp" 
+        		android:layout_height="40dp"
+        		android:id="@+id/dislike_iv"
+        		android:src="@drawable/dislike_icon"
+                android:layout_toLeftOf="@+id/dislike_tv"
+        		android:adjustViewBounds="true"
+        		android:background="@color/white"
+        		/>
+    	    <TextView
+    	        android:layout_alignParentRight="true"
+    	        android:id="@+id/dislike_tv"
+    	        android:layout_height="match_parent"
+    	        android:layout_width="wrap_content"
+    	        android:gravity="center"
+    	        android:layout_marginLeft="5dp"
+    	        android:layout_marginRight="5dp"
+    	        />
+    		<TextView 
+        		android:layout_width="wrap_content" 
+        		android:layout_height="40dp"
+        		android:layout_alignParentLeft="true"
+        		android:paddingTop="10dp"
+        		android:background="@color/white"
+        		android:id="@+id/tc_tv"
+        		/>
+    		<TextView 
+        		android:layout_toLeftOf="@+id/dislike_iv"
+    	        android:id="@+id/like_tv"
+    	        android:layout_height="match_parent"
+    	        android:layout_width="wrap_content"
+    	        android:gravity="center"
+    	        android:layout_marginLeft="5dp"
+    	        android:layout_marginRight="5dp"
+    		    />
+    		<ImageView 
+        		android:layout_width="40dp" 
+        		android:layout_height="40dp"
+        		android:adjustViewBounds="true"
+        		android:layout_toLeftOf="@+id/like_tv"
+        		android:src="@drawable/hollow_heart"
+        		android:background="@color/white"
+        		/>
     	</RelativeLayout>
 </RelativeLayout>

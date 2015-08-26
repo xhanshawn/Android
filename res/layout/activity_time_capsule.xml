@@ -39,6 +39,7 @@
             android:layout_marginBottom="50dp"
             >
             <ImageButton 
+                android:id="@+id/tc_dislike_ib"
            		android:layout_width="60dp"
             	android:layout_height="60dp"
             	android:background="@drawable/round_b_background"

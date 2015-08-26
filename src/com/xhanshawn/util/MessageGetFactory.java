@@ -199,13 +199,13 @@ public class MessageGetFactory {
 					int like = 0;
 					int dislike = 0;
 					try{
-						like =  message_json.getInt("like");
-						dislike = message_json.getInt("dislike");
+						like =  message_json.getInt("like_num");
+						dislike = message_json.getInt("dislike_num");
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} 
-					
+					Log.v("message_get_json", message_json.toString());
 					LatalkMessage new_message = LatalkMessage.parseJSON(message_json);
 					new_message.setPicUrl(img_url);
 					new_message.setThumbUrl(thumb_url);

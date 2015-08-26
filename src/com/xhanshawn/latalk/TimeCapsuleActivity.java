@@ -154,13 +154,12 @@ public class TimeCapsuleActivity extends Activity {
 				//down animation
 				if(event.getAction() == MotionEvent.ACTION_DOWN) {
 					AnimationFactory.scaleImageButtonDown(v);
-					Log.v("like_message_content",messages.get(read_num - 1).getContent());
-					MessagePostFactory.likeLatalk(messages.get(read_num - 1));
+					if(read_num - 1 < messages.size() && read_num - 1 >= 0) MessagePostFactory.likeLatalk(messages.get(read_num - 1));
 				}
 				
 				//up animation and operation
 				if(event.getAction() == MotionEvent.ACTION_UP) {
-					AnimationFactory.scaleImageButtonUp(v);;
+					AnimationFactory.scaleImageButtonUp(v);
 					if(radar_stoped) {
 						message_added = false;
 						updateCurrentTimeCapsule();
@@ -173,6 +172,34 @@ public class TimeCapsuleActivity extends Activity {
 					}
 				}
 
+				return false;
+			}
+		});
+		
+		ImageButton tc_dislike_ib = (ImageButton) findViewById(R.id.tc_dislike_ib);
+		tc_dislike_ib.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					AnimationFactory.scaleImageButtonDown(v);
+					if(read_num - 1 < messages.size() && read_num - 1 >= 0) MessagePostFactory.dislikeLatalk(messages.get(read_num - 1));
+				}
+				
+				if(event.getAction() == MotionEvent.ACTION_UP) {
+					AnimationFactory.scaleImageButtonUp(v);
+					if(radar_stoped) {
+						message_added = false;
+						updateCurrentTimeCapsule();
+						if(tc_panel_rl.getChildCount() > 2 && tc_panel_rl.getChildAt(1) != v) {
+							Log.v("hree", tc_panel_rl.getChildCount() + "");
+							AnimationSet set = AnimationFactory.dislikeTimeCapsule();
+							tc_panel_rl.getChildAt(1).startAnimation(set);
+	                    	tc_panel_rl.removeViewAt(1);
+						}
+					}
+				}
 				return false;
 			}
 		});
@@ -222,16 +249,18 @@ public class TimeCapsuleActivity extends Activity {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// TODO Auto-generated method stub
-				Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
-					AlertMessageFactory.noMessagesFound(),
-					Toast.LENGTH_SHORT);
-				no_tc_toast.show();
+				if(!radar_stoped){
+					Toast no_tc_toast = Toast.makeText(TimeCapsuleActivity.this,
+							AlertMessageFactory.noMessagesFound(),
+							Toast.LENGTH_SHORT);
+					no_tc_toast.show();
+					radar_stoped = true;
+				}
 			}
 
 			@Override
 			public void onAnimationRepeat(Animation animation) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 		});
@@ -351,7 +380,11 @@ public class TimeCapsuleActivity extends Activity {
 		tc_p.height = tc_p.width;
 //		
 		tc_txt_tv = (TextView) tc_panel.findViewById(R.id.tc_tv);
-			
+		TextView like_tv = (TextView) tc_panel.findViewById(R.id.like_tv);
+		TextView dislike_tv = (TextView) tc_panel.findViewById(R.id.dislike_tv);
+		like_tv.setText(message.getLike() + "");
+		dislike_tv.setText(message.getDislike() + "");
+		
 		tc_panel.setOnTouchListener(new View.OnTouchListener() {
 				
 	        private int _xDelta;

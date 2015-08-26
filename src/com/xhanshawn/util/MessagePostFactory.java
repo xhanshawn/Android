@@ -246,16 +246,14 @@ public class MessagePostFactory {
 			message_json.put("user_name", message.getUserName());
 			
 			if(action == LIKE) {
-				message_json.put("like", message.getLike() + 1);
-				message_json.put("dislike", message.getDislike());
+				message_json.put("like_num", message.getLike() + 1);
+				message_json.put("dislike_num", message.getDislike());
 			}else if(action == DISLIKE){
-				message_json.put("like", message.getLike());
-				message_json.put("dislike", message.getDislike() + 1);
+				message_json.put("like_num", message.getLike());
+				message_json.put("dislike_num", message.getDislike() + 1);
 			}else{
 				return false;
 			}
-			
-			
 			
 			json.put("message", message_json);
 			json.put("commit", "Update Message");
@@ -266,7 +264,7 @@ public class MessagePostFactory {
 			HttpEntity res_entity = response.getEntity();
 			String data = EntityUtils.toString(res_entity);
 			JSONObject attrs = new JSONObject(data);
-			Log.v("server response", attrs.toString());
+//			Log.v("server response", attrs.toString());
 			return true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
